@@ -41,10 +41,9 @@ public class Utils {
      * @param workbook 
      */
     private static void writeInExcel(HSSFWorkbook workbook) throws FileNotFoundException, IOException {
-        FileOutputStream out
-                = new FileOutputStream(new File("/Users/rojo/NetBeansProjects/exportExcelnew.xls"));
-        workbook.write(out);
-        out.close();
+        try (FileOutputStream out = new FileOutputStream(new File("/Users/rojo/NetBeansProjects/exportExcelnew.xls"))) {
+            workbook.write(out);
+        }
         System.out.println("Excel written successfully..");
     }
 
@@ -70,10 +69,9 @@ public class Utils {
             }
         }
         
-        FileOutputStream out
-                = new FileOutputStream(new File(filename));
-        workbook.write(out);
-        out.close();
+        try (FileOutputStream out = new FileOutputStream(new File(filename))) {
+            workbook.write(out);
+        }
         System.out.println("Excel written successfully..");
     }
     

@@ -236,9 +236,9 @@ public class MenuEditDelas extends javax.swing.JFrame {
         int lemmaId=Integer.parseInt(this.jTextFieldLemmaId.getText());
         String dicFile=this.jTextFieldDic.getText();
         int dicId=Integer.parseInt(this.jTextFieldDicId.getText());
-        Object[] obj = {pOs,lemma,fSTCode,sinSem,comment,lemmaInv,wn_SinSet,lemmaId,dicFile,dicId};
+        Object[] object = {pOs,lemma,fSTCode,sinSem,comment,lemmaInv,wn_SinSet,lemmaId,dicFile,dicId};
         editor.getTableModel().removeRow(idObject);
-        editor.getTableModel().insertRow(idObject,obj);
+        editor.getTableModel().insertRow(idObject,object);
         this.setVisible(false);
     }//GEN-LAST:event_jButtonOkActionPerformed
 
@@ -262,25 +262,22 @@ public class MenuEditDelas extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MenuEditDelas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MenuEditDelas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MenuEditDelas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(MenuEditDelas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
+        
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new MenuEditDelas().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new MenuEditDelas().setVisible(true);
         });
     }
 

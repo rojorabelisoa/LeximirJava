@@ -31,14 +31,14 @@ public class DelasHelper {
         ArrayList<String> list= new ArrayList<>();
         File folder = new File("/Users/rojo/Documents/LeXimir4UnitexRes/Delas");
         File[] listOfFiles = folder.listFiles();
-        for (int i = 0; i < listOfFiles.length; i++) {
-          if (listOfFiles[i].isFile()) {
-              if(listOfFiles[i].getName().endsWith("dic")){
-                  list.add(listOfFiles[i].getName());
-              }
-          } 
+        for (File listOfFile : listOfFiles) {
+            if (listOfFile.isFile()) {
+                if (listOfFile.getName().endsWith("dic")) {
+                    list.add(listOfFile.getName());
+                }
+            } 
         }
-        if(list.size()==0){
+        if(list.isEmpty()){
             throw new FileNotFoundException("dictonnary not found");
         }
         return list;
@@ -61,13 +61,13 @@ public class DelasHelper {
         int k=0;
         int dicId=0;
         for(String dela:list){
-            String pOs="";
-            String lemma="";
-            String fSTCode="";
-            String sinSem="";
-            String comment="";
-            String lemmaInv="";
-            String wn_SinSet="";
+            String pOs;
+            String lemma;
+            String fSTCode;
+            String sinSem;
+            String comment = null;
+            String lemmaInv;
+            String wn_SinSet = null;
             int lemmaId=10;
             String dicFile=dela;
             String path = "/Users/rojo/Documents/LeXimir4UnitexRes/Delas/"+dela;
@@ -113,13 +113,14 @@ public class DelasHelper {
      * @throws IOException 
      */
     public static ArrayList<String> readFile(String file) throws IOException {
-        BufferedReader reader = new BufferedReader(new FileReader(file));
-        String ligne;
-        ArrayList<String> tmp=new ArrayList<>();
-        while((ligne = reader.readLine()) != null){
-                tmp.add(ligne);			
+        ArrayList<String> tmp;
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            String ligne;
+            tmp = new ArrayList<>();
+            while((ligne = reader.readLine()) != null){			
+                tmp.add(ligne);
+            }
         }
-        reader.close();
         return tmp;
     }
 }

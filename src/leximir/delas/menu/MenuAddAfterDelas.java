@@ -22,15 +22,15 @@ public class MenuAddAfterDelas extends javax.swing.JFrame {
      */
     public MenuAddAfterDelas() {
         initComponents();
-        for(String dic : StaticValue.dictionnary){
+        StaticValue.dictionnary.stream().forEach((dic) -> {
             jComboBoxDic.addItem(dic);
-        }
+        });
     }
     public MenuAddAfterDelas(EditorLadl el,int value){
         initComponents();
-        for(String dic : StaticValue.dictionnary){
+        StaticValue.dictionnary.stream().forEach((dic) -> {
             jComboBoxDic.addItem(dic);
-        }
+        });
         this.elFrame=el;
         this.valueSelected=value+1;
 
@@ -216,13 +216,7 @@ public class MenuAddAfterDelas extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MenuAddAfterDelas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MenuAddAfterDelas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MenuAddAfterDelas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(MenuAddAfterDelas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
@@ -233,12 +227,19 @@ public class MenuAddAfterDelas extends javax.swing.JFrame {
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
+        
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new MenuAddAfterDelas().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new MenuAddAfterDelas().setVisible(true);
         });
     }
 

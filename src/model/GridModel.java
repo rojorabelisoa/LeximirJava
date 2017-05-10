@@ -5,117 +5,111 @@
  */
 package model;
 
-
-import java.lang.reflect.Field;
 import javax.swing.table.AbstractTableModel;
 
 /**
  *
  * @author rojo
  */
-public class GridModel extends AbstractTableModel{
-    private static Object[][]donnees;
-    private static String[] entete;
+public class GridModel extends AbstractTableModel {
+
+    private Object[][] donnees;
+    private String[] entete;
 
     /**
      * @param aDonnees the donnees to set
      */
-    public static void setDonnees(Object[][] aDonnees) {
+    public void setDonnees(Object[][] aDonnees) {
         donnees = aDonnees;
     }
 
     /**
      * @param aEntete the entete to set
      */
-    public static void setEntete(String[] aEntete) {
+    public void setEntete(String[] aEntete) {
         entete = aEntete;
     }
 
-    public GridModel(String[] entete,Object[][] data) {
-        
-            this.donnees=data;/*ClassDeRechercheSwing.rechercher(o, condition, null);*/
+    public GridModel(String[] entete, Object[][] data) {
+
+        this.donnees = data;/*ClassDeRechercheSwing.rechercher(o, condition, null);*/
                 //doit retourner un Object[][]
             /*Field[] attr = o.getClass().getDeclaredFields();
-            String title[] = new String[attr.length];
-            for(int m=0;m<attr.length;m++)
-                title[m]=attr[m].getName();*/
-            this.entete=entete;//title;//doit retourner un [];
-        
+         String title[] = new String[attr.length];
+         for(int m=0;m<attr.length;m++)
+         title[m]=attr[m].getName();*/
+
+        this.entete = entete;//title;//doit retourner un [];
+
     }
 
     /**
      * @return the donnees
      */
-    public static Object[][] getDonnees() {
+    public Object[][] getDonnees() {
         return donnees;
     }
 
     /**
      * @return the entete
      */
-    public static String[] getEntete() {
+    public String[] getEntete() {
         return entete;
     }
 
     /**
-     * @param aDonnees the donnees to set
+     * @return 
      */
-    
-    
-   /* public void tableChanged(TableModelEvent e) {
-        int ligneModifier=e.getLastRow();
-        int colonneModifier=e.getColumn();
-        Object[] o=this.getObjetLigne(ligneModifier);
-        this.insererObjet(o);  // inserer
-        this.updateObjet(o);  // update
-    }*/
-
+    /* public void tableChanged(TableModelEvent e) {
+     int ligneModifier=e.getLastRow();
+     int colonneModifier=e.getColumn();
+     Object[] o=this.getObjetLigne(ligneModifier);
+     this.insererObjet(o);  // inserer
+     this.updateObjet(o);  // update
+     }*/
     @Override // MAKA NBRE DE LIGNE
     public int getRowCount() {
-        return getDonnees().length; 
+        return getDonnees().length;
     }
 
     @Override // MAKA NBRE DE COLONNE
     public int getColumnCount() {
-       return getDonnees()[0].length; 
+        return getDonnees()[0].length;
     }
 
     @Override // MAKA ILAY OBJECT 
     public Object getValueAt(int rowIndex, int columnIndex) {
-        return getDonnees()[rowIndex][columnIndex]; 
+        return getDonnees()[rowIndex][columnIndex];
     }
-    
+
     //MAKA ANARAN'ILAY COLONNE SELON ID
-    public String getColumnName(int col){ 
-      return getEntete()[col]; 
-    
-    } 
-    
+    @Override
+    public String getColumnName(int col) {
+        return getEntete()[col];
+
+    }
+
     // maka ilay ligne modifier
-    public Object[] getObjetLigne(int id){
+    public Object[] getObjetLigne(int id) {
         return getDonnees()[id];
     }
-    
-    public void insererObjet(Object[] obj){ 
-        try {
-            System.out.println("\n");
-            System.out.println("INSERTION");
-            //ClassMAPTable u=ClassDeRecherche.ResultsetToClassMappingTable(obj, getOb());
-            for(int i=0; i< getEntete().length; i++){
-                //System.out.println(getEntete()[i]+" = "+u.getFieldList().toString());
-            }
-            System.out.println("\n");
-        } catch (Exception ex) {
-            ex.printStackTrace();
+
+    public void insererObjet(Object[] obj) {
+        System.out.println("\n");
+        System.out.println("INSERTION");
+        //ClassMAPTable u=ClassDeRecherche.ResultsetToClassMappingTable(obj, getOb());
+        for (String entete1 : getEntete()) {
+            //System.out.println(getEntete()[i]+" = "+u.getFieldList().toString());
         }
+        System.out.println("\n");
     }
-    
-    public void updateObjet(Object[] obj){ // obj: ligne modifier        
+
+    public void updateObjet(Object[] obj) { // obj: ligne modifier        
         // fonction pour inserer un objet
-          System.out.println("MISE A JOUR");
-          for(int i=0; i< getEntete().length; i++){
-            System.out.println(getEntete()[i]+" = "+obj[i]);
-          }
-          
+        System.out.println("MISE A JOUR");
+        for (int i = 0; i < getEntete().length; i++) {
+            System.out.println(getEntete()[i] + " = " + obj[i]);
+        }
+
     }
 }

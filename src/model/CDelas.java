@@ -10,8 +10,8 @@ package model;
  * @author rojo
  */
 public class CDelas {
-    private  String indexDelasPath;
-    private  String fSGraphEditor2;
+    private final  String indexDelasPath;
+    private final  String fSGraphEditor2;
 
     public CDelas(String indexDelasPath, String fSGraphEditor2) {
         this.indexDelasPath = indexDelasPath;

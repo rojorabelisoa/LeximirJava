@@ -30,7 +30,7 @@ import static util.Utils.exportJtableToExcel;
  *
  * @author rojo
  */
-public class EditorLadl extends javax.swing.JFrame {
+public final class EditorLadl extends javax.swing.JFrame {
     private DefaultTableModel tableModel ;
     /**
      * Creates new form EditorLadl
@@ -591,7 +591,7 @@ public class EditorLadl extends javax.swing.JFrame {
     private void jMenuSaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuSaveMouseClicked
         int dialogResult = JOptionPane.showConfirmDialog (null, "This will overwrite your dictionaries. Are you sure?","Save Delas Dictioneries in Unicode",JOptionPane.YES_NO_OPTION);
         if(dialogResult == JOptionPane.YES_OPTION){
-            BufferedWriter bfw = null;
+            BufferedWriter bfw;
             Map<String,List<String>> fileData=new HashMap<>();
             for(int row = 0; row < jTable1.getRowCount(); row ++){
                 
@@ -649,22 +649,16 @@ public class EditorLadl extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(EditorLadl.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(EditorLadl.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(EditorLadl.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(EditorLadl.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        
+        //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new EditorLadl().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new EditorLadl().setVisible(true);
         });
     }
 
