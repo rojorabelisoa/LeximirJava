@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+    <properties>
+        <comment>Here are some favorites</comment>
+        <entry key="pathExcelExport">/Users/rojo/NetBeansProjects/exportExcelnew.xls</entry>
+        <entry key="favoriteFruit">pomegranate</entry>
+        <entry key="favoriteDay">today</entry>
+    </properties>
+</Settconfigurationings>
