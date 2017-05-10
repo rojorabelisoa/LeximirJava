@@ -6,9 +6,6 @@
 package leximir.delas.menu;
 
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 import leximir.EditorLadl;
 import model.StaticValue;
 import util.Utils;
@@ -17,25 +14,25 @@ import util.Utils;
  *
  * @author rojo
  */
-public class AddBeforeDelas extends javax.swing.JFrame {
+public class MenuAddAfterDelas extends javax.swing.JFrame {
     private EditorLadl elFrame ;
     private int valueSelected;
     /**
      * Creates new form AddDelas
      */
-    public AddBeforeDelas() {
+    public MenuAddAfterDelas() {
         initComponents();
         for(String dic : StaticValue.dictionnary){
             jComboBoxDic.addItem(dic);
         }
     }
-    public AddBeforeDelas(EditorLadl el,int value){
+    public MenuAddAfterDelas(EditorLadl el,int value){
         initComponents();
         for(String dic : StaticValue.dictionnary){
             jComboBoxDic.addItem(dic);
         }
         this.elFrame=el;
-        this.valueSelected=value;
+        this.valueSelected=value+1;
 
     }
 
@@ -63,7 +60,7 @@ public class AddBeforeDelas extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("Add value");
+        jLabel1.setText("Add Value");
 
         jLabel2.setText("Lema");
 
@@ -220,21 +217,27 @@ public class AddBeforeDelas extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AddBeforeDelas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MenuAddAfterDelas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AddBeforeDelas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MenuAddAfterDelas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AddBeforeDelas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MenuAddAfterDelas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AddBeforeDelas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MenuAddAfterDelas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AddBeforeDelas().setVisible(true);
+                new MenuAddAfterDelas().setVisible(true);
             }
         });
     }

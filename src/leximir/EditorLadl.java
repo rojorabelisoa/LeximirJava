@@ -5,12 +5,14 @@
  */
 package leximir;
 
-import helper.EditorLadlHelper;
 import helper.GridHelper;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -20,9 +22,7 @@ import javax.swing.RowSorter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
-import leximir.delas.menu.AddBeforeDelas;
-import leximir.delas.menu.ViewDelas;
-import model.GridModel;
+import leximir.delas.menu.*;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import static util.Utils.exportJtableToExcel;
 
@@ -214,193 +214,220 @@ public class EditorLadl extends javax.swing.JFrame {
             new String [] {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
-        ));
-        jScrollPane1.setViewportView(jTable1);
 
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(23, 23, 23)
-                .addComponent(jScrollPane1)
-                .addContainerGap())
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(15, Short.MAX_VALUE))
-        );
+        )
+    );
+    jScrollPane1.setViewportView(jTable1);
 
-        jLabel7.setText("Search : ");
+    javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+    jPanel4.setLayout(jPanel4Layout);
+    jPanel4Layout.setHorizontalGroup(
+        jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(jPanel4Layout.createSequentialGroup()
+            .addGap(23, 23, 23)
+            .addComponent(jScrollPane1)
+            .addContainerGap())
+    );
+    jPanel4Layout.setVerticalGroup(
+        jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(jPanel4Layout.createSequentialGroup()
+            .addContainerGap()
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addContainerGap(15, Short.MAX_VALUE))
+    );
 
-        jButtonSearch.setText("Search");
-        jButtonSearch.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonSearchActionPerformed(evt);
-            }
-        });
+    jLabel7.setText("Search : ");
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
+    jButtonSearch.setText("Search");
+    jButtonSearch.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            jButtonSearchActionPerformed(evt);
+        }
+    });
+
+    javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+    jPanel2.setLayout(jPanel2Layout);
+    jPanel2Layout.setHorizontalGroup(
+        jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(jPanel2Layout.createSequentialGroup()
+            .addContainerGap()
+            .addComponent(jLabel7)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addComponent(jTextFieldSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addComponent(jButtonSearch)
+            .addContainerGap(42, Short.MAX_VALUE))
+    );
+    jPanel2Layout.setVerticalGroup(
+        jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(jPanel2Layout.createSequentialGroup()
+            .addContainerGap()
+            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(jLabel7)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextFieldSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButtonSearch)
-                .addContainerGap(42, Short.MAX_VALUE))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(jTextFieldSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonSearch))
-                .addContainerGap(33, Short.MAX_VALUE))
-        );
+                .addComponent(jTextFieldSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButtonSearch))
+            .addContainerGap(33, Short.MAX_VALUE))
+    );
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(24, 24, 24)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(282, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(23, 23, 23)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(45, 45, 45))
-        );
+    javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+    jPanel1.setLayout(jPanel1Layout);
+    jPanel1Layout.setHorizontalGroup(
+        jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        .addGroup(jPanel1Layout.createSequentialGroup()
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGap(24, 24, 24)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+            .addContainerGap(282, Short.MAX_VALUE))
+    );
+    jPanel1Layout.setVerticalGroup(
+        jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(jPanel1Layout.createSequentialGroup()
+            .addContainerGap()
+            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGap(23, 23, 23)
+            .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGap(45, 45, 45))
+    );
 
-        jMenuNew.setText("New");
-        jMenuNew.setIcon(new javax.swing.ImageIcon(this.getClass().getResource("/leximirIcon/file.png")));
-        jMenuNew.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jMenuNewMouseClicked(evt);
-            }
-        });
+    jMenuNew.setText("New");
+    jMenuNew.setIcon(new javax.swing.ImageIcon(this.getClass().getResource("/leximirIcon/file.png")));
+    jMenuNew.addMouseListener(new java.awt.event.MouseAdapter() {
+        public void mouseClicked(java.awt.event.MouseEvent evt) {
+            jMenuNewMouseClicked(evt);
+        }
+    });
 
-        jMenuItemInsertBefore.setText("insert before");
-        jMenuItemInsertBefore.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemInsertBeforeActionPerformed(evt);
-            }
-        });
-        jMenuNew.add(jMenuItemInsertBefore);
+    jMenuItemInsertBefore.setText("insert before");
+    jMenuItemInsertBefore.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            jMenuItemInsertBeforeActionPerformed(evt);
+        }
+    });
+    jMenuNew.add(jMenuItemInsertBefore);
 
-        jMenuItemInsertAfter.setText("insert after");
-        jMenuItemInsertAfter.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemInsertAfterActionPerformed(evt);
-            }
-        });
-        jMenuNew.add(jMenuItemInsertAfter);
+    jMenuItemInsertAfter.setText("insert after");
+    jMenuItemInsertAfter.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            jMenuItemInsertAfterActionPerformed(evt);
+        }
+    });
+    jMenuNew.add(jMenuItemInsertAfter);
 
-        jMenuBar1.add(jMenuNew);
+    jMenuBar1.add(jMenuNew);
 
-        jMenuBefore.setText("Before");
-        jMenuBar1.add(jMenuBefore);
+    jMenuBefore.setText("Before");
+    jMenuBefore.addMouseListener(new java.awt.event.MouseAdapter() {
+        public void mouseClicked(java.awt.event.MouseEvent evt) {
+            jMenuBeforeMouseClicked(evt);
+        }
+    });
+    jMenuBar1.add(jMenuBefore);
 
-        jMenuAfter.setText("After");
-        jMenuBar1.add(jMenuAfter);
+    jMenuAfter.setText("After");
+    jMenuAfter.addMouseListener(new java.awt.event.MouseAdapter() {
+        public void mouseClicked(java.awt.event.MouseEvent evt) {
+            jMenuAfterMouseClicked(evt);
+        }
+    });
+    jMenuBar1.add(jMenuAfter);
 
-        jMenuEdit.setText("Edit");
-        jMenuBar1.add(jMenuEdit);
+    jMenuEdit.setText("Edit");
+    jMenuEdit.addMouseListener(new java.awt.event.MouseAdapter() {
+        public void mouseClicked(java.awt.event.MouseEvent evt) {
+            jMenuEditMouseClicked(evt);
+        }
+    });
+    jMenuBar1.add(jMenuEdit);
 
-        jMenuView.setText("View");
-        jMenuView.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jMenuViewMouseClicked(evt);
-            }
-        });
-        jMenuBar1.add(jMenuView);
+    jMenuView.setText("View");
+    jMenuView.addMouseListener(new java.awt.event.MouseAdapter() {
+        public void mouseClicked(java.awt.event.MouseEvent evt) {
+            jMenuViewMouseClicked(evt);
+        }
+    });
+    jMenuBar1.add(jMenuView);
 
-        jMenuSort.setText("Sort Dict");
-        jMenuBar1.add(jMenuSort);
+    jMenuSort.setText("Sort Dict");
+    jMenuBar1.add(jMenuSort);
 
-        jMenuDelete.setText("Delete");
-        jMenuDelete.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jMenuDeleteMouseClicked(evt);
-            }
-        });
-        jMenuBar1.add(jMenuDelete);
+    jMenuDelete.setText("Delete");
+    jMenuDelete.addMouseListener(new java.awt.event.MouseAdapter() {
+        public void mouseClicked(java.awt.event.MouseEvent evt) {
+            jMenuDeleteMouseClicked(evt);
+        }
+    });
+    jMenuBar1.add(jMenuDelete);
 
-        jMenuInflect.setText("Inflect");
-        jMenuBar1.add(jMenuInflect);
+    jMenuInflect.setText("Inflect");
+    jMenuBar1.add(jMenuInflect);
 
-        jMenuStatistics.setText("Statistics");
-        jMenuStatistics.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jMenuStatisticsMouseClicked(evt);
-            }
-        });
-        jMenuStatistics.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuStatisticsActionPerformed(evt);
-            }
-        });
-        jMenuBar1.add(jMenuStatistics);
+    jMenuStatistics.setText("Statistics");
+    jMenuStatistics.addMouseListener(new java.awt.event.MouseAdapter() {
+        public void mouseClicked(java.awt.event.MouseEvent evt) {
+            jMenuStatisticsMouseClicked(evt);
+        }
+    });
+    jMenuStatistics.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            jMenuStatisticsActionPerformed(evt);
+        }
+    });
+    jMenuBar1.add(jMenuStatistics);
 
-        jMenuWorldNet.setText("WorldNet");
-        jMenuBar1.add(jMenuWorldNet);
+    jMenuWorldNet.setText("WorldNet");
+    jMenuBar1.add(jMenuWorldNet);
 
-        jMenuSave.setText("Save");
-        jMenuBar1.add(jMenuSave);
+    jMenuSave.setText("Save");
+    jMenuSave.addMouseListener(new java.awt.event.MouseAdapter() {
+        public void mouseClicked(java.awt.event.MouseEvent evt) {
+            jMenuSaveMouseClicked(evt);
+        }
+    });
+    jMenuBar1.add(jMenuSave);
 
-        jMenuConv.setText("Conv");
-        jMenuBar1.add(jMenuConv);
+    jMenuConv.setText("Conv");
+    jMenuBar1.add(jMenuConv);
 
-        jMenuCount.setText("Count WN");
-        jMenuBar1.add(jMenuCount);
+    jMenuCount.setText("Count WN");
+    jMenuBar1.add(jMenuCount);
 
-        jMenuSaveLMF.setText("Save LMF");
-        jMenuBar1.add(jMenuSaveLMF);
+    jMenuSaveLMF.setText("Save LMF");
+    jMenuBar1.add(jMenuSaveLMF);
 
-        jMenuHepl.setText("Help");
-        jMenuBar1.add(jMenuHepl);
+    jMenuHepl.setText("Help");
+    jMenuBar1.add(jMenuHepl);
 
-        jMenuExit.setText("Exit");
-        jMenuBar1.add(jMenuExit);
+    jMenuExit.setText("Exit");
+    jMenuExit.addMouseListener(new java.awt.event.MouseAdapter() {
+        public void mouseClicked(java.awt.event.MouseEvent evt) {
+            jMenuExitMouseClicked(evt);
+        }
+    });
+    jMenuBar1.add(jMenuExit);
 
-        setJMenuBar(jMenuBar1);
+    setJMenuBar(jMenuBar1);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 473, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
+    javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+    getContentPane().setLayout(layout);
+    layout.setHorizontalGroup(
+        layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addContainerGap())
+    );
+    layout.setVerticalGroup(
+        layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 473, javax.swing.GroupLayout.PREFERRED_SIZE)
+    );
 
-        pack();
+    pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
@@ -487,7 +514,7 @@ public class EditorLadl extends javax.swing.JFrame {
 
     private void jMenuItemInsertAfterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemInsertAfterActionPerformed
         if(this.getjTable1().getSelectedRow()!=-1){
-            AddBeforeDelas ad=new AddBeforeDelas(this,this.getjTable1().getSelectedRow());
+            MenuAddBeforeDelas ad=new MenuAddBeforeDelas(this,this.getjTable1().getSelectedRow());
             ad.setVisible(true);
         }
         else{
@@ -497,7 +524,7 @@ public class EditorLadl extends javax.swing.JFrame {
 
     private void jMenuItemInsertBeforeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemInsertBeforeActionPerformed
         if(this.getjTable1().getSelectedRow()!=-1){
-            AddBeforeDelas ad=new AddBeforeDelas(this,this.getjTable1().getSelectedRow());
+            MenuAddBeforeDelas ad=new MenuAddBeforeDelas(this,this.getjTable1().getSelectedRow());
             ad.setVisible(true);
         }
         else{
@@ -511,13 +538,98 @@ public class EditorLadl extends javax.swing.JFrame {
             for(int i=0;i<10;i++){
                 obj[i]=this.getjTable1().getModel().getValueAt(this.getjTable1().getSelectedRow(), i);
             }
-            ViewDelas viewDelas=new ViewDelas(this,obj);
+            MenuViewDelas viewDelas=new MenuViewDelas(this,obj);
             viewDelas.setVisible(true);
         }
         else{
             JOptionPane.showMessageDialog(null, "No selected value");
         }
     }//GEN-LAST:event_jMenuViewMouseClicked
+
+    private void jMenuEditMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuEditMouseClicked
+        if(this.getjTable1().getSelectedRow()!=-1){
+            Object [] obj =new Object[10];
+            for(int i=0;i<10;i++){
+                obj[i]=this.getjTable1().getModel().getValueAt(this.getjTable1().getSelectedRow(), i);
+            }
+            MenuEditDelas editDelas=new MenuEditDelas(this,obj,this.getjTable1().getSelectedRow());
+            editDelas.setVisible(true);
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "No selected value");
+        }
+    }//GEN-LAST:event_jMenuEditMouseClicked
+
+    private void jMenuBeforeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuBeforeMouseClicked
+        if(this.getjTable1().getSelectedRow()!=-1){
+            Object [] obj =new Object[10];
+            for(int i=0;i<10;i++){
+                obj[i]=this.getjTable1().getModel().getValueAt(this.getjTable1().getSelectedRow(), i);
+            }
+            MenuBeforeDelas beforeDelas=new MenuBeforeDelas(this,obj,this.getjTable1().getSelectedRow());
+            beforeDelas.setVisible(true);
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "No selected value");
+        }
+    }//GEN-LAST:event_jMenuBeforeMouseClicked
+
+    private void jMenuAfterMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuAfterMouseClicked
+       if(this.getjTable1().getSelectedRow()!=-1){
+            Object [] obj =new Object[10];
+            for(int i=0;i<10;i++){
+                obj[i]=this.getjTable1().getModel().getValueAt(this.getjTable1().getSelectedRow(), i);
+            }
+            MenuAfterDelas afterDelas=new MenuAfterDelas(this,obj,this.getjTable1().getSelectedRow());
+            afterDelas.setVisible(true);
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "No selected value");
+        }
+    }//GEN-LAST:event_jMenuAfterMouseClicked
+
+    private void jMenuSaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuSaveMouseClicked
+        int dialogResult = JOptionPane.showConfirmDialog (null, "This will overwrite your dictionaries. Are you sure?","Save Delas Dictioneries in Unicode",JOptionPane.YES_NO_OPTION);
+        if(dialogResult == JOptionPane.YES_OPTION){
+            BufferedWriter bfw = null;
+            Map<String,List<String>> fileData=new HashMap<>();
+            for(int row = 0; row < jTable1.getRowCount(); row ++){
+                
+                String file = (String) jTable1.getValueAt(row, 8);
+                String lemma = (String) jTable1.getValueAt(row, 1);
+                String fstCode = (String) jTable1.getValueAt(row, 3);
+                String str = lemma+","+fstCode.substring(1);
+                String comment =(String) jTable1.getValueAt(row, 4);
+                if(comment.trim().length()>0){
+                    str = str+"//"+jTable1.getValueAt(row, 4);
+                }
+                str=str+"\n";
+                if(fileData.containsKey(file)){
+                    fileData.get(file).add(str);
+                }
+                else{
+                    List<String> tmp = new ArrayList<>();
+                    tmp.add(str);
+                    fileData.put(file, tmp);
+                }
+            }
+            for(Map.Entry<String, List<String>> data:fileData.entrySet()){
+                try {
+                    bfw = new BufferedWriter(new FileWriter(data.getKey()));
+                    for(String lines:data.getValue()){
+                        bfw.write(lines);
+                    }
+                    bfw.close();
+                } catch (IOException ex) {
+                    JOptionPane.showMessageDialog(null, "error :"+ex.getMessage());
+                }
+            }
+        }
+    }//GEN-LAST:event_jMenuSaveMouseClicked
+
+    private void jMenuExitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuExitMouseClicked
+       this.setVisible(false);
+    }//GEN-LAST:event_jMenuExitMouseClicked
 
     
 

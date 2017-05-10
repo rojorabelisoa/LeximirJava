@@ -5,27 +5,28 @@
  */
 package leximir.delas.menu;
 
-import javax.swing.JTextField;
 import leximir.EditorLadl;
 
 /**
  *
  * @author rojo
  */
-public class ViewDelas extends javax.swing.JFrame {
-    private EditorLadl aThis;
+public class MenuEditDelas extends javax.swing.JFrame {
+    private EditorLadl editor;
     private Object[] obj;
+        private int idObject;
     /**
      * Creates new form ViewDelas
      */
-    public ViewDelas() {
+    public MenuEditDelas() {
         initComponents();
     }
 
-    public ViewDelas(EditorLadl aThis, Object[] obj) {
+    public MenuEditDelas(EditorLadl aThis, Object[] obj,int id) {
         initComponents();
-        this.aThis=aThis;
+        this.editor=aThis;
         this.obj=obj;
+        idObject = id;
         this.jTextFieldPOS.setText((String) this.obj[0]);
         this.jTextFieldLemma.setText((String) this.obj[1]);
         this.jTextFieldFST.setText((String) this.obj[2]);
@@ -71,6 +72,7 @@ public class ViewDelas extends javax.swing.JFrame {
         jTextFieldDicId = new javax.swing.JTextField();
         jTextFieldDic = new javax.swing.JTextField();
         jButtonOk = new javax.swing.JButton();
+        jButtonCancel = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -80,7 +82,7 @@ public class ViewDelas extends javax.swing.JFrame {
 
         jLabel3.setText("FST");
 
-        jLabel4.setText("View Delas");
+        jLabel4.setText("Edit Delas");
 
         jLabel5.setText("SinSem");
 
@@ -96,10 +98,17 @@ public class ViewDelas extends javax.swing.JFrame {
 
         jLabel11.setText("Lemma ID");
 
-        jButtonOk.setText("OK");
+        jButtonOk.setText("Update");
         jButtonOk.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonOkActionPerformed(evt);
+            }
+        });
+
+        jButtonCancel.setText("Cancel");
+        jButtonCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCancelActionPerformed(evt);
             }
         });
 
@@ -136,11 +145,14 @@ public class ViewDelas extends javax.swing.JFrame {
                             .addComponent(jTextFieldLemmaInv)
                             .addComponent(jTextFieldLemmaId)
                             .addComponent(jTextFieldDicId)
-                            .addComponent(jTextFieldDic, javax.swing.GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(217, 217, 217)
-                        .addComponent(jButtonOk, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(268, Short.MAX_VALUE))
+                            .addComponent(jTextFieldDic, javax.swing.GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE))))
+                .addContainerGap(301, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jButtonCancel)
+                .addGap(39, 39, 39)
+                .addComponent(jButtonOk, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(226, 226, 226))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -191,7 +203,9 @@ public class ViewDelas extends javax.swing.JFrame {
                     .addComponent(jLabel11)
                     .addComponent(jTextFieldLemmaId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(33, 33, 33)
-                .addComponent(jButtonOk)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonOk)
+                    .addComponent(jButtonCancel))
                 .addContainerGap(58, Short.MAX_VALUE))
         );
 
@@ -212,8 +226,25 @@ public class ViewDelas extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonOkActionPerformed
+        String pOs=this.jTextFieldPOS.getText();
+        String lemma=this.jTextFieldLemma.getText();
+        String fSTCode=this.jTextFieldFST.getText();
+        String sinSem=this.jTextFieldSinSem.getText();
+        String comment=this.jTextFieldComment.getText();
+        String lemmaInv=this.jTextFieldLemmaInv.getText();
+        String wn_SinSet=this.jTextFieldWorldNet.getText();
+        int lemmaId=Integer.parseInt(this.jTextFieldLemmaId.getText());
+        String dicFile=this.jTextFieldDic.getText();
+        int dicId=Integer.parseInt(this.jTextFieldDicId.getText());
+        Object[] obj = {pOs,lemma,fSTCode,sinSem,comment,lemmaInv,wn_SinSet,lemmaId,dicFile,dicId};
+        editor.getTableModel().removeRow(idObject);
+        editor.getTableModel().insertRow(idObject,obj);
         this.setVisible(false);
     }//GEN-LAST:event_jButtonOkActionPerformed
+
+    private void jButtonCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelActionPerformed
+        this.setVisible(false);
+    }//GEN-LAST:event_jButtonCancelActionPerformed
 
     /**
      * @param args the command line arguments
@@ -232,25 +263,29 @@ public class ViewDelas extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ViewDelas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MenuEditDelas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ViewDelas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MenuEditDelas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ViewDelas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MenuEditDelas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ViewDelas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MenuEditDelas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ViewDelas().setVisible(true);
+                new MenuEditDelas().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonCancel;
     private javax.swing.JButton jButtonOk;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
