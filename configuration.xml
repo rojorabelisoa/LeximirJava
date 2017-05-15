@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>This is all path use in Leximir</comment>
+<entry key="pathDelas">/Users/rojo/Documents/LeXimir4UnitexRes/Delas</entry>
+<entry key="pathExportStatistics">/Users/rojo/NetBeansProjects/exportExcelnew.xls</entry>
+</properties>

@@ -22,15 +22,16 @@ public class MenuAddAfterDelas extends javax.swing.JFrame {
      */
     public MenuAddAfterDelas() {
         initComponents();
-        StaticValue.dictionnary.stream().forEach((dic) -> {
+        for(String dic:StaticValue.dictionnary){
             jComboBoxDic.addItem(dic);
-        });
+        }
+        
     }
     public MenuAddAfterDelas(EditorLadl el,int value){
         initComponents();
-        StaticValue.dictionnary.stream().forEach((dic) -> {
+        for(String dic:StaticValue.dictionnary){
             jComboBoxDic.addItem(dic);
-        });
+        };
         this.elFrame=el;
         this.valueSelected=value+1;
 
@@ -238,8 +239,10 @@ public class MenuAddAfterDelas extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> {
-            new MenuAddAfterDelas().setVisible(true);
+         java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new Tmp().setVisible(true);
+            }
         });
     }
 

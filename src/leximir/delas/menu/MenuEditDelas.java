@@ -276,8 +276,10 @@ public class MenuEditDelas extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> {
-            new MenuEditDelas().setVisible(true);
+         java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new Tmp().setVisible(true);
+            }
         });
     }
 

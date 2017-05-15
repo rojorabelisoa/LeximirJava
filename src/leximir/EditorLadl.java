@@ -24,7 +24,7 @@ import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import leximir.delas.menu.*;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import static util.Utils.exportJtableToExcel;
+import util.Utils;
 
 /**
  *
@@ -297,7 +297,6 @@ public final class EditorLadl extends javax.swing.JFrame {
     );
 
     jMenuNew.setText("New");
-    jMenuNew.setIcon(new javax.swing.ImageIcon(this.getClass().getResource("/leximirIcon/file.png")));
     jMenuNew.addMouseListener(new java.awt.event.MouseAdapter() {
         public void mouseClicked(java.awt.event.MouseEvent evt) {
             jMenuNewMouseClicked(evt);
@@ -366,6 +365,11 @@ public final class EditorLadl extends javax.swing.JFrame {
     jMenuBar1.add(jMenuDelete);
 
     jMenuInflect.setText("Inflect");
+    jMenuInflect.addMouseListener(new java.awt.event.MouseAdapter() {
+        public void mouseClicked(java.awt.event.MouseEvent evt) {
+            jMenuInflectMouseClicked(evt);
+        }
+    });
     jMenuBar1.add(jMenuInflect);
 
     jMenuStatistics.setText("Statistics");
@@ -470,7 +474,7 @@ public final class EditorLadl extends javax.swing.JFrame {
                 String dic = (String) this.getjTable1().getValueAt(i, 8);
                 String value = (String) this.getjTable1().getValueAt(i, 0);
                 if (!data.containsKey(dic)) {
-                    data.put(dic, new HashMap<>());
+                    data.put(dic, new HashMap<String,String>());
                 } else {
                     if (data.get(dic).containsKey(value)) {
                         int count = Integer.parseInt(data.get(dic).get(value)) + 1;
@@ -493,8 +497,9 @@ public final class EditorLadl extends javax.swing.JFrame {
                 }
             }
             HSSFWorkbook workbook = new HSSFWorkbook();
-            String filename = "/Users/rojo/NetBeansProjects/exportExcelnew.xls";
-            exportJtableToExcel(workbook, datas,filename);
+            //String filename = Utils.getValueXml("pathExportStatistics");
+            String filename = "statisticsTmp.xls";
+            Utils.exportJtableToExcel(workbook, datas,filename);
             
             JOptionPane.showMessageDialog(null, "file created in \n"+filename);
         } catch (IOException ex) {
@@ -600,7 +605,7 @@ public final class EditorLadl extends javax.swing.JFrame {
                 String fstCode = (String) jTable1.getValueAt(row, 3);
                 String str = lemma+","+fstCode.substring(1);
                 String comment =(String) jTable1.getValueAt(row, 4);
-                if(comment.trim().length()>0){
+                if(comment!=null && comment.trim().length()>0){
                     str = str+"//"+jTable1.getValueAt(row, 4);
                 }
                 str=str+"\n";
@@ -615,7 +620,8 @@ public final class EditorLadl extends javax.swing.JFrame {
             }
             for(Map.Entry<String, List<String>> data:fileData.entrySet()){
                 try {
-                    bfw = new BufferedWriter(new FileWriter(data.getKey()));
+                    //bfw = new BufferedWriter(new FileWriter(Utils.getValueXml("pathDelas")+"/"+data.getKey()));
+                    bfw = new BufferedWriter(new FileWriter("/Users/rojo/Documents/LeXimir4UnitexRes/Delas/"+data.getKey()));
                     for(String lines:data.getValue()){
                         bfw.write(lines);
                     }
@@ -630,6 +636,43 @@ public final class EditorLadl extends javax.swing.JFrame {
     private void jMenuExitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuExitMouseClicked
        this.setVisible(false);
     }//GEN-LAST:event_jMenuExitMouseClicked
+
+    private void jMenuInflectMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuInflectMouseClicked
+        if(this.getjTable1().getSelectedRow()!=-1){
+            BufferedWriter bfw;
+            try {
+                String DelasTmpName="DelasTmp.dic";
+                writeInDelasTmp(DelasTmpName);
+                String[] command ={
+                    "//Users//rojo//Unitex-GramLab-3.1//App//UnitexToolLogger", "MultiFlex" ,
+                    "DelasTmp.dic",
+                    "-o","DelafTmp.dic",
+                    "-a","//Users//rojo//Unitex-GramLab-3.1//French//Alphabet.txt",
+                    "-d","//Users//rojo//Unitex-GramLab-3.1//French//Inflection//"
+                };
+                ProcessBuilder pb = new ProcessBuilder(command);
+                pb.redirectOutput(ProcessBuilder.Redirect.INHERIT);
+                pb.redirectError(ProcessBuilder.Redirect.INHERIT);
+                pb.start();
+                JOptionPane.showMessageDialog(null, "done !!");
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(null, "error :"+ex.getMessage());
+            }
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "No selected value");
+        }
+        
+    }//GEN-LAST:event_jMenuInflectMouseClicked
+
+    private void writeInDelasTmp(String DelasTmpName) throws IOException {
+        BufferedWriter bfw;
+        bfw = new BufferedWriter(new FileWriter(DelasTmpName));
+        bfw.write((String) this.getjTable1().getModel().getValueAt(this.getjTable1().getSelectedRow(), 1));
+        bfw.write(",");
+        bfw.write((String) this.getjTable1().getModel().getValueAt(this.getjTable1().getSelectedRow(), 2));
+        bfw.close();
+    }
 
     
 
@@ -657,8 +700,10 @@ public final class EditorLadl extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> {
-            new EditorLadl().setVisible(true);
+         java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new Tmp().setVisible(true);
+            }
         });
     }
 

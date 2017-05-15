@@ -27,9 +27,10 @@ public class DelasHelper {
      * @return
      * @throws FileNotFoundException 
      */
-    public static ArrayList<String> getDicDelasPath() throws FileNotFoundException{
+    public static ArrayList<String> getDicDelasPath() throws FileNotFoundException, IOException{
         ArrayList<String> list= new ArrayList<>();
-        File folder = new File("/Users/rojo/Documents/LeXimir4UnitexRes/Delas");
+        File folder = new File(Utils.getValueXml("pathDelas"));
+        //File folder = new File("/Users/rojo/Documents/LeXimir4UnitexRes/Dela");
         File[] listOfFiles = folder.listFiles();
         for (File listOfFile : listOfFiles) {
             if (listOfFile.isFile()) {
@@ -50,9 +51,12 @@ public class DelasHelper {
         Field[] lf = delac.getClass().getDeclaredFields();
         int count =0;
         for(String dela:list){
+            //String path = Utils.getValueXml("pathDelas")+"/"+dela;
             String path = "/Users/rojo/Documents/LeXimir4UnitexRes/Delas/"+dela;
             ArrayList<String> readFile = readFile(path);
-            count = readFile.stream().map((_item) -> 1).reduce(count, Integer::sum);
+            for(String s:readFile){
+                count++;
+            }
             StaticValue.dictionnary.add(dela);
         }
         
@@ -70,6 +74,7 @@ public class DelasHelper {
             String wn_SinSet = null;
             int lemmaId=10;
             String dicFile=dela;
+            //String path = Utils.getValueXml("pathDelas")+"/"+dela;
             String path = "/Users/rojo/Documents/LeXimir4UnitexRes/Delas/"+dela;
             ArrayList<String> readFile = readFile(path);
             for(String s:readFile){

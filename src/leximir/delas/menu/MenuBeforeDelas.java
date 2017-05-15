@@ -275,8 +275,10 @@ public class MenuBeforeDelas extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> {
-            new MenuBeforeDelas().setVisible(true);
+         java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new Tmp().setVisible(true);
+            }
         });
     }
 

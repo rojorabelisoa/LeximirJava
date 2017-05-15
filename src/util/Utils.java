@@ -6,11 +6,14 @@
 package util;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -35,16 +38,6 @@ public class Utils {
         result[i] = strAsByteArray[strAsByteArray.length-i-1];
         }
         return new String(result);
-    }
-    /**
-     * This function write a HSSFWorkbook in a Excel file
-     * @param workbook 
-     */
-    private static void writeInExcel(HSSFWorkbook workbook) throws FileNotFoundException, IOException {
-        try (FileOutputStream out = new FileOutputStream(new File("/Users/rojo/NetBeansProjects/exportExcelnew.xls"))) {
-            workbook.write(out);
-        }
-        System.out.println("Excel written successfully..");
     }
 
     public static void exportJtableToExcel(HSSFWorkbook workbook, Map<String, Object[]> datas,String filename) throws IOException, FileNotFoundException {
@@ -93,5 +86,27 @@ public class Utils {
         String dicFile=Dicname;
         int dicId=0;
         return new Object[]{pOs,lemmas,fSTCode,sinSem,comments,lemmaInv,wn_SinSet,lemmaId,dicFile,dicId};
+    }
+    public static String getValueXml(String key) throws IOException, FileNotFoundException,IllegalArgumentException {
+        File file = new File("configuration.xml");
+        Properties properties;
+            try (FileInputStream fileInput = new FileInputStream(file)) {
+                properties = new Properties();
+                properties.loadFromXML(fileInput);
+            }
+        Enumeration enuKeys = properties.keys();
+        while (enuKeys.hasMoreElements()) {
+            String keys = (String) enuKeys.nextElement();
+            if(keys.equals(key)){
+                return properties.getProperty(keys);
+            }
+        }
+        throw new IllegalArgumentException("Key not found in path");
+    }
+    public static void runCommandTerminal(String[] command) throws IOException{
+        ProcessBuilder pb = new ProcessBuilder(command);
+        pb.redirectOutput(ProcessBuilder.Redirect.INHERIT);
+        pb.redirectError(ProcessBuilder.Redirect.INHERIT);
+        pb.start();
     }
 }

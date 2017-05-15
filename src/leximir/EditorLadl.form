@@ -11,9 +11,6 @@
           <Events>
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jMenuNewMouseClicked"/>
           </Events>
-          <AuxValues>
-            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="jMenuNew.setIcon(new javax.swing.ImageIcon(this.getClass().getResource(&quot;/leximirIcon/file.png&quot;)));"/>
-          </AuxValues>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItemInsertBefore">
               <Properties>
@@ -82,6 +79,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Inflect"/>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jMenuInflectMouseClicked"/>
+          </Events>
         </Menu>
         <Menu class="javax.swing.JMenu" name="jMenuStatistics">
           <Properties>
