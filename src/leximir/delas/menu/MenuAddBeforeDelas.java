@@ -5,6 +5,9 @@
  */
 package leximir.delas.menu;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import leximir.EditorLadl;
 import model.StaticValue;
@@ -33,7 +36,7 @@ public class MenuAddBeforeDelas extends javax.swing.JFrame {
         };
         this.elFrame=el;
         this.valueSelected=value;
-
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
     /**
@@ -57,6 +60,7 @@ public class MenuAddBeforeDelas extends javax.swing.JFrame {
         jButtonCancel = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         jTextFieldComment = new javax.swing.JTextField();
+        jButtonInflect = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -97,21 +101,23 @@ public class MenuAddBeforeDelas extends javax.swing.JFrame {
             }
         });
 
+        jButtonInflect.setText("Inflect");
+        jButtonInflect.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonInflectActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 103, Short.MAX_VALUE)
-                        .addComponent(jButtonAdd)
-                        .addGap(42, 42, 42)
-                        .addComponent(jButtonCancel))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                         .addGap(139, 139, 139)
                         .addComponent(jLabel1)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addGap(0, 105, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                         .addGap(19, 19, 19)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -126,6 +132,14 @@ public class MenuAddBeforeDelas extends javax.swing.JFrame {
                             .addComponent(jTextFieldFST, javax.swing.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE)
                             .addComponent(jTextFieldComment))))
                 .addGap(94, 94, 94))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jButtonAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonInflect)
+                .addGap(5, 5, 5)
+                .addComponent(jButtonCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(40, 40, 40))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -151,7 +165,8 @@ public class MenuAddBeforeDelas extends javax.swing.JFrame {
                 .addGap(35, 35, 35)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonAdd)
-                    .addComponent(jButtonCancel))
+                    .addComponent(jButtonCancel)
+                    .addComponent(jButtonInflect))
                 .addGap(33, 33, 33))
         );
 
@@ -200,6 +215,24 @@ public class MenuAddBeforeDelas extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextFieldCommentActionPerformed
 
+    private void jButtonInflectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonInflectActionPerformed
+        if(jTextFieldFST.getText().equals("")||jTextFieldLemma.getText().equals("")){
+            JOptionPane.showMessageDialog(null, "Lemma or FST code is empty");
+        }
+        else{
+            try {
+                String lemma =jTextFieldLemma.getText() ;
+                String fst = jTextFieldFST.getText();
+                Utils.InflectDelas(lemma, fst);
+                JOptionPane.showMessageDialog(null, "done");
+            } catch (FileNotFoundException ex) {
+                JOptionPane.showMessageDialog(null, "error :"+ex.getMessage());
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(null, "error :"+ex.getMessage());
+            }
+        }
+    }//GEN-LAST:event_jButtonInflectActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -232,7 +265,7 @@ public class MenuAddBeforeDelas extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Tmp().setVisible(true);
+                new MenuAddBeforeDelas().setVisible(true);
             }
         });
     }
@@ -240,6 +273,7 @@ public class MenuAddBeforeDelas extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAdd;
     private javax.swing.JButton jButtonCancel;
+    private javax.swing.JButton jButtonInflect;
     private javax.swing.JComboBox jComboBoxDic;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

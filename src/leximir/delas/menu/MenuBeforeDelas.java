@@ -5,7 +5,12 @@
  */
 package leximir.delas.menu;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import leximir.EditorLadl;
+import util.Utils;
 
 /**
  *
@@ -37,7 +42,7 @@ public class MenuBeforeDelas extends javax.swing.JFrame {
         this.jTextFieldLemmaId.setText(String.valueOf((int) this.obj[7]));
         this.jTextFieldDic.setText((String) this.obj[8]);
         this.jTextFieldDicId.setText(String.valueOf((int) this.obj[9]));
-        
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
     /**
@@ -73,6 +78,7 @@ public class MenuBeforeDelas extends javax.swing.JFrame {
         jTextFieldDic = new javax.swing.JTextField();
         jButtonOk = new javax.swing.JButton();
         jButtonCancel = new javax.swing.JButton();
+        jButtonInflect = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -109,6 +115,13 @@ public class MenuBeforeDelas extends javax.swing.JFrame {
         jButtonCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonCancelActionPerformed(evt);
+            }
+        });
+
+        jButtonInflect.setText("Inflect");
+        jButtonInflect.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonInflectActionPerformed(evt);
             }
         });
 
@@ -149,10 +162,12 @@ public class MenuBeforeDelas extends javax.swing.JFrame {
                 .addContainerGap(301, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jButtonOk, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonInflect)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonCancel)
-                .addGap(39, 39, 39)
-                .addComponent(jButtonOk, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(226, 226, 226))
+                .addGap(168, 168, 168))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -205,7 +220,8 @@ public class MenuBeforeDelas extends javax.swing.JFrame {
                 .addGap(33, 33, 33)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonOk)
-                    .addComponent(jButtonCancel))
+                    .addComponent(jButtonCancel)
+                    .addComponent(jButtonInflect))
                 .addContainerGap(58, Short.MAX_VALUE))
         );
 
@@ -245,6 +261,24 @@ public class MenuBeforeDelas extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_jButtonCancelActionPerformed
 
+    private void jButtonInflectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonInflectActionPerformed
+        if(jTextFieldFST.getText().equals("")||jTextFieldLemma.getText().equals("")){
+            JOptionPane.showMessageDialog(null, "Lemma or FST code is empty");
+        }
+        else{
+            try {
+                String lemma =jTextFieldLemma.getText() ;
+                String fst = jTextFieldFST.getText();
+                Utils.InflectDelas(lemma, fst);
+                JOptionPane.showMessageDialog(null, "done");
+            } catch (FileNotFoundException ex) {
+                JOptionPane.showMessageDialog(null, "error :"+ex.getMessage());
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(null, "error :"+ex.getMessage());
+            }
+        }
+    }//GEN-LAST:event_jButtonInflectActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -277,13 +311,14 @@ public class MenuBeforeDelas extends javax.swing.JFrame {
         /* Create and display the form */
          java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Tmp().setVisible(true);
+                new MenuBeforeDelas().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonCancel;
+    private javax.swing.JButton jButtonInflect;
     private javax.swing.JButton jButtonOk;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;

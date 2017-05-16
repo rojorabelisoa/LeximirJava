@@ -10,7 +10,6 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import javax.swing.JFileChooser;
-import leximir.delas.menu.Tmp;
 
 /**
  *
@@ -173,7 +172,7 @@ public class Index extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Tmp().setVisible(true);
+                new Index().setVisible(true);
             }
         });
     }

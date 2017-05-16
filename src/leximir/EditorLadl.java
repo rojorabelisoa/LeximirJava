@@ -7,6 +7,7 @@ package leximir;
 
 import helper.GridHelper;
 import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.RowFilter;
@@ -23,6 +25,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import leximir.delas.menu.*;
+import model.StaticValue;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import util.Utils;
 
@@ -44,6 +47,7 @@ public final class EditorLadl extends javax.swing.JFrame {
             RowSorter<TableModel> sort = new TableRowSorter<>(table.getModel());
             this.getjTable1().setRowSorter(sort);
             this.getjTable1().setModel(table.getModel());
+            this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         } catch (IOException ex) {
             Logger.getLogger(EditorLadl.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -498,7 +502,7 @@ public final class EditorLadl extends javax.swing.JFrame {
             }
             HSSFWorkbook workbook = new HSSFWorkbook();
             //String filename = Utils.getValueXml("pathExportStatistics");
-            String filename = "statisticsTmp.xls";
+            String filename = StaticValue.statisticsTmpPath;
             Utils.exportJtableToExcel(workbook, datas,filename);
             
             JOptionPane.showMessageDialog(null, "file created in \n"+filename);
@@ -621,7 +625,7 @@ public final class EditorLadl extends javax.swing.JFrame {
             for(Map.Entry<String, List<String>> data:fileData.entrySet()){
                 try {
                     //bfw = new BufferedWriter(new FileWriter(Utils.getValueXml("pathDelas")+"/"+data.getKey()));
-                    bfw = new BufferedWriter(new FileWriter("/Users/rojo/Documents/LeXimir4UnitexRes/Delas/"+data.getKey()));
+                    bfw = new BufferedWriter(new FileWriter(StaticValue.allDelas+"//"+data.getKey()));
                     for(String lines:data.getValue()){
                         bfw.write(lines);
                     }
@@ -639,22 +643,14 @@ public final class EditorLadl extends javax.swing.JFrame {
 
     private void jMenuInflectMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuInflectMouseClicked
         if(this.getjTable1().getSelectedRow()!=-1){
-            BufferedWriter bfw;
+            
             try {
-                String DelasTmpName="DelasTmp.dic";
-                writeInDelasTmp(DelasTmpName);
-                String[] command ={
-                    "//Users//rojo//Unitex-GramLab-3.1//App//UnitexToolLogger", "MultiFlex" ,
-                    "DelasTmp.dic",
-                    "-o","DelafTmp.dic",
-                    "-a","//Users//rojo//Unitex-GramLab-3.1//French//Alphabet.txt",
-                    "-d","//Users//rojo//Unitex-GramLab-3.1//French//Inflection//"
-                };
-                ProcessBuilder pb = new ProcessBuilder(command);
-                pb.redirectOutput(ProcessBuilder.Redirect.INHERIT);
-                pb.redirectError(ProcessBuilder.Redirect.INHERIT);
-                pb.start();
+                String lemma = (String) this.getjTable1().getModel().getValueAt(this.getjTable1().getSelectedRow(), 1);
+                String fst = (String) this.getjTable1().getModel().getValueAt(this.getjTable1().getSelectedRow(), 2);
+                Utils.InflectDelas(lemma, fst);
                 JOptionPane.showMessageDialog(null, "done !!");
+            } catch (FileNotFoundException ex) {
+                JOptionPane.showMessageDialog(null, "error :"+ex.getMessage());
             } catch (IOException ex) {
                 JOptionPane.showMessageDialog(null, "error :"+ex.getMessage());
             }
@@ -665,14 +661,9 @@ public final class EditorLadl extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jMenuInflectMouseClicked
 
-    private void writeInDelasTmp(String DelasTmpName) throws IOException {
-        BufferedWriter bfw;
-        bfw = new BufferedWriter(new FileWriter(DelasTmpName));
-        bfw.write((String) this.getjTable1().getModel().getValueAt(this.getjTable1().getSelectedRow(), 1));
-        bfw.write(",");
-        bfw.write((String) this.getjTable1().getModel().getValueAt(this.getjTable1().getSelectedRow(), 2));
-        bfw.close();
-    }
+    
+
+    
 
     
 
@@ -702,7 +693,7 @@ public final class EditorLadl extends javax.swing.JFrame {
         /* Create and display the form */
          java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Tmp().setVisible(true);
+                new EditorLadl().setVisible(true);
             }
         });
     }

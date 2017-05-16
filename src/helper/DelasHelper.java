@@ -29,8 +29,9 @@ public class DelasHelper {
      */
     public static ArrayList<String> getDicDelasPath() throws FileNotFoundException, IOException{
         ArrayList<String> list= new ArrayList<>();
-        File folder = new File(Utils.getValueXml("pathDelas"));
-        //File folder = new File("/Users/rojo/Documents/LeXimir4UnitexRes/Dela");
+        //File folder = new File(Utils.getValueXml("pathDelas"));
+        //File folder = new File("/Users/rojo/Documents/LeXimir4UnitexRes/Delas");
+        File folder = new File(StaticValue.allDelas);
         File[] listOfFiles = folder.listFiles();
         for (File listOfFile : listOfFiles) {
             if (listOfFile.isFile()) {
@@ -52,7 +53,8 @@ public class DelasHelper {
         int count =0;
         for(String dela:list){
             //String path = Utils.getValueXml("pathDelas")+"/"+dela;
-            String path = "/Users/rojo/Documents/LeXimir4UnitexRes/Delas/"+dela;
+            //String path = "/Users/rojo/Documents/LeXimir4UnitexRes/Delas/"+dela;
+            String path = StaticValue.allDelas+"//"+dela;
             ArrayList<String> readFile = readFile(path);
             for(String s:readFile){
                 count++;
@@ -75,7 +77,8 @@ public class DelasHelper {
             int lemmaId=10;
             String dicFile=dela;
             //String path = Utils.getValueXml("pathDelas")+"/"+dela;
-            String path = "/Users/rojo/Documents/LeXimir4UnitexRes/Delas/"+dela;
+            //String path = "/Users/rojo/Documents/LeXimir4UnitexRes/Delas/"+dela;
+            String path = StaticValue.allDelas+"//"+dela;
             ArrayList<String> readFile = readFile(path);
             for(String s:readFile){
                 String[] token = s.split(",");

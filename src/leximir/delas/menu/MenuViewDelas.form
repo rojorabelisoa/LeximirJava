@@ -62,25 +62,28 @@
                               <Component id="jLabel11" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="jTextFieldPOS" max="32767" attributes="0"/>
-                              <Component id="jTextFieldLemma" max="32767" attributes="0"/>
-                              <Component id="jTextFieldFST" max="32767" attributes="0"/>
-                              <Component id="jTextFieldSinSem" alignment="0" max="32767" attributes="0"/>
-                              <Component id="jTextFieldComment" alignment="0" max="32767" attributes="0"/>
-                              <Component id="jTextFieldWorldNet" alignment="0" max="32767" attributes="0"/>
-                              <Component id="jTextFieldLemmaInv" alignment="0" max="32767" attributes="0"/>
-                              <Component id="jTextFieldLemmaId" alignment="0" max="32767" attributes="0"/>
-                              <Component id="jTextFieldDicId" alignment="0" max="32767" attributes="0"/>
-                              <Component id="jTextFieldDic" alignment="0" pref="109" max="32767" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" attributes="0">
+                                  <Component id="jButtonOk" min="-2" pref="117" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
+                                  <Component id="jButtonInflect" min="-2" pref="117" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="jTextFieldPOS" max="32767" attributes="0"/>
+                                  <Component id="jTextFieldLemma" max="32767" attributes="0"/>
+                                  <Component id="jTextFieldFST" max="32767" attributes="0"/>
+                                  <Component id="jTextFieldSinSem" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="jTextFieldComment" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="jTextFieldWorldNet" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="jTextFieldLemmaInv" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="jTextFieldLemmaId" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="jTextFieldDicId" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="jTextFieldDic" alignment="0" pref="109" max="32767" attributes="0"/>
+                              </Group>
                           </Group>
                       </Group>
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="217" max="-2" attributes="0"/>
-                          <Component id="jButtonOk" min="-2" pref="117" max="-2" attributes="0"/>
-                      </Group>
                   </Group>
-                  <EmptySpace pref="268" max="32767" attributes="0"/>
+                  <EmptySpace pref="160" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -144,9 +147,12 @@
                       <Component id="jLabel11" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jTextFieldLemmaId" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
-                  <Component id="jButtonOk" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="58" max="32767" attributes="0"/>
+                  <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="jButtonOk" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jButtonInflect" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace pref="57" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -233,6 +239,14 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonOkActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="jButtonInflect">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Inflect"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonInflectActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>
