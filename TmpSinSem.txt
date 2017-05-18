@@ -1,0 +1,4 @@
+A_distubution =  + PosQ + FLX + NProp + DER + PosQ + NProp + Top + Gr + CC2 + PosQ + Sr + FLX
+
+PREF_distubution =  + PosQ
+

@@ -6,7 +6,11 @@
 package leximir;
 
 import helper.GridHelper;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Desktop;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -16,11 +20,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.RowFilter;
 import javax.swing.RowSorter;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
@@ -33,23 +40,35 @@ import util.Utils;
  *
  * @author rojo
  */
-public final class EditorLadl extends javax.swing.JFrame {
+public final class EditorDelas extends javax.swing.JFrame {
     private DefaultTableModel tableModel ;
     /**
      * Creates new form EditorLadl
      */
-    public EditorLadl() {
+    public EditorDelas() {
         try {
             initComponents();
-            this.setTitle("Editor for LADL Delas Dictionaries");
-            tableModel = GridHelper.getOpenEditor();
+            this.setTitle("Editor for Dela Dictionaries of simple words");
+            tableModel = GridHelper.getOpenEditorforDelas();
             JTable table = new JTable(getTableModel());
+            jLabel12.setText(jLabel12.getText()+tableModel.getRowCount());
             RowSorter<TableModel> sort = new TableRowSorter<>(table.getModel());
             this.getjTable1().setRowSorter(sort);
             this.getjTable1().setModel(table.getModel());
             this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            this.getjTable1().setDefaultRenderer(Object.class, new DefaultTableCellRenderer()
+            {
+                @Override
+                public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
+                {
+                    final Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                    c.setBackground(row % 2 == 0 ? Color.LIGHT_GRAY : Color.WHITE);
+                    c.setForeground(Color.black);
+                    return c;
+                }
+            });
         } catch (IOException ex) {
-            Logger.getLogger(EditorLadl.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(EditorDelas.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -71,23 +90,32 @@ public final class EditorLadl extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jTextFieldFst = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        jTextFieldSinSem = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButtonAll = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        jTextFieldLemmaInv = new javax.swing.JTextField();
         jCheckBox1 = new javax.swing.JCheckBox();
         jLabel6 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        jTextFieldDic = new javax.swing.JTextField();
         jButton3 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jTextFieldSearch = new javax.swing.JTextField();
         jButtonSearch = new javax.swing.JButton();
+        jTextField1 = new javax.swing.JTextField();
+        jTextField2 = new javax.swing.JTextField();
+        jTextField3 = new javax.swing.JTextField();
+        jButton4 = new javax.swing.JButton();
+        jLabel12 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenuNew = new javax.swing.JMenu();
         jMenuItemInsertBefore = new javax.swing.JMenuItem();
@@ -112,19 +140,54 @@ public final class EditorLadl extends javax.swing.JFrame {
 
         jLabel2.setText("POS");
 
+        jTextFieldPos.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextFieldPosKeyPressed(evt);
+            }
+        });
+
         jLabel1.setText("Lemma");
+
+        jTextFieldLemma.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextFieldLemmaKeyPressed(evt);
+            }
+        });
 
         jLabel3.setText("FST");
 
-        jLabel4.setText("SimSem");
+        jTextFieldFst.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextFieldFstKeyPressed(evt);
+            }
+        });
+
+        jLabel4.setText("SynSem");
+
+        jTextFieldSinSem.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextFieldSinSemKeyPressed(evt);
+            }
+        });
 
         jButton1.setText("1");
 
         jButton2.setText("2");
 
         jButtonAll.setText("All");
+        jButtonAll.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAllActionPerformed(evt);
+            }
+        });
 
         jLabel5.setText("Lemma Inverted");
+
+        jTextFieldLemmaInv.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextFieldLemmaInvKeyPressed(evt);
+            }
+        });
 
         jCheckBox1.setText("Extract Match");
         jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
@@ -134,6 +197,12 @@ public final class EditorLadl extends javax.swing.JFrame {
         });
 
         jLabel6.setText("NewDicId");
+
+        jTextFieldDic.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextFieldDicKeyPressed(evt);
+            }
+        });
 
         jButton3.setText("Move");
 
@@ -164,20 +233,20 @@ public final class EditorLadl extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTextFieldSinSem, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButtonAll)))
                 .addGap(49, 49, 49)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTextFieldLemmaInv, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jCheckBox1))
                     .addComponent(jLabel5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTextFieldDic, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton3))
                     .addComponent(jLabel6))
@@ -198,13 +267,13 @@ public final class EditorLadl extends javax.swing.JFrame {
                     .addComponent(jTextFieldPos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextFieldLemma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextFieldFst, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldSinSem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1)
                     .addComponent(jButton2)
                     .addComponent(jButtonAll)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldLemmaInv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jCheckBox1)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldDic, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton3)))
         );
 
@@ -223,21 +292,49 @@ public final class EditorLadl extends javax.swing.JFrame {
     );
     jScrollPane1.setViewportView(jTable1);
 
+    jLabel8.setText("POS");
+
+    jLabel9.setText("Lemma");
+
+    jLabel10.setText("FST Code");
+
+    jLabel11.setText("all columns");
+
     javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
     jPanel4.setLayout(jPanel4Layout);
     jPanel4Layout.setHorizontalGroup(
         jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(jPanel4Layout.createSequentialGroup()
             .addGap(23, 23, 23)
-            .addComponent(jScrollPane1)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1315, Short.MAX_VALUE)
             .addContainerGap())
+        .addGroup(jPanel4Layout.createSequentialGroup()
+            .addGap(93, 93, 93)
+            .addComponent(jLabel11)
+            .addGap(458, 458, 458)
+            .addComponent(jLabel8)
+            .addGap(74, 74, 74)
+            .addComponent(jLabel9)
+            .addGap(43, 43, 43)
+            .addComponent(jLabel10)
+            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
     );
     jPanel4Layout.setVerticalGroup(
         jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(jPanel4Layout.createSequentialGroup()
             .addContainerGap()
             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addContainerGap(15, Short.MAX_VALUE))
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel4Layout.createSequentialGroup()
+                    .addGap(0, 6, Short.MAX_VALUE)
+                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel8)
+                        .addComponent(jLabel9)
+                        .addComponent(jLabel10)))
+                .addGroup(jPanel4Layout.createSequentialGroup()
+                    .addComponent(jLabel11)
+                    .addGap(0, 0, Short.MAX_VALUE))))
     );
 
     jLabel7.setText("Search : ");
@@ -273,6 +370,21 @@ public final class EditorLadl extends javax.swing.JFrame {
             .addContainerGap(33, Short.MAX_VALUE))
     );
 
+    jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            jTextField1ActionPerformed(evt);
+        }
+    });
+
+    jButton4.setText("Search Multicriteria");
+    jButton4.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            jButton4ActionPerformed(evt);
+        }
+    });
+
+    jLabel12.setText("Rec.No : ");
+
     javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
     jPanel1.setLayout(jPanel1Layout);
     jPanel1Layout.setHorizontalGroup(
@@ -285,7 +397,17 @@ public final class EditorLadl extends javax.swing.JFrame {
                     .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel1Layout.createSequentialGroup()
                     .addGap(24, 24, 24)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jLabel12)
+                    .addGap(73, 73, 73)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(26, 26, 26)
+                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(18, 18, 18)
+                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(18, 18, 18)
+                    .addComponent(jButton4)))
             .addContainerGap(282, Short.MAX_VALUE))
     );
     jPanel1Layout.setVerticalGroup(
@@ -295,9 +417,20 @@ public final class EditorLadl extends javax.swing.JFrame {
             .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addGap(23, 23, 23)
             .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addGap(45, 45, 45))
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(45, 45, 45))
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButton4)
+                        .addComponent(jLabel12))
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
     );
 
     jMenuNew.setText("New");
@@ -325,7 +458,7 @@ public final class EditorLadl extends javax.swing.JFrame {
 
     jMenuBar1.add(jMenuNew);
 
-    jMenuBefore.setText("Before");
+    jMenuBefore.setText("Copy Before");
     jMenuBefore.addMouseListener(new java.awt.event.MouseAdapter() {
         public void mouseClicked(java.awt.event.MouseEvent evt) {
             jMenuBeforeMouseClicked(evt);
@@ -333,7 +466,7 @@ public final class EditorLadl extends javax.swing.JFrame {
     });
     jMenuBar1.add(jMenuBefore);
 
-    jMenuAfter.setText("After");
+    jMenuAfter.setText("Copy After");
     jMenuAfter.addMouseListener(new java.awt.event.MouseAdapter() {
         public void mouseClicked(java.awt.event.MouseEvent evt) {
             jMenuAfterMouseClicked(evt);
@@ -452,14 +585,13 @@ public final class EditorLadl extends javax.swing.JFrame {
             if (text.length() == 0) {
                 rowSorter.setRowFilter(null);
             } else {
-                //RowFilter rowFilter = RowFilter.regexFilter("(?i)" +text, 0);// recherche avec la colonne indice 0
-                //rowSorter.setRowFilter(rowFilter);
                 rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
             }
-            this.getjTable1().repaint();
+            this.getjTable1().repaint();            
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(null, ex);
         }
+        
     }//GEN-LAST:event_jButtonSearchActionPerformed
 
     private void jMenuStatisticsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuStatisticsActionPerformed
@@ -507,7 +639,7 @@ public final class EditorLadl extends javax.swing.JFrame {
             
             JOptionPane.showMessageDialog(null, "file created in \n"+filename);
         } catch (IOException ex) {
-           JOptionPane.showMessageDialog(null, "Error"+ex.getMessage());
+           JOptionPane.showMessageDialog(null, "Error : "+ex.getMessage());
         }
     }//GEN-LAST:event_jMenuStatisticsMouseClicked
 
@@ -661,6 +793,206 @@ public final class EditorLadl extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jMenuInflectMouseClicked
 
+    private void jButtonAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAllActionPerformed
+        try {
+            Map<String, String> data = new HashMap<>();
+            int k = 0;
+            for (int i = 0; i < this.getjTable1().getRowCount(); i++) {
+                String sinsem = (String) this.getjTable1().getValueAt(i, 3);
+                String temp = new String();
+                try{
+                    int length = sinsem.split(Pattern.quote("+")).length;
+                    for(int j=2;j<length;j++){
+                        temp = temp+" + "+sinsem.split(Pattern.quote("+"))[j];
+                    }
+                }
+                catch(java.lang.ArrayIndexOutOfBoundsException ex){
+                    continue;
+                }
+                String finalsinsem = temp.split("=")[0];
+                
+                String pos = (String) this.getjTable1().getValueAt(i, 0);
+                if (!data.containsKey(pos)) {
+                    data.put(pos, finalsinsem);
+                } else {
+                    String valueInData = data.get(pos);
+                    String[] value = finalsinsem.split(Pattern.quote("+"));
+                    for(String s:value){
+                        if(!valueInData.contains(s)){
+                            valueInData = valueInData+finalsinsem;
+                            data.put(pos, valueInData);
+                        }
+                    }
+                }
+            }
+            BufferedWriter bfw;
+            bfw = new BufferedWriter(new FileWriter("TmpSinSem.txt"));
+            for (Map.Entry<String, String> f : data.entrySet()) {
+                bfw.write(f.getKey()+"_distribution");
+                bfw.write(" = ");
+                bfw.write(f.getValue());
+                bfw.write("\n");
+                bfw.write("\n");
+            }
+            bfw.close();
+            JOptionPane.showMessageDialog(null, "file created in \n TmpSinSem.txt");
+            Desktop.getDesktop().open(new File("TmpSinSem.txt"));
+        } catch (IOException ex) {
+           JOptionPane.showMessageDialog(null, "Error : "+ex.getMessage());
+        }
+    }//GEN-LAST:event_jButtonAllActionPerformed
+
+    private void jTextFieldPosKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldPosKeyPressed
+        try {
+            JTextField textField = (JTextField) evt.getSource();
+            String text = textField.getText();
+            TableRowSorter<TableModel> rowSorter;
+            rowSorter = new TableRowSorter<>(GridHelper.getOpenEditorLadl().getModel());
+            this.getjTable1().setRowSorter(rowSorter);
+            this.getjTable1().removeAll();
+            if (text.trim().length() == 0) {
+                rowSorter.setRowFilter(null);
+            } else {
+                RowFilter rowFilter = RowFilter.regexFilter("(?i)" +text, 0);// recherche avec la colonne indice 0
+                rowSorter.setRowFilter(rowFilter);
+            }
+            this.getjTable1().repaint();
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null, "Error : "+ex.getMessage());
+        }
+    }//GEN-LAST:event_jTextFieldPosKeyPressed
+
+    private void jTextFieldLemmaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldLemmaKeyPressed
+        try {
+            JTextField textField = (JTextField) evt.getSource();
+            String text = textField.getText();
+            TableRowSorter<TableModel> rowSorter;
+            rowSorter = new TableRowSorter<>(GridHelper.getOpenEditorLadl().getModel());
+            this.getjTable1().setRowSorter(rowSorter);
+            this.getjTable1().removeAll();
+            if (text.trim().length() == 0) {
+                rowSorter.setRowFilter(null);
+            } else {
+                RowFilter rowFilter = RowFilter.regexFilter("(?i)" +text, 1);// recherche avec la colonne indice 0
+                rowSorter.setRowFilter(rowFilter);
+            }
+            this.getjTable1().repaint();
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null, "Error : "+ex.getMessage());
+        }
+    }//GEN-LAST:event_jTextFieldLemmaKeyPressed
+
+    private void jTextFieldFstKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldFstKeyPressed
+        try {
+            JTextField textField = (JTextField) evt.getSource();
+            String text = textField.getText();
+            TableRowSorter<TableModel> rowSorter;
+            rowSorter = new TableRowSorter<>(GridHelper.getOpenEditorLadl().getModel());
+            this.getjTable1().setRowSorter(rowSorter);
+            this.getjTable1().removeAll();
+            if (text.trim().length() == 0) {
+                rowSorter.setRowFilter(null);
+            } else {
+                RowFilter rowFilter = RowFilter.regexFilter("(?i)" +text, 2);// recherche avec la colonne indice 0
+                rowSorter.setRowFilter(rowFilter);
+            }
+            this.getjTable1().repaint();
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null, "Error : "+ex.getMessage());
+        }
+    }//GEN-LAST:event_jTextFieldFstKeyPressed
+
+    private void jTextFieldSinSemKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldSinSemKeyPressed
+        try {
+            JTextField textField = (JTextField) evt.getSource();
+            String text = textField.getText();
+            TableRowSorter<TableModel> rowSorter;
+            rowSorter = new TableRowSorter<>(GridHelper.getOpenEditorLadl().getModel());
+            this.getjTable1().setRowSorter(rowSorter);
+            this.getjTable1().removeAll();
+            if (text.trim().length() == 0) {
+                rowSorter.setRowFilter(null);
+            } else {
+                RowFilter rowFilter = RowFilter.regexFilter("(?i)" +text, 3);// recherche avec la colonne indice 0
+                rowSorter.setRowFilter(rowFilter);
+            }
+            this.getjTable1().repaint();
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null, "Error : "+ex.getMessage());
+        }
+    }//GEN-LAST:event_jTextFieldSinSemKeyPressed
+
+    private void jTextFieldLemmaInvKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldLemmaInvKeyPressed
+        try {
+            JTextField textField = (JTextField) evt.getSource();
+            String text = textField.getText();
+            TableRowSorter<TableModel> rowSorter;
+            rowSorter = new TableRowSorter<>(GridHelper.getOpenEditorLadl().getModel());
+            this.getjTable1().setRowSorter(rowSorter);
+            this.getjTable1().removeAll();
+            if (text.trim().length() == 0) {
+                rowSorter.setRowFilter(null);
+            } else {
+                RowFilter rowFilter = RowFilter.regexFilter("(?i)" +text, 5);// recherche avec la colonne indice 0
+                rowSorter.setRowFilter(rowFilter);
+            }
+            this.getjTable1().repaint();
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null, "Error : "+ex.getMessage());
+        }
+    }//GEN-LAST:event_jTextFieldLemmaInvKeyPressed
+
+    private void jTextFieldDicKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldDicKeyPressed
+        try {
+            JTextField textField = (JTextField) evt.getSource();
+            String text = textField.getText();
+            TableRowSorter<TableModel> rowSorter;
+            rowSorter = new TableRowSorter<>(GridHelper.getOpenEditorLadl().getModel());
+            this.getjTable1().setRowSorter(rowSorter);
+            this.getjTable1().removeAll();
+            if (text.trim().length() == 0) {
+                rowSorter.setRowFilter(null);
+            } else {
+                RowFilter rowFilter = RowFilter.regexFilter("(?i)" +text, 9);// recherche avec la colonne indice 0
+                rowSorter.setRowFilter(rowFilter);
+            }
+            this.getjTable1().repaint();
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null, "Error : "+ex.getMessage());
+        }
+    }//GEN-LAST:event_jTextFieldDicKeyPressed
+
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        try {
+            String pos = jTextField1.getText();
+            String lemma = jTextField2.getText();
+            String fst = jTextField3.getText();
+            TableRowSorter<TableModel> rowSorter;
+            rowSorter = new TableRowSorter<>(GridHelper.getOpenEditorLadl().getModel());
+            this.getjTable1().setRowSorter(rowSorter);
+            this.getjTable1().removeAll();
+            List<RowFilter<Object,Object>> filters = new ArrayList<>();
+            if (pos.length() != 0) {
+                filters.add(RowFilter.regexFilter("(?i)" +pos, 0));
+            }
+            if (lemma.length() != 0) {
+                filters.add(RowFilter.regexFilter("(?i)" +lemma, 1));
+            } 
+            if (fst.length() != 0) {
+                filters.add(RowFilter.regexFilter("(?i)" +fst, 2));
+            } 
+            RowFilter rf = RowFilter.andFilter(filters);
+            rowSorter.setRowFilter(rf);
+            this.getjTable1().repaint();
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        }
+    }//GEN-LAST:event_jButton4ActionPerformed
+
     
 
     
@@ -684,8 +1016,9 @@ public final class EditorLadl extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(EditorLadl.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EditorDelas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
         
         //</editor-fold>
@@ -693,7 +1026,7 @@ public final class EditorLadl extends javax.swing.JFrame {
         /* Create and display the form */
          java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new EditorLadl().setVisible(true);
+                new EditorDelas().setVisible(true);
             }
         });
     }
@@ -702,16 +1035,22 @@ public final class EditorLadl extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JButton jButtonAll;
     private javax.swing.JButton jButtonSearch;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JMenu jMenuAfter;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenu jMenuBefore;
@@ -740,10 +1079,13 @@ public final class EditorLadl extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField jTextFieldDic;
     private javax.swing.JTextField jTextFieldFst;
     private javax.swing.JTextField jTextFieldLemma;
+    private javax.swing.JTextField jTextFieldLemmaInv;
     private javax.swing.JTextField jTextFieldPos;
     private javax.swing.JTextField jTextFieldSearch;
+    private javax.swing.JTextField jTextFieldSinSem;
     // End of variables declaration//GEN-END:variables
 
     /**
