@@ -5,6 +5,8 @@
  */
 package util;
 
+import helper.DelacHelper;
+import helper.DelasHelper;
 import java.awt.Desktop;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -15,6 +17,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Date;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
@@ -45,6 +48,19 @@ public class Utils {
             result[i] = strAsByteArray[strAsByteArray.length - i - 1];
         }
         return new String(result);
+    }
+    public static Map<String, Object[]> putDataGridInExcel(Map<String, HashMap<String, String>> data) {
+        Map<String, Object[]> datas = new HashMap<>();
+        datas.put("1", new Object[]{"Dic", "POS", "Number"});
+        int inc = 2;
+        for (Map.Entry<String, HashMap<String, String>> f : data.entrySet()) {
+            String key = f.getKey();
+            for (Map.Entry<String, String> p : f.getValue().entrySet()) {
+                datas.put(String.valueOf(inc), new Object[]{key, p.getKey(), p.getValue()});
+                inc++;
+            }
+        }
+        return datas;
     }
 
     public static void exportJtableToExcel(HSSFWorkbook workbook, Map<String, Object[]> datas, String filename) throws IOException, FileNotFoundException {
@@ -81,15 +97,11 @@ public class Utils {
     }
 
     public static Object[] delasToObject(String lemma, String fstCode, String comment, String Dicname) throws ArrayIndexOutOfBoundsException {
-        String pOs;
-        try {
-            pOs = fstCode.split("[^A-Z0-9]+|(?<=[A-Z])(?=[0-9])|(?<=[0-9])(?=[A-Z])")[0];
-        } catch (ArrayIndexOutOfBoundsException ex) {
-            throw new ArrayIndexOutOfBoundsException("Fst code format error : "+ex.getMessage());
-        }
+        String sinSem = "+"+fstCode+"="+fstCode;
+        String line = lemma+","+fstCode+sinSem+"//"+comment;
+        String pOs=DelasHelper.getPosInDelas(line);
         String lemmas = lemma;
         String fSTCode = fstCode;
-        String sinSem = "";
         String comments = comment;
         String lemmaInv = Utils.reverseString(lemma);
         String wn_SinSet = "";
@@ -100,18 +112,13 @@ public class Utils {
     }
     
     public static Object[] delacToObject(String lemma, String fstCode,String synSem, String comment, String Dicname) throws ArrayIndexOutOfBoundsException {
-        String pOs;
-        try {
-            pOs = fstCode.split(Pattern.quote("_"))[0];
-        } catch (ArrayIndexOutOfBoundsException ex) {
-            throw new ArrayIndexOutOfBoundsException("Fst code format error : "+ex.getMessage());
-        }
+        String line = lemma+","+fstCode+synSem+"//"+comment;
+        String pOs = DelacHelper.getPosInDelac(line);
         String lemaAll = lemma;
-        String lema = Utils.getLemaInLemaAllDelac(lemaAll);
+        String lema = DelacHelper.getLemaInLemaAllDelac(lemaAll);
         String fSTCode = fstCode;
         String sinSem = synSem;
         String comments = comment;
-        
         String wn_SinSet = "";
         int lemmaId = 10;
         String dicFile = Dicname;
@@ -173,26 +180,7 @@ public class Utils {
         }
 
     }
-     public static String getLemaInLemaAllDelac(String text) {
-        StringBuilder sb = new StringBuilder();
-        boolean isNotInBracket=false;
-        for(int i=0;i<text.length();i++){
-            if(!isNotInBracket){
-                if(text.charAt(i)!='('){
-                    sb.append(text.charAt(i));
-                }
-                else{
-                    isNotInBracket=true;
-                }
-            }
-            else{
-                if(text.charAt(i)==')'){
-                    isNotInBracket=false;
-                }
-            }
-        }
-        return sb.toString();
-    }  
+     
    
 
 }

@@ -605,7 +605,6 @@ public final class EditorDelas extends javax.swing.JFrame {
     private void jMenuStatisticsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuStatisticsMouseClicked
         try {
             Map<String, HashMap<String, String>> data = new HashMap<>();
-            int k = 0;
             for (int i = 0; i < this.getjTable1().getRowCount(); i++) {
                 String dic = (String) this.getjTable1().getValueAt(i, 8);
                 String value = (String) this.getjTable1().getValueAt(i, 0);
@@ -615,23 +614,12 @@ public final class EditorDelas extends javax.swing.JFrame {
                     if (data.get(dic).containsKey(value)) {
                         int count = Integer.parseInt(data.get(dic).get(value)) + 1;
                         data.get(dic).replace(value, String.valueOf(count));
-                        k++;
                     } else {
-                        k++;
                         data.get(dic).put(value, "1");
                     }
                 }
             }
-            Map<String, Object[]> datas = new HashMap<>();
-            datas.put("1", new Object[]{"Dic", "POS", "Number"});
-            int inc = 2;
-            for (Map.Entry<String, HashMap<String, String>> f : data.entrySet()) {
-                String key = f.getKey();
-                for (Map.Entry<String, String> p : f.getValue().entrySet()) {
-                    datas.put(String.valueOf(inc), new Object[]{key, p.getKey(), p.getValue()});
-                    inc++;
-                }
-            }
+            Map<String, Object[]> datas = Utils.putDataGridInExcel(data);
             HSSFWorkbook workbook = new HSSFWorkbook();
             //String filename = Utils.getValueXml("pathExportStatistics");
             String filename = StaticValue.statisticsTmpPath;
@@ -766,6 +754,7 @@ public final class EditorDelas extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "error :"+ex.getMessage());
                 }
             }
+             JOptionPane.showMessageDialog(null, "everything is Ok");
         }
     }//GEN-LAST:event_jMenuSaveMouseClicked
 

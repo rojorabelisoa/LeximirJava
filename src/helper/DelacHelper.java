@@ -31,7 +31,6 @@ public class DelacHelper {
     public static ArrayList<String> getDicDelacPath() throws FileNotFoundException, IOException{
         ArrayList<String> list= new ArrayList<>();
         //File folder = new File(Utils.getValueXml("pathDelas"));
-        //File folder = new File("/Users/rojo/Documents/LeXimir4UnitexRes/Delas");
         File folder = new File(StaticValue.allDelac);
         File[] listOfFiles = folder.listFiles();
         for (File listOfFile : listOfFiles) {
@@ -54,7 +53,6 @@ public class DelacHelper {
         int count =0;
         for(String dela:list){
             //String path = Utils.getValueXml("pathDelas")+"/"+dela;
-            //String path = "/Users/rojo/Documents/LeXimir4UnitexRes/Delas/"+dela;
             String path = StaticValue.allDelac+"//"+dela;
             ArrayList<String> readFile = readFile(path);
             for(String s:readFile){
@@ -64,56 +62,43 @@ public class DelacHelper {
         }
         
         Object[][] ob = new Object[count][lf.length];
-        int i=0;
         int k=0;
         int dicId=0;
         for(String dela:list){
-            String pOs;
-            String lemmaAll;
-            String lemma;
-            String fSTCode;
-            String sinSem=new String();
-            String comment = null;
-            String wn_SinSet = null;
+            String pOs,lemmaAll,lemma,fSTCode,sinSem,comment,wn_SinSet;
             int lemmaId=10;
             String dicFile=dela;
             String path = StaticValue.allDelac+"//"+dela;
             ArrayList<String> readFile = readFile(path);
             for(String s:readFile){
-                String[] token = s.split(Pattern.quote(","));
-                lemmaAll=Objects.requireNonNull(s.split(",")[0]);
-                lemma=Utils.getLemaInLemaAllDelac(lemmaAll);
-                fSTCode = token[1].split(Pattern.quote("+"))[0];
-                String[] tmpValue = token[1].split(Pattern.quote("+"));
-                for(int j=1;j<tmpValue.length;j++){
-                    if(tmpValue[j].contains("/")){
-                        break;
-                    }
-                    sinSem=sinSem+"+"+tmpValue[j];
-                }
-                pOs = fSTCode.split(Pattern.quote("_"))[0];
-                if (s.contains("//")) {
-                    comment = s.split("//")[1];
-                }
+                wn_SinSet="";
+                lemmaAll=getLemaAllDelac(s);
+                lemma=getLemaInLemaAllDelac(lemmaAll);
+                fSTCode = getFstCodeInDelac(s);
+                sinSem="+"+getSynSemInDelac(s);
+                pOs = getPosInDelac(s);
+                comment = getCommentInDelas(s);
                 Delac tmp = new Delac(pOs, lemmaAll, lemma, fSTCode, sinSem, comment, wn_SinSet, lemmaId, dicFile, dicId);
-                ob[k][0]=tmp.getpOS();
-                ob[k][1]=tmp.getLemmaAll();
-                ob[k][2]=tmp.getLemma();
-                ob[k][3]=tmp.getfSTCode();
-                ob[k][4]=tmp.getSimSem();
-                ob[k][5]=tmp.getComment();
-                ob[k][6]=tmp.getWn_sinSet();
-                ob[k][7]=tmp.getLemmaId();
-                ob[k][8]=tmp.getDicFile();
-                ob[k][9]=tmp.getDicId();
+                delacToObject(ob, k, tmp);
                 k++;
                 lemmaId=lemmaId+10;
-                sinSem="";
             }
             dicId++;
-            i++;
         }
         return ob;
+    }
+
+    private static void delacToObject(Object[][] ob, int k, Delac tmp) {
+        ob[k][0]=tmp.getpOS();
+        ob[k][1]=tmp.getLemmaAll();
+        ob[k][2]=tmp.getLemma();
+        ob[k][3]=tmp.getfSTCode();
+        ob[k][4]=tmp.getSimSem();
+        ob[k][5]=tmp.getComment();
+        ob[k][6]=tmp.getWn_sinSet();
+        ob[k][7]=tmp.getLemmaId();
+        ob[k][8]=tmp.getDicFile();
+        ob[k][9]=tmp.getDicId();
     }
     /**
      * This function read file from path file and return an ArrayList<String>
@@ -131,5 +116,106 @@ public class DelacHelper {
             }
         }
         return tmp;
+    }
+    public static String getLemaInLemaAllDelac(String text) {
+        StringBuilder sb = new StringBuilder();
+        boolean isNotInBracket=false;
+        for(int i=0;i<text.length();i++){
+            if(!isNotInBracket){
+                if(text.charAt(i)!='('){
+                    sb.append(text.charAt(i));
+                }
+                else{
+                    isNotInBracket=true;
+                }
+            }
+            else{
+                if(text.charAt(i)==')'){
+                    isNotInBracket=false;
+                }
+            }
+        }
+        return sb.toString();
+    }  
+    public static String getLemaAllDelac(String text) {
+        StringBuilder sb = new StringBuilder();
+        for(int i=0;i<text.length();i++){
+            if(text.charAt(i)!=','){
+                sb.append(text.charAt(i));
+            }
+            else{
+                break;
+            }
+        }
+        return sb.toString();
+    }  
+    public static String getFstCodeInDelac(String text){
+        StringBuilder sb = new StringBuilder();
+        boolean begin=false;
+        for(int i=0;i<text.length();i++){
+            if(text.charAt(i)==','){
+                begin=true;
+                i++;
+            }
+            if(begin){
+                if(text.charAt(i)=='+'||text.charAt(i)=='/'||text.charAt(i)=='='){
+                    break;
+                }
+                sb.append(text.charAt(i));
+            }
+        }
+        return sb.toString();
+    }
+    public static String getSynSemInDelac(String text){
+        StringBuilder sb = new StringBuilder();
+        boolean begin=false;
+        for(int i=0;i<text.length();i++){
+            if(text.charAt(i)==','){
+                begin=true;
+                i++;
+            }
+            if(begin){
+                if(text.charAt(i)=='='||text.charAt(i)=='/'){
+                    break;
+                }
+                sb.append(text.charAt(i));
+            }
+        }
+        return sb.toString();
+    }
+    public static String getPosInDelac(String text){
+        StringBuilder sb = new StringBuilder();
+        boolean begin=false;
+        for(int i=0;i<text.length();i++){
+            if(text.charAt(i)==','){
+                begin=true;
+                i++;
+            }
+            if(begin){
+                char charInt=text.charAt(i);   
+                if(charInt>=48 && charInt<=57){
+                    break;
+                }
+                if(charInt=='/'||charInt=='+'||charInt=='_'){
+                    break;
+                }
+                sb.append(text.charAt(i));
+            }
+        }
+        return sb.toString();
+    }
+    public static String getCommentInDelas(String text){
+        StringBuilder sb = new StringBuilder();
+        boolean begin=false;
+        for(int i=0;i<text.length();i++){
+            if(text.charAt(i)=='/'){
+                begin=true;
+                i=i+2;
+            }
+            if(begin){
+                sb.append(text.charAt(i));
+            }
+        }
+        return sb.toString();
     }
 }
