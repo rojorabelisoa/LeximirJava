@@ -54,7 +54,7 @@ public class DelacHelper {
         for(String dela:list){
             //String path = Utils.getValueXml("pathDelas")+"/"+dela;
             String path = StaticValue.allDelac+"//"+dela;
-            ArrayList<String> readFile = readFile(path);
+            ArrayList<String> readFile = Utils.readFile(path);
             for(String s:readFile){
                 count++;
             }
@@ -69,7 +69,7 @@ public class DelacHelper {
             int lemmaId=10;
             String dicFile=dela;
             String path = StaticValue.allDelac+"//"+dela;
-            ArrayList<String> readFile = readFile(path);
+            ArrayList<String> readFile = Utils.readFile(path);
             for(String s:readFile){
                 wn_SinSet="";
                 lemmaAll=getLemaAllDelac(s);
@@ -87,6 +87,7 @@ public class DelacHelper {
         }
         return ob;
     }
+    
 
     private static void delacToObject(Object[][] ob, int k, Delac tmp) {
         ob[k][0]=tmp.getpOS();
@@ -100,23 +101,7 @@ public class DelacHelper {
         ob[k][8]=tmp.getDicFile();
         ob[k][9]=tmp.getDicId();
     }
-    /**
-     * This function read file from path file and return an ArrayList<String>
-     * @param file path of file to open
-     * @return
-     * @throws IOException 
-     */
-    public static ArrayList<String> readFile(String file) throws IOException {
-        ArrayList<String> tmp;
-        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-            String ligne;
-            tmp = new ArrayList<>();
-            while((ligne = reader.readLine()) != null){			
-                tmp.add(ligne);
-            }
-        }
-        return tmp;
-    }
+    
     public static String getLemaInLemaAllDelac(String text) {
         StringBuilder sb = new StringBuilder();
         boolean isNotInBracket=false;

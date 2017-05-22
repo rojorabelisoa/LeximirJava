@@ -610,10 +610,9 @@ public final class EditorDelac extends javax.swing.JFrame {
                     inc++;
                 }
             }
-            HSSFWorkbook workbook = new HSSFWorkbook();
             //String filename = Utils.getValueXml("pathExportStatistics");
             String filename = StaticValue.statisticsTmpPath;
-            Utils.exportJtableToExcel(workbook, datas,filename);
+            Utils.exportJtableToExcel( datas,filename);
             
             JOptionPane.showMessageDialog(null, "file created in \n"+filename);
         } catch (IOException ex) {
@@ -762,7 +761,7 @@ public final class EditorDelac extends javax.swing.JFrame {
             
             try {
                 String lemma = (String) this.getjTable1().getModel().getValueAt(this.getjTable1().getSelectedRow(), 1);
-                String fst = (String) this.getjTable1().getModel().getValueAt(this.getjTable1().getSelectedRow(), 2);
+                String fst = (String) this.getjTable1().getModel().getValueAt(this.getjTable1().getSelectedRow(), 3);
                 Utils.InflectDelas(lemma, fst);
                 JOptionPane.showMessageDialog(null, "done !!");
             } catch (FileNotFoundException ex) {

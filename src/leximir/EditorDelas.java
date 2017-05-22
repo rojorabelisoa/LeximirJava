@@ -620,10 +620,9 @@ public final class EditorDelas extends javax.swing.JFrame {
                 }
             }
             Map<String, Object[]> datas = Utils.putDataGridInExcel(data);
-            HSSFWorkbook workbook = new HSSFWorkbook();
             //String filename = Utils.getValueXml("pathExportStatistics");
             String filename = StaticValue.statisticsTmpPath;
-            Utils.exportJtableToExcel(workbook, datas,filename);
+            Utils.exportJtableToExcel(datas,filename);
             
             JOptionPane.showMessageDialog(null, "file created in \n"+filename);
         } catch (IOException ex) {

@@ -54,7 +54,7 @@ public class DelasHelper {
         for(String dela:list){
             //String path = Utils.getValueXml("pathDelas")+"/"+dela;
             String path = StaticValue.allDelas+"//"+dela;
-            ArrayList<String> readFile = readFile(path);
+            ArrayList<String> readFile = Utils.readFile(path);
             for(String s:readFile){
                 count++;
             }
@@ -70,7 +70,7 @@ public class DelasHelper {
             String dicFile=dela;
             //String path = Utils.getValueXml("pathDelas")+"/"+dela;
             String path = StaticValue.allDelas+"//"+dela;
-            ArrayList<String> readFile = readFile(path);
+            ArrayList<String> readFile = Utils.readFile(path);
             for(String s:readFile){
                 lemma=getLemaInDelas(s);
                 lemmaInv=Utils.reverseString(lemma);
@@ -102,23 +102,7 @@ public class DelasHelper {
         ob[k][8]=tmp.getDicFile();
         ob[k][9]=tmp.getDicId();
     }
-    /**
-     * This function read file from path file and return an ArrayList<String>
-     * @param file path of file to open
-     * @return
-     * @throws IOException 
-     */
-    public static ArrayList<String> readFile(String file) throws IOException {
-        ArrayList<String> tmp;
-        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-            String ligne;
-            tmp = new ArrayList<>();
-            while((ligne = reader.readLine()) != null){			
-                tmp.add(ligne);
-            }
-        }
-        return tmp;
-    }
+    
     public static String getLemaInDelas(String text){
         StringBuilder sb = new StringBuilder();
         for(int i=0;i<text.length();i++){

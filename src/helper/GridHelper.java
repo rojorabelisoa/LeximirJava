@@ -47,4 +47,11 @@ public class GridHelper {
         Object[][] data = DelacHelper.getAllDelacFromDicToObject();
         return new DefaultTableModel(data,entete);
     }
+    //tableau par defaut
+    public static DefaultTableModel getDelafInDelacForDelac() throws IOException{
+        
+        String[] entete = {"Ulaz","POS","lema","GramCats"};
+        Object[][] data = DelafHelper.getAllDelafFromDelacToObject();
+        return new DefaultTableModel(data,entete);
+    }
 }

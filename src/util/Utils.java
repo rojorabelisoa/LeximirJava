@@ -8,20 +8,22 @@ package util;
 import helper.DelacHelper;
 import helper.DelasHelper;
 import java.awt.Desktop;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
-import java.util.regex.Pattern;
 import model.StaticValue;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -33,7 +35,23 @@ import org.apache.poi.ss.usermodel.Row;
  * @author rojo
  */
 public class Utils {
-
+    /**
+     * This function read file from path file and return an ArrayList<String>
+     * @param file path of file to open
+     * @return
+     * @throws IOException 
+     */
+    public static ArrayList<String> readFile(String file) throws IOException {
+        ArrayList<String> tmp;
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            String ligne;
+            tmp = new ArrayList<>();
+            while((ligne = reader.readLine()) != null){			
+                tmp.add(ligne);
+            }
+        }
+        return tmp;
+    }
     /**
      * This function causes a String to be inverted from right to left
      *
@@ -63,7 +81,8 @@ public class Utils {
         return datas;
     }
 
-    public static void exportJtableToExcel(HSSFWorkbook workbook, Map<String, Object[]> datas, String filename) throws IOException, FileNotFoundException {
+    public static void exportJtableToExcel( Map<String, Object[]> datas, String filename) throws IOException, FileNotFoundException {
+        HSSFWorkbook workbook = new HSSFWorkbook();
         HSSFSheet sheet = workbook.createSheet("Sample sheet");
         Set<String> keyset = datas.keySet();
         int rownum = 0;
@@ -147,12 +166,14 @@ public class Utils {
         ProcessBuilder pb = new ProcessBuilder(command);
         pb.redirectOutput(ProcessBuilder.Redirect.INHERIT);
         pb.redirectError(ProcessBuilder.Redirect.INHERIT);
-        pb.start();
+        Process p =pb.start();
+        while (p.isAlive()) {
+        }
     }
 
     public static void InflectDelas(String lemma, String fst) throws IOException,FileNotFoundException {
-        System.out.println("infect : " + StaticValue.inflectionPath + fst + ".fst2");
-        if (new File(StaticValue.inflectionPath + fst + ".fst2").exists()) {
+        System.out.println("infect : " + StaticValue.inflectionPath + fst + ".grf");
+        if (new File(StaticValue.inflectionPath + fst + ".grf").exists()) {
             BufferedWriter bfw;
             bfw = new BufferedWriter(new FileWriter("DelasTmp.dic"));
             bfw.write(lemma);
@@ -166,6 +187,7 @@ public class Utils {
                 "-a", StaticValue.alphabetPath,
                 "-d", StaticValue.inflectionPath
             };
+            for(String s:command)System.out.print(s+" ");
             ProcessBuilder pb = new ProcessBuilder(command);
             pb.redirectOutput(ProcessBuilder.Redirect.INHERIT);
             pb.redirectError(ProcessBuilder.Redirect.INHERIT);
