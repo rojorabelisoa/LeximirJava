@@ -8,6 +8,7 @@ package util;
 import helper.DelacHelper;
 import helper.DelasHelper;
 import java.awt.Desktop;
+import java.awt.HeadlessException;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -24,6 +25,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import leximir.delac.menu.MenuAddBeforeDelac;
 import model.StaticValue;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -203,6 +208,24 @@ public class Utils {
 
     }
      
-   
+   public static void generateDelaf(String tempPath, String value) throws IOException, HeadlessException {
+        try (BufferedWriter bfw = new BufferedWriter(new FileWriter(tempPath))) {
+            bfw.write(value+".");
+        } catch (IOException ex) {
+            Logger.getLogger(MenuAddBeforeDelac.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        String snt = tempPath.replace(".txt", ".snt");
+        try (BufferedWriter bfw = new BufferedWriter(new FileWriter(snt))) {
+            bfw.write(value+".");
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null,ex.getMessage());
+        }
+        String[] cmd1 = {StaticValue.unitexLoggerPath, "Normalize", StaticValue.delafTmpAbsPathDelac+"text.txt" };
+        String[] cmd2 = {StaticValue.unitexLoggerPath,"Tokenize",StaticValue.delafTmpAbsPathDelac+"text.snt" ,"-a",StaticValue.alphabetPath};
+        String[] cmd3 ={StaticValue.unitexLoggerPath, "Dico","-t",StaticValue.delafTmpAbsPathDelac+"text.snt","-a",StaticValue.alphabetPath,StaticValue.allDelafAbsPath+"delaf.bin"};
+        Utils.runCommandTerminal(cmd1);
+        Utils.runCommandTerminal(cmd2);
+        Utils.runCommandTerminal(cmd3);
+    }
 
 }
