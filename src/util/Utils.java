@@ -18,6 +18,7 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
@@ -48,7 +49,8 @@ public class Utils {
      */
     public static ArrayList<String> readFile(String file) throws IOException {
         ArrayList<String> tmp;
-        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+        InputStreamReader inputStreamReader = new InputStreamReader(new FileInputStream(file));
+        try (BufferedReader reader = new BufferedReader(inputStreamReader)) {
             String ligne;
             tmp = new ArrayList<>();
             while((ligne = reader.readLine()) != null){			
@@ -120,8 +122,8 @@ public class Utils {
         }
     }
 
-    public static Object[] delasToObject(String lemma, String fstCode, String comment, String Dicname) throws ArrayIndexOutOfBoundsException {
-        String sinSem = "+"+fstCode+"="+fstCode;
+    public static Object[] delasToObject(String lemma, String fstCode, String sinSem,String comment, String Dicname) throws ArrayIndexOutOfBoundsException {
+        sinSem = "+"+fstCode+"+"+sinSem+"="+fstCode;
         String line = lemma+","+fstCode+sinSem+"//"+comment;
         String pOs=DelasHelper.getPosInDelas(line);
         String lemmas = lemma;

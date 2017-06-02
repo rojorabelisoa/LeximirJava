@@ -5,15 +5,11 @@
  */
 package helper;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Objects;
-import java.util.regex.Pattern;
 import model.Delac;
 import model.StaticValue;
 import util.Utils;
