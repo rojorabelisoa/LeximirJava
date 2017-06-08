@@ -38,7 +38,7 @@ import org.apache.poi.ss.usermodel.Row;
 
 /**
  *
- * @author rojo
+ * @author Rojo Rabelisoa
  */
 public class Utils {
     /**

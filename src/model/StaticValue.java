@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 /**
  *
- * @author rojo
+ * @author Rojo Rabelisoa
  */
 public class StaticValue {
     public static ArrayList<String> dictionnary= new ArrayList<>();
