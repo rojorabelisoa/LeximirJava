@@ -557,7 +557,7 @@ public class MenuAddBeforeDelac extends javax.swing.JFrame {
             String comment=jTextFieldComment.getText();
 
             Object[] row = Utils.delacToObject(lemmaAll,FST,synSem,comment,dic);
-            editorDelac.getTableModel().insertRow(valueSelected,row);
+            editorDelac.getTableModel().insertRow(1,row);
             this.setVisible(false);
         }
         catch(ArrayIndexOutOfBoundsException e){
