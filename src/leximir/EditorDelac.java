@@ -724,7 +724,7 @@ public final class EditorDelac extends javax.swing.JFrame {
                 String fstCode = (String) jTable1.getValueAt(row, 3);
                 String synSem = ((String) jTable1.getValueAt(row, 4));
                 int beginSynSem = synSem.indexOf("+", 2)>-1?synSem.indexOf("+", 2):0;
-                fstCode =beginSynSem==0?synSem.substring(1)+"="+fstCode:fstCode+synSem.substring(beginSynSem)+"="+fstCode;
+                fstCode =beginSynSem==0?synSem.substring(1)+"="+fstCode:fstCode+synSem.substring(beginSynSem);
                 String str = lemma+","+fstCode;
                 String comment =(String) jTable1.getValueAt(row, 5);
                 if(comment!=null && comment.trim().length()>0){
