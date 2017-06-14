@@ -5,14 +5,11 @@
  */
 package helper;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Objects;
 import model.Delas;
 import model.StaticValue;
 import util.Utils;
@@ -117,15 +114,18 @@ public class DelasHelper {
         StringBuilder sb = new StringBuilder();
         boolean begin=false;
         for(int i=0;i<text.length();i++){
-            if(text.charAt(i)==','){
-                begin=true;
-                i++;
-            }
+            
             if(begin){
-                if(text.charAt(i)=='='||text.charAt(i)=='/'){
+                if(text.charAt(i)=='/'){
                     break;
                 }
                 sb.append(text.charAt(i));
+            }
+            else{
+                if(text.charAt(i)=='+'){
+                    begin=true;
+                    
+                }
             }
         }
         return sb.toString();

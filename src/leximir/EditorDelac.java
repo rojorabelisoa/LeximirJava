@@ -614,7 +614,7 @@ public final class EditorDelac extends javax.swing.JFrame {
             }
             //String filename = Utils.getValueXml("pathExportStatistics");
             String filename = StaticValue.statisticsTmpPath;
-            Utils.exportJtableToExcel( datas,filename);
+            Utils.exportJtableDelacToExcel(datas,filename);
             
             JOptionPane.showMessageDialog(null, "file created in \n"+filename);
         } catch (IOException ex) {

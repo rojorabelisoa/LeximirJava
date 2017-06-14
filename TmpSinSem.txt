@@ -1,4 +1,6 @@
-A_distubution =  + PosQ + FLX + NProp + DER + PosQ + NProp + Top + Gr + CC2 + PosQ + Sr + FLX
+A_distribution =  + NProp + DER + FLX + CC2 + Top + PosQ + Gr + Sr
 
-PREF_distubution =  + PosQ
+PREF_distribution =  + AN
+
+N_distribution =  + Uten + Conc + Hum + DOM + Ek + Drink + FoS + Alim + DER + FLX + VN + Course + Food + Sr
 
