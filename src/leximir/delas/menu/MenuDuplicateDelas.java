@@ -5,6 +5,8 @@
  */
 package leximir.delas.menu;
 
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JFrame;
@@ -12,6 +14,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import leximir.EditorDelas;
 
@@ -20,8 +23,10 @@ import leximir.EditorDelas;
  * @author rojo
  */
 public class MenuDuplicateDelas extends javax.swing.JFrame {
+
     private EditorDelas editorDelas;
-    private DefaultTableModel tableModel ;
+    private DefaultTableModel tableModel;
+
     /**
      * Creates new form MenuDuplicateDelas
      */
@@ -29,25 +34,33 @@ public class MenuDuplicateDelas extends javax.swing.JFrame {
         initComponents();
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
+
     public MenuDuplicateDelas(EditorDelas ed) {
         editorDelas = ed;
         initComponents();
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.jTable1.removeAll();
-        CheckDuplicateValue(ed.getjTable1(),tableModel);
+        CheckDuplicateValue(ed.getjTable1(), tableModel);
         this.jTable1.repaint();
+        this.jTable1.setDefaultRenderer(Object.class, paintGrid());
         final JPopupMenu popupMenu = new JPopupMenu();
         JMenuItem deleteItem = new JMenuItem("Delete");
         deleteItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(jTable1.getSelectedRow()>-1){
+                if (jTable1.getSelectedRow() > -1) {
                     int id = (int) jTable1.getModel().getValueAt(jTable1.getSelectedRow(), 0);
                     String lema = jTable1.getModel().getValueAt(jTable1.getSelectedRow(), 1).toString();
-                    ed.getTableModel().removeRow(id);
-                    JOptionPane.showMessageDialog(null, jTable1.getSelectedRow()+"row deleted : "+id+ " - "+lema);
-                }
-                else{
+                    if(lema.equals(editorDelas.getTableModel().getValueAt(id, 1))){
+                        editorDelas.getTableModel().removeRow(id);
+                        int idDuplicate = jTable1.getSelectedRow();
+                        DefaultTableModel tm = (DefaultTableModel) jTable1.getModel();
+                        tm.removeRow(idDuplicate);
+                        jTable1.repaint();
+                        JOptionPane.showMessageDialog(null, jTable1.getSelectedRow() + "row deleted : " + id + " - " + lema);
+                    }
+                    
+                } else {
                     JOptionPane.showMessageDialog(null, "no value selected");
                 }
             }
@@ -55,6 +68,18 @@ public class MenuDuplicateDelas extends javax.swing.JFrame {
         popupMenu.add(deleteItem);
         jTable1.setComponentPopupMenu(popupMenu);
 
+    }
+
+    private DefaultTableCellRenderer paintGrid() {
+        return new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                final Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                c.setBackground(row % 2 == 0 ? Color.LIGHT_GRAY : Color.WHITE);
+                c.setForeground(Color.black);
+                return c;
+            }
+        };
     }
 
     /**
@@ -175,22 +200,22 @@ public class MenuDuplicateDelas extends javax.swing.JFrame {
 
     private void CheckDuplicateValue(JTable jtable, DefaultTableModel tableModel) {
         tableModel = (DefaultTableModel) jTable1.getModel();
-        for (int i = 0; i < jtable.getRowCount()-1; i++) {
+        for (int i = 0; i < jtable.getRowCount() - 1; i++) {
             String lema = jtable.getModel().getValueAt(i, 1).toString();
             String fst = jtable.getModel().getValueAt(i, 2).toString();
             String sinsem = jtable.getModel().getValueAt(i, 3).toString();
             String dic = jtable.getModel().getValueAt(i, 8).toString();
-            String [] sinsems= sinsem.split("(=)|(\\+)");
-            for (int j = i+1; j < jtable.getRowCount(); j++) {
+            String[] sinsems = sinsem.split("(=)|(\\+)");
+            for (int j = i + 1; j < jtable.getRowCount(); j++) {
                 String lemaCompare = jtable.getModel().getValueAt(j, 1).toString();
                 String fstCompare = jtable.getModel().getValueAt(j, 2).toString();
                 String sinsemCompare = jtable.getModel().getValueAt(j, 3).toString();
                 String dicCompare = jtable.getModel().getValueAt(j, 8).toString();
-                String[] sinsemCompares=sinsemCompare.split("()=|(\\+)");
-                if (lemaCompare.equals(lema)&&fstCompare.equals(fst)&&
-                    areAllTrue(sinsems,sinsemCompares)) {
-                    Object[] rowCompare = new Object[]{j,lemaCompare,fstCompare,sinsemCompare,dicCompare};
-                    Object[] row = new Object[]{i,lema,fst,sinsem,dic};
+                String[] sinsemCompares = sinsemCompare.split("()=|(\\+)");
+                if (lemaCompare.equals(lema) && fstCompare.equals(fst)
+                        && areAllTrue(sinsems, sinsemCompares)) {
+                    Object[] rowCompare = new Object[]{j, lemaCompare, fstCompare, sinsemCompare, dicCompare};
+                    Object[] row = new Object[]{i, lema, fst, sinsem, dic};
                     tableModel.addRow(row);
                     tableModel.addRow(rowCompare);
                 }
@@ -198,25 +223,23 @@ public class MenuDuplicateDelas extends javax.swing.JFrame {
         }
         jTable1.repaint();
     }
-    public static boolean areAllTrue(String[] text1,String[] text2)
-    {
-        int numberSame=0;
-        
-            for(String a : text1){
-                
-                for(String b : text2){
-                    if(a.equals(b)) {
-                        numberSame++;
-                        break;
-                    }
+
+    public static boolean areAllTrue(String[] text1, String[] text2) {
+        int numberSame = 0;
+
+        for (String a : text1) {
+
+            for (String b : text2) {
+                if (a.equals(b)) {
+                    numberSame++;
+                    break;
                 }
             }
-            return numberSame==text1.length||numberSame==text1.length-1;
-        
-        
-        
+        }
+        return numberSame == text1.length || numberSame == text1.length - 1;
+
     }
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;

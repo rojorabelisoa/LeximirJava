@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--<!DOCTYPE CompRules SYSTEM "C:\Cvetana\e-recnik\dela-sr\Temp\Compounds\CompoundRules.dtd"> -->
+<!--?xml-stylesheet type="text/css" href="CompoundRules.css"?-->
+<CompRules ID="CompoundsStat7_Ver5" StratType="T2">
+	<Rules WordNo="2">	 
+		<Rule ID="102" CFLX="AC_2XA2" CflxGroup="AC_2XA" Desc="crtica/spojeno; nesto pridev">
+			<RuleGenCond>
+				<Word ID="1" POS="MOT" Flex="false" Sep="-"/>
+				<Word ID="2" POS="MOT" Flex="true" Case="1" Num="s"/>
+			</RuleGenCond>
+			<RuleSpecCond ID="1" Example="?">
+				<Word ID="1" POS="!SDIC"/>
+				<Word ID="2"/>
+			</RuleSpecCond>
+			<RuleSpecCond ID="2" Example="mikro-talasni">
+				<Word ID="1" POS="PREF,ADV,CONJ,PREP"/>
+				<Word ID="2"/>
+			</RuleSpecCond>
+			<RuleSpecCond ID="3">
+				<Word ID="1" POS="N" Case="~1"/>
+				<Word ID="2"/>
+			</RuleSpecCond>
+			<RuleSpecCond ID="4" Example="ganc-nov">
+				<Word ID="1" POS="A,N" SinSem="+Const"/>
+				<Word ID="2"/>
+			</RuleSpecCond>
+			<RuleSpecCond ID="5" Example="vojno-tehnicyki">
+				<Word ID="1" POS="A" Case="1" Num="s" Gen="n"/>
+				<Word ID="2"/>
+			</RuleSpecCond>
+		</Rule>
+		<Rule ID="103" CFLX="AC_2XA" CflxGroup="AC_2XA" Desc="crtica ili ne; pridev u srednjem rodu pridev">
+			<RuleGenCond>
+				<Word ID="1" POS="MOT" Flex="true"/>
+				<Word ID="2" POS="A" Flex="false" Case="1" Num="s"/>
+			</RuleGenCond>
+			<RuleSpecCond ID="1" Example="drzxavno-pravni">
+				<Word ID="1" POS="A" Case="1" Num="s" Gen="n"/>
+				<Word ID="2"/>
+			</RuleSpecCond>
+		</Rule>			
+	</Rules>
+	<Rules WordNo="3">
+		<Rule ID="37" CFLX="NC_4XN1" CflxGroup="NC_4XN">
+			<RuleGenCond>
+				<Word ID="1" POS="MOT" Flex="false" Cond="$PRE"/>
+				<Word ID="2" POS="MOT" Flex="false"/>
+				<Word ID="3" POS="N" Flex="true" Case="1" Num="s" Cond="!$FLXN"/>
+			</RuleGenCond>
+			<RuleSpecCond ID="1" Example="?">
+				<Word ID="1" POS="!SDIC"/>
+				<Word ID="2" POS="!SDIC"/>
+				<Word ID="3"/>
+			</RuleSpecCond>
+			<RuleSpecCond ID="2" Example="?">
+				<Word ID="1" POS="!SDIC"/>
+				<Word ID="2" POS="PREF,ADV"/>
+				<Word ID="3"/>
+			</RuleSpecCond>
+			<RuleSpecCond ID="3">
+				<Word ID="1" POS="!SDIC"/>
+				<Word ID="2" POS="N" Case="~1"/>
+				<Word ID="3"/>
+			</RuleSpecCond>
+			<RuleSpecCond ID="4">
+				<Word ID="1" POS="!SDIC"/>
+				<Word ID="2" POS="A" SinSem="+Const"/>
+				<Word ID="3"/>
+			</RuleSpecCond>
+		</Rule>	 
+	</Rules>	 
+</CompRules>

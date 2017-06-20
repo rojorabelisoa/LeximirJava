@@ -22,8 +22,8 @@ import util.Utils;
 public class DelacHelper {
     /**
      * This function return a list of dictionnary in directory
-     * @return
-     * @throws FileNotFoundException 
+     * @return return an ArrayList of dictionnary
+     * @throws FileNotFoundException if there are no dictionnary found in StaticValue.allDelc path 
      */
     public static ArrayList<String> getDicDelacPath() throws FileNotFoundException, IOException{
         ArrayList<String> list= new ArrayList<>();
@@ -152,15 +152,17 @@ public class DelacHelper {
         StringBuilder sb = new StringBuilder();
         boolean begin=false;
         for(int i=0;i<text.length();i++){
-            if(text.charAt(i)==','){
-                begin=true;
-                i++;
-            }
+            
             if(begin){
                 if(text.charAt(i)=='/'){
                     break;
                 }
                 sb.append(text.charAt(i));
+            }
+            else{
+                if(text.charAt(i)=='+'){
+                    begin=true;
+                }
             }
         }
         return sb.toString();
@@ -234,7 +236,8 @@ public class DelacHelper {
             objFlx[k][2] = sbLema;
             objFlx[k][3] = sbFstCode;
             objFlx[k][4] = sbGramCat;
-            objFlx[k][5] = separator;
+            if(k+1!=words.length)objFlx[k][5] = separator;
+            else objFlx[k][5] = "";
             k++;
         }
         return objFlx;

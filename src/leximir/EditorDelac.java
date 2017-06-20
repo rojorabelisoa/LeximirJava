@@ -15,9 +15,12 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
@@ -31,7 +34,8 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
-import leximir.delac.menu.MenuAddBeforeDelac;
+import leximir.delac.menu.MenuDelac;
+import leximir.delac.menu.MenuDuplicateDelac;
 import model.StaticValue;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import util.Utils;
@@ -48,8 +52,12 @@ public final class EditorDelac extends javax.swing.JFrame {
     public EditorDelac() {
         try {
             initComponents();
+            StaticValue.dictionnary.clear();
             this.setTitle("Editor for Dela Dictionaries of compounds words");
             tableModel = GridHelper.getOpenEditorforDelac();
+            for(String dic:StaticValue.dictionnary){
+                jComboBoxDic.addItem(dic);
+            }
             JTable table = new JTable(getTableModel());
             jLabel12.setText(jLabel12.getText()+tableModel.getRowCount());
             RowSorter<TableModel> sort = new TableRowSorter<>(table.getModel());
@@ -97,8 +105,8 @@ public final class EditorDelac extends javax.swing.JFrame {
         jButtonAll = new javax.swing.JButton();
         jCheckBox1 = new javax.swing.JCheckBox();
         jLabel6 = new javax.swing.JLabel();
-        jTextFieldDic = new javax.swing.JTextField();
-        jButton3 = new javax.swing.JButton();
+        jButtonMove = new javax.swing.JButton();
+        jComboBoxDic = new javax.swing.JComboBox();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -123,7 +131,6 @@ public final class EditorDelac extends javax.swing.JFrame {
         jMenuAfter = new javax.swing.JMenu();
         jMenuEdit = new javax.swing.JMenu();
         jMenuView = new javax.swing.JMenu();
-        jMenuSort = new javax.swing.JMenu();
         jMenuDelete = new javax.swing.JMenu();
         jMenuInflect = new javax.swing.JMenu();
         jMenuStatistics = new javax.swing.JMenu();
@@ -131,8 +138,8 @@ public final class EditorDelac extends javax.swing.JFrame {
         jMenuSave = new javax.swing.JMenu();
         jMenuConv = new javax.swing.JMenu();
         jMenuCount = new javax.swing.JMenu();
-        jMenuSaveLMF = new javax.swing.JMenu();
         jMenuHepl = new javax.swing.JMenu();
+        jMenuDuplicate = new javax.swing.JMenu();
         jMenuExit = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -170,6 +177,11 @@ public final class EditorDelac extends javax.swing.JFrame {
         });
 
         jButton2.setText("1");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButtonAll.setText("All");
         jButtonAll.addActionListener(new java.awt.event.ActionListener() {
@@ -185,15 +197,16 @@ public final class EditorDelac extends javax.swing.JFrame {
             }
         });
 
-        jLabel6.setText("NewDicId");
+        jLabel6.setText("Move entry to Dic");
 
-        jTextFieldDic.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                jTextFieldDicKeyPressed(evt);
+        jButtonMove.setText("Move");
+        jButtonMove.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonMoveActionPerformed(evt);
             }
         });
 
-        jButton3.setText("Move");
+        jComboBoxDic.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -219,21 +232,22 @@ public final class EditorDelac extends javax.swing.JFrame {
                     .addComponent(jLabel3))
                 .addGap(31, 31, 31)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jTextFieldSinSem, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonAll)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCheckBox1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jTextFieldDic, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButtonAll)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton3))
-                    .addComponent(jLabel6))
-                .addContainerGap(21, Short.MAX_VALUE))
+                        .addComponent(jCheckBox1)
+                        .addGap(29, 29, 29)
+                        .addComponent(jComboBoxDic, 0, 193, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButtonMove)
+                        .addContainerGap())
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel6)
+                        .addGap(175, 175, 175))))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -253,8 +267,8 @@ public final class EditorDelac extends javax.swing.JFrame {
                     .addComponent(jButton2)
                     .addComponent(jButtonAll)
                     .addComponent(jCheckBox1)
-                    .addComponent(jTextFieldDic, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3)))
+                    .addComponent(jButtonMove)
+                    .addComponent(jComboBoxDic, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -347,7 +361,7 @@ public final class EditorDelac extends javax.swing.JFrame {
                 .addComponent(jLabel7)
                 .addComponent(jTextFieldSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(jButtonSearch))
-            .addContainerGap(33, Short.MAX_VALUE))
+            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
     );
 
     jTextField1.addActionListener(new java.awt.event.ActionListener() {
@@ -373,9 +387,6 @@ public final class EditorDelac extends javax.swing.JFrame {
         .addGroup(jPanel1Layout.createSequentialGroup()
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(jPanel1Layout.createSequentialGroup()
                     .addGap(24, 24, 24)
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -387,15 +398,18 @@ public final class EditorDelac extends javax.swing.JFrame {
                     .addGap(18, 18, 18)
                     .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(18, 18, 18)
-                    .addComponent(jButton4)))
-            .addContainerGap(282, Short.MAX_VALUE))
+                    .addComponent(jButton4))
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
     );
     jPanel1Layout.setVerticalGroup(
         jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(jPanel1Layout.createSequentialGroup()
             .addContainerGap()
             .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addGap(23, 23, 23)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
@@ -470,9 +484,6 @@ public final class EditorDelac extends javax.swing.JFrame {
     });
     jMenuBar1.add(jMenuView);
 
-    jMenuSort.setText("Sort Dict");
-    jMenuBar1.add(jMenuSort);
-
     jMenuDelete.setText("Delete");
     jMenuDelete.addMouseListener(new java.awt.event.MouseAdapter() {
         public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -519,11 +530,16 @@ public final class EditorDelac extends javax.swing.JFrame {
     jMenuCount.setText("Count WN");
     jMenuBar1.add(jMenuCount);
 
-    jMenuSaveLMF.setText("Save LMF");
-    jMenuBar1.add(jMenuSaveLMF);
-
     jMenuHepl.setText("Help");
     jMenuBar1.add(jMenuHepl);
+
+    jMenuDuplicate.setText("Check Duplicate");
+    jMenuDuplicate.addMouseListener(new java.awt.event.MouseAdapter() {
+        public void mouseClicked(java.awt.event.MouseEvent evt) {
+            jMenuDuplicateMouseClicked(evt);
+        }
+    });
+    jMenuBar1.add(jMenuDuplicate);
 
     jMenuExit.setText("Exit");
     jMenuExit.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -575,7 +591,44 @@ public final class EditorDelac extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonSearchActionPerformed
 
     private void jMenuStatisticsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuStatisticsActionPerformed
-
+        try {
+            Map<String, HashMap<String, String>> dic_POS_stat = new HashMap<>();
+            for (int i = 0; i < this.getjTable1().getRowCount(); i++) {
+                String dic = (String) this.getjTable1().getValueAt(i, 8);
+                String value = (String) this.getjTable1().getValueAt(i, 0);
+                if (!dic_POS_stat.containsKey(dic)) {
+                    dic_POS_stat.put(dic, new HashMap<String,String>());
+                    dic_POS_stat.get(dic).put(value, "1");
+                } else {
+                    if (dic_POS_stat.get(dic).containsKey(value)) {
+                        int count = Integer.parseInt(dic_POS_stat.get(dic).get(value)) + 1;
+                        dic_POS_stat.get(dic).replace(value, String.valueOf(count));
+                    } else {
+                        dic_POS_stat.get(dic).put(value, "1");
+                    }
+                }
+            }
+            
+            Map<String, String> pOS_stat = new HashMap<>();
+            for (int i = 0; i < this.getjTable1().getRowCount(); i++) {
+                String value = (String) this.getjTable1().getValueAt(i, 0);
+                if (!pOS_stat.containsKey(value)) {
+                    pOS_stat.put(value, "1");
+                } else {
+                    int count = Integer.parseInt(pOS_stat.get(value)) + 1;
+                    pOS_stat.replace(value, String.valueOf(count));
+                }
+            }
+            Map<String, Object[]> dicPos = Utils.putPosDicGridInExcel(dic_POS_stat);
+            Map<String, Object[]> pos = Utils.putPosGridInExcel(pOS_stat);
+            //String filename = Utils.getValueXml("pathExportStatistics");
+            String filename = StaticValue.statisticsTmpPath;
+            Utils.exportJtableToExcel(dicPos,pos,filename);
+            
+            JOptionPane.showMessageDialog(null, "file created in \n"+filename);
+        } catch (IOException ex) {
+           JOptionPane.showMessageDialog(null, "Error : "+ex.getMessage());
+        }
     }//GEN-LAST:event_jMenuStatisticsActionPerformed
 
     private void jMenuNewMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuNewMouseClicked
@@ -634,8 +687,12 @@ public final class EditorDelac extends javax.swing.JFrame {
 
     private void jMenuItemInsertAfterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemInsertAfterActionPerformed
         if(this.getjTable1().getSelectedRow()!=-1){
-            //MenuAddBeforeDelac ad=new MenuAddBeforeDelac(this,this.getjTable1().getSelectedRow());
-            //ad.setVisible(true);
+            Object [] obj =new Object[10];
+            for(int i=0;i<10;i++){
+                obj[i]=this.getjTable1().getModel().getValueAt(this.getjTable1().getSelectedRow(), i);
+            }
+            MenuDelac ad=new MenuDelac(this,"insertAfter",obj,this.getjTable1().getSelectedRow());
+            ad.setVisible(true);
         }
         else{
             JOptionPane.showMessageDialog(null, "No selected value");
@@ -648,7 +705,7 @@ public final class EditorDelac extends javax.swing.JFrame {
             for(int i=0;i<10;i++){
                 obj[i]=this.getjTable1().getModel().getValueAt(this.getjTable1().getSelectedRow(), i);
             }
-            MenuAddBeforeDelac ad=new MenuAddBeforeDelac(this,obj,this.getjTable1().getSelectedRow());
+            MenuDelac ad=new MenuDelac(this,"insertBefore",obj,this.getjTable1().getSelectedRow());
             ad.setVisible(true);
         }
         else{
@@ -662,8 +719,9 @@ public final class EditorDelac extends javax.swing.JFrame {
             for(int i=0;i<10;i++){
                 obj[i]=this.getjTable1().getModel().getValueAt(this.getjTable1().getSelectedRow(), i);
             }
-            //MenuViewDelac viewDelac=new MenuViewDelac(this,obj);
-            //viewDelac.setVisible(true);
+            MenuDelac ad=new MenuDelac(this,"view",obj,this.getjTable1().getSelectedRow());
+            ad.setVisible(true);
+            
         }
         else{
             JOptionPane.showMessageDialog(null, "No selected value");
@@ -676,8 +734,8 @@ public final class EditorDelac extends javax.swing.JFrame {
             for(int i=0;i<10;i++){
                 obj[i]=this.getjTable1().getModel().getValueAt(this.getjTable1().getSelectedRow(), i);
             }
-            //MenuEditDelac editDelac=new MenuEditDelac(this,obj,this.getjTable1().getSelectedRow());
-            //editDelac.setVisible(true);
+            MenuDelac ad=new MenuDelac(this,"edit",obj,this.getjTable1().getSelectedRow());
+            ad.setVisible(true);
         }
         else{
             JOptionPane.showMessageDialog(null, "No selected value");
@@ -690,8 +748,8 @@ public final class EditorDelac extends javax.swing.JFrame {
             for(int i=0;i<10;i++){
                 obj[i]=this.getjTable1().getModel().getValueAt(this.getjTable1().getSelectedRow(), i);
             }
-            //MenuBeforeDelac beforeDelac=new MenuBeforeDelac(this,obj,this.getjTable1().getSelectedRow());
-            //beforeDelac.setVisible(true);
+            MenuDelac ad=new MenuDelac(this,"copyBefore",obj,this.getjTable1().getSelectedRow());
+            ad.setVisible(true);
         }
         else{
             JOptionPane.showMessageDialog(null, "No selected value");
@@ -704,8 +762,8 @@ public final class EditorDelac extends javax.swing.JFrame {
             for(int i=0;i<10;i++){
                 obj[i]=this.getjTable1().getModel().getValueAt(this.getjTable1().getSelectedRow(), i);
             }
-            //MenuAfterDelac afterDelac=new MenuAfterDelac(this,obj,this.getjTable1().getSelectedRow());
-            //afterDelac.setVisible(true);
+            MenuDelac ad=new MenuDelac(this,"copyAfter",obj,this.getjTable1().getSelectedRow());
+            ad.setVisible(true);
         }
         else{
             JOptionPane.showMessageDialog(null, "No selected value");
@@ -781,48 +839,128 @@ public final class EditorDelac extends javax.swing.JFrame {
 
     private void jButtonAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAllActionPerformed
         try {
-            Map<String, String> data = new HashMap<>();
-            int k = 0;
+            Map<String, List<String>> data = new HashMap<>();
+            Map<String, HashMap<String,String>> dataForSinSem1 = new HashMap<>();
+            Map<String, HashMap<String,HashMap<String,String>>> dataForSinSem2 = new HashMap<>();
             for (int i = 0; i < this.getjTable1().getRowCount(); i++) {
-                String sinsem = (String) this.getjTable1().getValueAt(i, 3);
-                String temp = new String();
-                try{
-                    int length = sinsem.split(Pattern.quote("+")).length;
-                    for(int j=2;j<length;j++){
-                        temp = temp+" + "+sinsem.split(Pattern.quote("+"))[j];
-                    }
-                }
-                catch(java.lang.ArrayIndexOutOfBoundsException ex){
-                    continue;
-                }
-                String finalsinsem = temp.split("=")[0];
-                
+                String sinsem = (String) this.getjTable1().getValueAt(i, 4);
                 String pos = (String) this.getjTable1().getValueAt(i, 0);
                 if (!data.containsKey(pos)) {
-                    data.put(pos, finalsinsem);
+                    List symSem = new ArrayList<>();
+                    String[] tmp = sinsem.split("=")[0].split(Pattern.quote("+"));
+                    symSem.addAll(Arrays.asList(tmp));
+                    data.put(pos, symSem);
                 } else {
-                    String valueInData = data.get(pos);
-                    String[] value = finalsinsem.split(Pattern.quote("+"));
-                    for(String s:value){
-                        if(!valueInData.contains(s)){
-                            valueInData = valueInData+finalsinsem;
-                            data.put(pos, valueInData);
+                    List<String> valueInData = data.get(pos);
+                    String[] tmp = sinsem.split("=")[0].split(Pattern.quote("+"));
+                    valueInData.addAll(Arrays.asList(tmp));
+                    data.put(pos, valueInData);
+                }
+                /** This section is for SimSem1 excel data **/
+                String sinsemForPos = (String) this.getjTable1().getValueAt(i, 4);
+                String[] domain = sinsemForPos.split("=")[0].split(Pattern.quote("+"));
+                
+                String realSynSem = domain[domain.length-1];
+                if (!dataForSinSem1.containsKey(pos)) {
+                    dataForSinSem1.put(pos, new HashMap<String,String>());
+                    dataForSinSem1.get(pos).put(realSynSem, "1");
+                } else {
+                    if (dataForSinSem1.get(pos).containsKey(realSynSem)) {
+                        int count = Integer.parseInt(dataForSinSem1.get(pos).get(realSynSem)) + 1;
+                        dataForSinSem1.get(pos).replace(realSynSem, String.valueOf(count));
+                    } else {
+                        dataForSinSem1.get(pos).put(realSynSem, "1");
+                    }
+                }
+                /** end of SimSem1 excel data **/
+                
+                /** This section is for SimSem2 excel data **/
+                String domainCategory ="";
+                try{
+                    domainCategory = sinsemForPos.split("=")[1].split(Pattern.quote("+"))[0];
+                }
+                catch(java.lang.ArrayIndexOutOfBoundsException e){
+                    try{
+                        domainCategory = sinsemForPos.split("=")[1];
+                    }
+                    catch(java.lang.ArrayIndexOutOfBoundsException ex){
+                        domainCategory = sinsemForPos.substring(1);
+                    }
+                }
+                if (!dataForSinSem2.containsKey(pos)) {
+                    dataForSinSem2.put(pos, new HashMap<String,HashMap<String,String>>());
+                    dataForSinSem2.get(pos).put(realSynSem, new HashMap<String,String>());
+                    dataForSinSem2.get(pos).get(realSynSem).put(domainCategory, "1");
+                } else {
+                    if (!dataForSinSem2.get(pos).containsKey(realSynSem)) {
+                        dataForSinSem2.get(pos).put(realSynSem,  new HashMap<String,String>());
+                        dataForSinSem2.get(pos).get(realSynSem).put(domainCategory, "1");
+                    } else {
+                        if(!dataForSinSem2.get(pos).get(realSynSem).containsKey(domainCategory)){
+                            dataForSinSem2.get(pos).get(realSynSem).put(domainCategory, "1");
+                        }
+                        else{
+                            int count = Integer.parseInt(dataForSinSem2.get(pos).get(realSynSem).get(domainCategory)) + 1;
+                            dataForSinSem2.get(pos).get(realSynSem).replace(domainCategory, String.valueOf(count));
                         }
                     }
                 }
+                /** end of SimSem2 excel data **/
+            }
+            
+            for(Map.Entry<String, List<String>> d:data.entrySet()){
+                List<String> tmp = d.getValue();
+                Set<String> hs = new HashSet<>();
+                hs.addAll(tmp);
+                tmp.clear();
+                tmp.addAll(hs);
+                d.setValue(tmp);
             }
             BufferedWriter bfw;
             bfw = new BufferedWriter(new FileWriter("TmpSinSem.txt"));
-            for (Map.Entry<String, String> f : data.entrySet()) {
+            for (Map.Entry<String, List<String>> f : data.entrySet()) {
                 bfw.write(f.getKey()+"_distribution");
                 bfw.write(" = ");
-                bfw.write(f.getValue());
+                List<String> tmp = f.getValue();
+                for(int j =0;j<tmp.size();j++){
+                    bfw.write(tmp.get(j));
+                    if(j!=tmp.size()-1){
+                         bfw.write(" + ");
+                    }
+                }
                 bfw.write("\n");
                 bfw.write("\n");
             }
             bfw.close();
             JOptionPane.showMessageDialog(null, "file created in \n TmpSinSem.txt");
             Desktop.getDesktop().open(new File("TmpSinSem.txt"));
+            
+            
+            Map<String, Object[]> statSimSem1 = new HashMap<>();
+            statSimSem1.put("1", new Object[]{"POS", "SinSem", "Number"});
+            int inc = 2;
+            for (Map.Entry<String, HashMap<String, String>> f : dataForSinSem1.entrySet()) {
+                String key = f.getKey();
+                for (Map.Entry<String, String> p : f.getValue().entrySet()) {
+                    statSimSem1.put(String.valueOf(inc), new Object[]{key, p.getKey(), p.getValue()});
+                    inc++;
+                }
+            }
+            Map<String, Object[]> statSimSem2 = new HashMap<>();
+            //statSimSem2.put("1", new Object[]{"POS", "SinSem","Category", "Number"});
+            int v=2;
+            for(Map.Entry<String, HashMap<String, HashMap<String, String>>> t:dataForSinSem2.entrySet()){
+                String key = t.getKey();
+                for(Map.Entry<String, HashMap<String, String>> y:t.getValue().entrySet()){
+                    for(Map.Entry<String, String> u:y.getValue().entrySet()){
+                        //System.out.println(t.getKey()+"\t"+y.getKey()+"\t"+u.getKey()+"\t"+u.getValue());
+                        statSimSem2.put(String.valueOf(v), new Object[]{key, y.getKey(),u.getKey(), u.getValue()});
+                        v++;
+                    }
+                }
+            }
+            String filename = StaticValue.statisticsTmpPath;
+            Utils.exportStatAllToExcel(statSimSem1,statSimSem2,filename);
         } catch (IOException ex) {
            JOptionPane.showMessageDialog(null, "Error : "+ex.getMessage());
         }
@@ -908,26 +1046,6 @@ public final class EditorDelac extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jTextFieldSinSemKeyPressed
 
-    private void jTextFieldDicKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldDicKeyPressed
-        try {
-            JTextField textField = (JTextField) evt.getSource();
-            String text = textField.getText();
-            TableRowSorter<TableModel> rowSorter;
-            rowSorter = new TableRowSorter<>(GridHelper.getOpenEditorLadlforDelac().getModel());
-            this.getjTable1().setRowSorter(rowSorter);
-            this.getjTable1().removeAll();
-            if (text.trim().length() == 0) {
-                rowSorter.setRowFilter(null);
-            } else {
-                RowFilter rowFilter = RowFilter.regexFilter("(?i)" +text, 9);// recherche avec la colonne indice 0
-                rowSorter.setRowFilter(rowFilter);
-            }
-            this.getjTable1().repaint();
-        } catch (IOException ex) {
-            JOptionPane.showMessageDialog(null, "Error : "+ex.getMessage());
-        }
-    }//GEN-LAST:event_jTextFieldDicKeyPressed
-
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1ActionPerformed
@@ -959,6 +1077,49 @@ public final class EditorDelac extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton4ActionPerformed
 
+    private void jButtonMoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonMoveActionPerformed
+        String dic = (String) jComboBoxDic.getSelectedItem();
+        for(int i =0 ; i<this.getjTable1().getRowCount();i++){
+            tableModel.setValueAt(dic, i, 8);
+        }
+        JOptionPane.showMessageDialog(null, "there are "+ this.getjTable1().getRowCount()+" to move to "+dic);
+       
+    }//GEN-LAST:event_jButtonMoveActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+       if(this.getjTable1().getSelectedRow()!=-1){
+            
+            String filename = StaticValue.inflectionPath+this.getjTable1().getModel().getValueAt(this.getjTable1().getSelectedRow(), 3)+".grf";
+            
+            final File[] graphs =new File[1];
+            graphs[0] = new File(filename);
+    		for (int i = 0; i < graphs.length; i++) {
+    			String s = graphs[i].getAbsolutePath();
+    			if (!graphs[i].exists() && !s.endsWith(".grf")) {
+    				s = s + ".grf";
+    				graphs[i] = new File(s);
+    				if (!graphs[i].exists()) {
+    					JOptionPane.showMessageDialog(null,
+    							"File " + graphs[i].getAbsolutePath()
+    									+ " does not exist", "Error",
+    							JOptionPane.ERROR_MESSAGE);
+    					continue;
+    				}
+    			}
+    			/*GlobalProjectManager.search(null).getFrameManagerAs(InternalFrameManager.class)
+    					.newGraphFrame(graphs[i]);*/
+    		}
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "No selected value");
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jMenuDuplicateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuDuplicateMouseClicked
+        MenuDuplicateDelac mdd = new MenuDuplicateDelac(this);
+        mdd.setVisible(true);
+    }//GEN-LAST:event_jMenuDuplicateMouseClicked
+   
     
 
     
@@ -1001,11 +1162,12 @@ public final class EditorDelac extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButtonAll;
+    private javax.swing.JButton jButtonMove;
     private javax.swing.JButton jButtonSearch;
     private javax.swing.JCheckBox jCheckBox1;
+    private javax.swing.JComboBox jComboBoxDic;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1023,6 +1185,7 @@ public final class EditorDelac extends javax.swing.JFrame {
     private javax.swing.JMenu jMenuConv;
     private javax.swing.JMenu jMenuCount;
     private javax.swing.JMenu jMenuDelete;
+    private javax.swing.JMenu jMenuDuplicate;
     private javax.swing.JMenu jMenuEdit;
     private javax.swing.JMenu jMenuExit;
     private javax.swing.JMenu jMenuHepl;
@@ -1031,8 +1194,6 @@ public final class EditorDelac extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItemInsertBefore;
     private javax.swing.JMenu jMenuNew;
     private javax.swing.JMenu jMenuSave;
-    private javax.swing.JMenu jMenuSaveLMF;
-    private javax.swing.JMenu jMenuSort;
     private javax.swing.JMenu jMenuStatistics;
     private javax.swing.JMenu jMenuView;
     private javax.swing.JMenu jMenuWorldNet;
@@ -1045,7 +1206,6 @@ public final class EditorDelac extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextFieldDic;
     private javax.swing.JTextField jTextFieldFst;
     private javax.swing.JTextField jTextFieldLemma;
     private javax.swing.JTextField jTextFieldPos;

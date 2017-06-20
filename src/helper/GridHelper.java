@@ -51,7 +51,7 @@ public class GridHelper {
     //tableau par defaut
     public static DefaultTableModel getDelafInDelacForDelac() throws IOException{
         
-        String[] entete = {"Ulaz","POS","lema","GramCats"};
+        String[] entete = {"Ulaz","POS","lema","GramCats","FSTGraph"};
         Object[][] data = DelafHelper.getAllDelafFromDelacToObject();
         return new DefaultTableModel(data,entete);
     }
@@ -74,6 +74,13 @@ public class GridHelper {
         
         Object[][] data = DelacHelper.completeJTablePredict(predict);
         String[] entete = {"words", "FLX", "Rule"};
+        return new DefaultTableModel(data,entete);
+    }
+    // tableau pour afficher les données du tableau Strategie
+    public static DefaultTableModel getDataforStrategy(List<String> words,String strategy) throws IOException{
+        
+        Object[][] data = StrategieHelper.completeJTableStrategie(words,strategy);
+        String[] entete = {"select", "Clema", "CFLX", "Word NO", "Predict Id", "Rule Id", "RulePart Id", "SinSem"};
         return new DefaultTableModel(data,entete);
     }
 }

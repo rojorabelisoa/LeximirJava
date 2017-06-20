@@ -6,7 +6,7 @@
 		<Rule ID="102" CFLX="AC_2XA2" CflxGroup="AC_2XA" Desc="crtica/spojeno; nesto pridev">
 			<RuleGenCond>
 				<Word ID="1" POS="MOT" Flex="false" Sep="-"/>
-				<Word ID="2" POS="MOT" Flex="true" Case="1" Num="s"/>
+				<Word ID="2" POS="A" Flex="true" Case="1" Num="s"/>
 			</RuleGenCond>
 			<RuleSpecCond ID="1" Example="?">
 				<Word ID="1" POS="!SDIC"/>
@@ -31,10 +31,14 @@
 		</Rule>
 		<Rule ID="103" CFLX="AC_2XA" CflxGroup="AC_2XA" Desc="crtica ili ne; pridev u srednjem rodu pridev">
 			<RuleGenCond>
-				<Word ID="1" POS="MOT" Flex="true"/>
-				<Word ID="2" POS="A" Flex="false" Case="1" Num="s"/>
+				<Word ID="1" POS="MOT" Flex="false"/>
+				<Word ID="2" POS="A" Flex="true" Case="1" Num="s"/>
 			</RuleGenCond>
 			<RuleSpecCond ID="1" Example="drzxavno-pravni">
+				<Word ID="1" POS="A" Case="1" Num="s" Gen="n"/>
+				<Word ID="2"/>
+			</RuleSpecCond>
+			<RuleSpecCond ID="5" Example="vojno-tehnicyki">
 				<Word ID="1" POS="A" Case="1" Num="s" Gen="n"/>
 				<Word ID="2"/>
 			</RuleSpecCond>

@@ -23,7 +23,7 @@ public class StaticValue {
     public static final String delasTmpPath = "DelasTmp.dic";
     public static final String delafTmpPath = "DelafTmp.dic";
     public static final String delafTmpPathDelac = "text.txt";
-    public static final String delafTmpAbsPathDelac = "//home//2in01//rrabelis//Documents//Stage//LeximirJava//";
-    public static final String text_sntAbsPath = "//home//2in01//rrabelis//Documents//Stage//LeximirJava//text_snt//dlf";
+    public static final String delafTmpAbsPathDelac = "//Users//rojo//NetBeansProjects//Leximir//";
+    public static final String text_sntAbsPath = "//Users//rojo//NetBeansProjects//Leximir//text_snt//dlf";
     
 }

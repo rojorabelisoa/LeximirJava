@@ -50,33 +50,44 @@ public final class EditorDelas extends javax.swing.JFrame {
     public EditorDelas() {
         try {
             initComponents();
+            StaticValue.dictionnary.clear();
             this.setTitle("Editor for Dela Dictionaries of simple words");
             tableModel = GridHelper.getOpenEditorforDelas();
             JTable table = new JTable(getTableModel());
             jLabel12.setText(jLabel12.getText()+tableModel.getRowCount());
             RowSorter<TableModel> sort = new TableRowSorter<>(table.getModel());
-            
+            for(String dic:StaticValue.dictionnary){
+                jComboBoxDic.addItem(dic);
+            }
             this.getjTable1().setRowSorter(sort);
             this.getjTable1().setModel(table.getModel());
             this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-            this.getjTable1().setDefaultRenderer(Object.class, new DefaultTableCellRenderer()
-            {
-                @Override
-                public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
-                {
-                    final Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-                    c.setBackground(row % 2 == 0 ? Color.LIGHT_GRAY : Color.WHITE);
-                    c.setForeground(Color.black);
-                    return c;
-                }
-            });
+            this.getjTable1().setDefaultRenderer(Object.class, paintGrid());
             /*TableRowFilterSupport
                   .forTable(table)
                   .searchable(true)
                   .apply();*/
-        } catch (IOException ex) {
+        }catch(FileNotFoundException|NullPointerException ex){
+            JOptionPane.showMessageDialog(null,"No dictionnary found in "+StaticValue.allDelas, "Error",
+    							JOptionPane.ERROR_MESSAGE);
+        } 
+        catch (IOException ex) {
             Logger.getLogger(EditorDelas.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    private DefaultTableCellRenderer paintGrid() {
+        return new DefaultTableCellRenderer()
+        {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
+            {
+                final Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                c.setBackground(row % 2 == 0 ? Color.LIGHT_GRAY : Color.WHITE);
+                c.setForeground(Color.black);
+                return c;
+            }
+        };
     }
 
     /**
@@ -98,15 +109,15 @@ public final class EditorDelas extends javax.swing.JFrame {
         jTextFieldFst = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jTextFieldSinSem = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        jButtonGraph = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButtonAll = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         jTextFieldLemmaInv = new javax.swing.JTextField();
         jCheckBox1 = new javax.swing.JCheckBox();
         jLabel6 = new javax.swing.JLabel();
-        jTextFieldDic = new javax.swing.JTextField();
-        jButton3 = new javax.swing.JButton();
+        jButtonMove = new javax.swing.JButton();
+        jComboBoxDic = new javax.swing.JComboBox();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -131,7 +142,6 @@ public final class EditorDelas extends javax.swing.JFrame {
         jMenuAfter = new javax.swing.JMenu();
         jMenuEdit = new javax.swing.JMenu();
         jMenuView = new javax.swing.JMenu();
-        jMenuSort = new javax.swing.JMenu();
         jMenuDelete = new javax.swing.JMenu();
         jMenuInflect = new javax.swing.JMenu();
         jMenuStatistics = new javax.swing.JMenu();
@@ -139,7 +149,6 @@ public final class EditorDelas extends javax.swing.JFrame {
         jMenuSave = new javax.swing.JMenu();
         jMenuConv = new javax.swing.JMenu();
         jMenuCount = new javax.swing.JMenu();
-        jMenuSaveLMF = new javax.swing.JMenu();
         jMenuHepl = new javax.swing.JMenu();
         jMenuDuplicate = new javax.swing.JMenu();
         jMenuExit = new javax.swing.JMenu();
@@ -178,7 +187,12 @@ public final class EditorDelas extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("1");
+        jButtonGraph.setText("1");
+        jButtonGraph.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonGraphActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("2");
 
@@ -204,15 +218,16 @@ public final class EditorDelas extends javax.swing.JFrame {
             }
         });
 
-        jLabel6.setText("NewDicId");
+        jLabel6.setText("Move entry to :");
 
-        jTextFieldDic.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                jTextFieldDicKeyPressed(evt);
+        jButtonMove.setText("Move");
+        jButtonMove.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonMoveActionPerformed(evt);
             }
         });
 
-        jButton3.setText("Move");
+        jComboBoxDic.setModel(new javax.swing.DefaultComboBoxModel(new String[] {  }));
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -234,7 +249,7 @@ public final class EditorDelas extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTextFieldFst, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButtonGraph, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(14, 14, 14)
@@ -251,14 +266,17 @@ public final class EditorDelas extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jCheckBox1))
                     .addComponent(jLabel5))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(22, 22, 22)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jTextFieldDic, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jComboBoxDic, 0, 171, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton3))
-                    .addComponent(jLabel6))
-                .addContainerGap(21, Short.MAX_VALUE))
+                        .addComponent(jButtonMove)
+                        .addGap(18, 18, 18))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(9, 9, 9)
+                        .addComponent(jLabel6)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -276,13 +294,13 @@ public final class EditorDelas extends javax.swing.JFrame {
                     .addComponent(jTextFieldLemma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextFieldFst, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextFieldSinSem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1)
+                    .addComponent(jButtonGraph)
                     .addComponent(jButton2)
                     .addComponent(jButtonAll)
                     .addComponent(jTextFieldLemmaInv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jCheckBox1)
-                    .addComponent(jTextFieldDic, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3)))
+                    .addComponent(jButtonMove)
+                    .addComponent(jComboBoxDic, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -310,7 +328,7 @@ public final class EditorDelas extends javax.swing.JFrame {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(23, 23, 23)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1315, Short.MAX_VALUE)
+                .addComponent(jScrollPane1)
                 .addContainerGap())
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(93, 93, 93)
@@ -371,7 +389,7 @@ public final class EditorDelas extends javax.swing.JFrame {
                     .addComponent(jLabel7)
                     .addComponent(jTextFieldSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButtonSearch))
-                .addContainerGap(33, Short.MAX_VALUE))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
@@ -412,20 +430,16 @@ public final class EditorDelas extends javax.swing.JFrame {
                         .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jButton4)))
-                .addContainerGap(282, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(23, 23, 23)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(45, 45, 45))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -434,7 +448,11 @@ public final class EditorDelas extends javax.swing.JFrame {
                             .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton4)
                             .addComponent(jLabel12))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(62, 62, 62))))
         );
 
         jMenuNew.setText("New");
@@ -494,9 +512,6 @@ public final class EditorDelas extends javax.swing.JFrame {
         });
         jMenuBar1.add(jMenuView);
 
-        jMenuSort.setText("Sort Dict");
-        jMenuBar1.add(jMenuSort);
-
         jMenuDelete.setText("Delete");
         jMenuDelete.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -543,9 +558,6 @@ public final class EditorDelas extends javax.swing.JFrame {
         jMenuCount.setText("Count WN");
         jMenuBar1.add(jMenuCount);
 
-        jMenuSaveLMF.setText("Save LMF");
-        jMenuBar1.add(jMenuSaveLMF);
-
         jMenuHepl.setText("Help");
         jMenuBar1.add(jMenuHepl);
 
@@ -577,7 +589,7 @@ public final class EditorDelas extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 473, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 474, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -667,7 +679,7 @@ public final class EditorDelas extends javax.swing.JFrame {
 
     private void jMenuItemInsertAfterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemInsertAfterActionPerformed
         if(this.getjTable1().getSelectedRow()!=-1){
-            MenuAddDelas ad=new MenuAddDelas(this,this.getjTable1().getSelectedRow(),1,this.getjTable1().getModel().getValueAt(this.getjTable1().getSelectedRow(), 8));
+            MenuDelas ad=new MenuDelas(this,this.getjTable1().getSelectedRow(),"insertAfter",this.getjTable1().getModel().getValueAt(this.getjTable1().getSelectedRow(), 8),null);
             ad.setVisible(true);
         }
         else{
@@ -678,7 +690,7 @@ public final class EditorDelas extends javax.swing.JFrame {
     private void jMenuItemInsertBeforeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemInsertBeforeActionPerformed
         if(this.getjTable1().getSelectedRow()!=-1){
             
-            MenuAddDelas ad=new MenuAddDelas(this,this.getjTable1().getSelectedRow(),0,this.getjTable1().getModel().getValueAt(this.getjTable1().getSelectedRow(), 8));
+            MenuDelas ad=new MenuDelas(this,this.getjTable1().getSelectedRow(),"insertBefore",this.getjTable1().getModel().getValueAt(this.getjTable1().getSelectedRow(), 8),null);
             ad.setVisible(true);
         }
         else{
@@ -692,8 +704,8 @@ public final class EditorDelas extends javax.swing.JFrame {
             for(int i=0;i<10;i++){
                 obj[i]=this.getjTable1().getModel().getValueAt(this.getjTable1().getSelectedRow(), i);
             }
-            MenuViewDelas viewDelas=new MenuViewDelas(this,obj);
-            viewDelas.setVisible(true);
+           MenuDelas ad=new MenuDelas(this,this.getjTable1().getSelectedRow(),"view",this.getjTable1().getModel().getValueAt(this.getjTable1().getSelectedRow(), 8),obj);
+            ad.setVisible(true);
         }
         else{
             JOptionPane.showMessageDialog(null, "No selected value");
@@ -706,8 +718,8 @@ public final class EditorDelas extends javax.swing.JFrame {
             for(int i=0;i<10;i++){
                 obj[i]=this.getjTable1().getModel().getValueAt(this.getjTable1().getSelectedRow(), i);
             }
-            MenuEditDelas editDelas=new MenuEditDelas(this,obj,this.getjTable1().getSelectedRow());
-            editDelas.setVisible(true);
+           MenuDelas ad=new MenuDelas(this,this.getjTable1().getSelectedRow(),"edit",this.getjTable1().getModel().getValueAt(this.getjTable1().getSelectedRow(), 8),obj);
+            ad.setVisible(true);
         }
         else{
             JOptionPane.showMessageDialog(null, "No selected value");
@@ -720,8 +732,8 @@ public final class EditorDelas extends javax.swing.JFrame {
             for(int i=0;i<10;i++){
                 obj[i]=this.getjTable1().getModel().getValueAt(this.getjTable1().getSelectedRow(), i);
             }
-            MenuCopyDelas beforeDelas=new MenuCopyDelas(this,obj,this.getjTable1().getSelectedRow(),0);
-            beforeDelas.setVisible(true);
+            MenuDelas ad=new MenuDelas(this,this.getjTable1().getSelectedRow(),"copyBefore",this.getjTable1().getModel().getValueAt(this.getjTable1().getSelectedRow(), 8),obj);
+            ad.setVisible(true);
         }
         else{
             JOptionPane.showMessageDialog(null, "No selected value");
@@ -734,8 +746,8 @@ public final class EditorDelas extends javax.swing.JFrame {
             for(int i=0;i<10;i++){
                 obj[i]=this.getjTable1().getModel().getValueAt(this.getjTable1().getSelectedRow(), i);
             }
-            MenuCopyDelas afterDelas=new MenuCopyDelas(this,obj,this.getjTable1().getSelectedRow(),1);
-            afterDelas.setVisible(true);
+            MenuDelas ad=new MenuDelas(this,this.getjTable1().getSelectedRow(),"copyAfter",this.getjTable1().getModel().getValueAt(this.getjTable1().getSelectedRow(), 8),obj);
+            ad.setVisible(true);
         }
         else{
             JOptionPane.showMessageDialog(null, "No selected value");
@@ -1042,26 +1054,6 @@ public final class EditorDelas extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jTextFieldLemmaInvKeyPressed
 
-    private void jTextFieldDicKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldDicKeyPressed
-        try {
-            JTextField textField = (JTextField) evt.getSource();
-            String text = textField.getText();
-            TableRowSorter<TableModel> rowSorter;
-            rowSorter = new TableRowSorter<>(GridHelper.getOpenEditorLadl().getModel());
-            this.getjTable1().setRowSorter(rowSorter);
-            this.getjTable1().removeAll();
-            if (text.trim().length() == 0) {
-                rowSorter.setRowFilter(null);
-            } else {
-                RowFilter rowFilter = RowFilter.regexFilter(text, 9);// recherche avec la colonne indice 0
-                rowSorter.setRowFilter(rowFilter);
-            }
-            this.getjTable1().repaint();
-        } catch (IOException ex) {
-            JOptionPane.showMessageDialog(null, "Error : "+ex.getMessage());
-        }
-    }//GEN-LAST:event_jTextFieldDicKeyPressed
-
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1ActionPerformed
@@ -1097,6 +1089,44 @@ public final class EditorDelas extends javax.swing.JFrame {
         MenuDuplicateDelas mdd = new MenuDuplicateDelas(this);
         mdd.setVisible(true);
     }//GEN-LAST:event_jMenuDuplicateMouseClicked
+
+    private void jButtonGraphActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGraphActionPerformed
+        if(this.getjTable1().getSelectedRow()!=-1){
+            
+            String filename = StaticValue.inflectionPath+this.getjTable1().getModel().getValueAt(this.getjTable1().getSelectedRow(), 2)+".grf";
+            
+            final File[] graphs =new File[1];
+            graphs[0] = new File(filename);
+    		for (int i = 0; i < graphs.length; i++) {
+    			String s = graphs[i].getAbsolutePath();
+    			if (!graphs[i].exists() && !s.endsWith(".grf")) {
+    				s = s + ".grf";
+    				graphs[i] = new File(s);
+    				if (!graphs[i].exists()) {
+    					JOptionPane.showMessageDialog(null,
+    							"File " + graphs[i].getAbsolutePath()
+    									+ " does not exist", "Error",
+    							JOptionPane.ERROR_MESSAGE);
+    					continue;
+    				}
+    			}
+    			/*GlobalProjectManager.search(null).getFrameManagerAs(InternalFrameManager.class)
+    					.newGraphFrame(graphs[i]);*/
+    		}
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "No selected value");
+        }
+    }//GEN-LAST:event_jButtonGraphActionPerformed
+
+    private void jButtonMoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonMoveActionPerformed
+        String dic = (String) jComboBoxDic.getSelectedItem();
+        for(int i =0 ; i<this.getjTable1().getRowCount();i++){
+            tableModel.setValueAt(dic, i, 8);
+        }
+        JOptionPane.showMessageDialog(null, "there are "+ this.getjTable1().getRowCount()+" to move to "+dic);
+       
+    }//GEN-LAST:event_jButtonMoveActionPerformed
 
     
 
@@ -1137,13 +1167,14 @@ public final class EditorDelas extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButtonAll;
+    private javax.swing.JButton jButtonGraph;
+    private javax.swing.JButton jButtonMove;
     private javax.swing.JButton jButtonSearch;
     private javax.swing.JCheckBox jCheckBox1;
+    private javax.swing.JComboBox jComboBoxDic;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1171,8 +1202,6 @@ public final class EditorDelas extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItemInsertBefore;
     private javax.swing.JMenu jMenuNew;
     private javax.swing.JMenu jMenuSave;
-    private javax.swing.JMenu jMenuSaveLMF;
-    private javax.swing.JMenu jMenuSort;
     private javax.swing.JMenu jMenuStatistics;
     private javax.swing.JMenu jMenuView;
     private javax.swing.JMenu jMenuWorldNet;
@@ -1185,7 +1214,6 @@ public final class EditorDelas extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextFieldDic;
     private javax.swing.JTextField jTextFieldFst;
     private javax.swing.JTextField jTextFieldLemma;
     private javax.swing.JTextField jTextFieldLemmaInv;

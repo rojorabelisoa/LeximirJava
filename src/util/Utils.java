@@ -15,7 +15,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -26,14 +25,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
-import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.table.DefaultTableModel;
-import leximir.delac.menu.MenuAddBeforeDelac;
+import leximir.delac.menu.MenuDelac;
 import model.StaticValue;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -258,7 +253,7 @@ public class Utils {
     
 
     public static Object[] delasToObject(String lemma, String fstCode, String sinSem,String comment, String Dicname) throws ArrayIndexOutOfBoundsException {
-        sinSem = "+"+fstCode+"+"+sinSem+"="+fstCode;
+        sinSem = sinSem+"="+fstCode;
         String line = lemma+","+fstCode+sinSem+"//"+comment;
         String pOs=DelasHelper.getPosInDelas(line);
         String lemmas = lemma;
@@ -350,7 +345,7 @@ public class Utils {
         try (BufferedWriter bfw = new BufferedWriter(new FileWriter(tempPath))) {
             bfw.write(value+".");
         } catch (IOException ex) {
-            Logger.getLogger(MenuAddBeforeDelac.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MenuDelac.class.getName()).log(Level.SEVERE, null, ex);
         }
         String snt = tempPath.replace(".txt", ".snt");
         try (BufferedWriter bfw = new BufferedWriter(new FileWriter(snt))) {
