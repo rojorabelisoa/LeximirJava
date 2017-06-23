@@ -1,0 +1,4 @@
+AC_distribution =  + FLX + PosQ + Comp
+
+NC_distribution =  + NProp + Loc + Conc + Hum + DOM + Org + Ek + Comp   + Dr + Comp + Comp    + Hyd + CC2 + FLX + Top + Comp  + River + Course + Food
+

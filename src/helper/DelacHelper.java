@@ -273,7 +273,7 @@ public class DelacHelper {
         return predictFlex;
     }
     public static Object[][] completeJTablePredict(List<String> ret) {
-        Object[][] dataPredict = new Object[ret.size()][3];
+        Object[][] dataPredict = new Object[ret.size()][6];
         for (int k = 0; k < ret.size(); k++) {
             String[] token = ret.get(k).split(",");
             for (int l = 0; l < token.length; l++) {

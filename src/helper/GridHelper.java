@@ -73,7 +73,7 @@ public class GridHelper {
     public static DefaultTableModel getDataforjTablePredict(List<String> predict) throws IOException{
         
         Object[][] data = DelacHelper.completeJTablePredict(predict);
-        String[] entete = {"words", "FLX", "Rule"};
+        String[] entete = {"words", "FLX", "Rule","Spec/Gen","ID RULE","SinSem"};
         return new DefaultTableModel(data,entete);
     }
     // tableau pour afficher les données du tableau Strategie
