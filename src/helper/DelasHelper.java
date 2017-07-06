@@ -43,6 +43,62 @@ public class DelasHelper {
         return list;
     }
     
+    /**version mandeha amzao
+     * public static Object[][] getAllDelasFromDicToObject() throws FileNotFoundException, IOException{
+        ArrayList<String> list= getDicDelasPath();
+        Delas delac = new Delas();
+        Field[] lf = delac.getClass().getDeclaredFields();
+        int count =0;
+        for(String dela:list){
+            //String path = Utils.getValueXml("pathDelas")+"/"+dela;
+            String path = StaticValue.allDelas+"//"+dela;
+            ArrayList<String> readFile = Utils.readFile(path);
+            for(String s:readFile){
+                if(s.trim().length()>0)
+                    count++;
+            }
+            StaticValue.dictionnary.add(dela);
+        }
+        
+        Object[][] ob = new Object[count*2][lf.length];
+        int k=0;
+        int dicId=0;
+        for(String dela:list){
+            String pOs,lemma,fSTCode,sinSem,comment,lemmaInv,wn_SinSet;
+            int lemmaId=10;
+            String dicFile=dela;
+            //String path = Utils.getValueXml("pathDelas")+"/"+dela;
+            String path = StaticValue.allDelas+"//"+dela;
+            ArrayList<String> readFile = Utils.readFile(path);
+            for(String s:readFile){
+                StringBuilder sb = new StringBuilder();
+                for (int i = 1; i < s.length(); i++) {
+                    String str = String.valueOf(s.charAt(i));
+                    if(str.matches("^[a-zA-Z ]+$||[$&+,:;=?@#/|]||[0-9]+")){
+                        sb.append(s.charAt(i));
+                    }
+                }
+                if (!s.toString().isEmpty()) {
+                    lemma=getLemaInDelas(s);
+                    lemmaInv=Utils.reverseString(lemma);
+                    sinSem="+"+getSynSemInDelas(s);
+                    fSTCode = getFstCodeInDelas(s);
+                    pOs = getPosInDelas(s);
+                    comment = getCommentInDelas(s);
+                    wn_SinSet = "";
+                    Delas tmp = new Delas(pOs, lemma, fSTCode, sinSem, comment, lemmaInv, wn_SinSet, lemmaId, dicFile, dicId);
+                    delacToObject(ob, k, tmp);
+                    k++;
+                    lemmaId=lemmaId+10;
+                }
+                
+            }
+            dicId++;
+        }
+        
+        return ob;
+    }
+    */
     public static Object[][] getAllDelasFromDicToObject() throws FileNotFoundException, IOException{
         ArrayList<String> list= getDicDelasPath();
         Delas delac = new Delas();
@@ -61,9 +117,10 @@ public class DelasHelper {
         Object[][] ob = new Object[count][lf.length];
         int k=0;
         int dicId=0;
+        int lemmaId=0;
         for(String dela:list){
             String pOs,lemma,fSTCode,sinSem,comment,lemmaInv,wn_SinSet;
-            int lemmaId=10;
+            
             String dicFile=dela;
             //String path = Utils.getValueXml("pathDelas")+"/"+dela;
             String path = StaticValue.allDelas+"//"+dela;
@@ -71,7 +128,7 @@ public class DelasHelper {
             for(String s:readFile){
                 lemma=getLemaInDelas(s);
                 lemmaInv=Utils.reverseString(lemma);
-                sinSem="+"+getSynSemInDelas(s);
+                sinSem=getSynSemInDelas(s);
                 fSTCode = getFstCodeInDelas(s);
                 pOs = getPosInDelas(s);
                 comment = getCommentInDelas(s);
@@ -79,7 +136,7 @@ public class DelasHelper {
                 Delas tmp = new Delas(pOs, lemma, fSTCode, sinSem, comment, lemmaInv, wn_SinSet, lemmaId, dicFile, dicId);
                 delacToObject(ob, k, tmp);
                 k++;
-                lemmaId=lemmaId+10;
+                lemmaId=lemmaId+1;
                 
             }
             dicId++;
@@ -111,24 +168,28 @@ public class DelasHelper {
         return sb.toString();
     }
     public static String getSynSemInDelas(String text){
-        StringBuilder sb = new StringBuilder();
-        boolean begin=false;
-        for(int i=0;i<text.length();i++){
-            
-            if(begin){
-                if(text.charAt(i)=='/'){
-                    break;
+        try{
+            StringBuilder sb = new StringBuilder();
+            boolean begin=false;
+            for(int i=0;i<text.length();i++){
+
+                if(begin){
+                    if(text.charAt(i)=='/'){
+                        break;
+                    }
+                    sb.append(text.charAt(i));
                 }
-                sb.append(text.charAt(i));
-            }
-            else{
-                if(text.charAt(i)=='+'){
-                    begin=true;
-                    
+                else{
+                    if(text.charAt(i)=='+'){
+                        begin=true;
+                        sb.append(text.charAt(i));
+                    }
                 }
             }
+            return sb.toString();
+        }catch(java.lang.StringIndexOutOfBoundsException e){
+            return"";
         }
-        return sb.toString();
     }
     public static String getFstCodeInDelas(String text){
         StringBuilder sb = new StringBuilder();
@@ -169,17 +230,21 @@ public class DelasHelper {
         return sb.toString();
     }
     public static String getCommentInDelas(String text){
-        StringBuilder sb = new StringBuilder();
-        boolean begin=false;
-        for(int i=0;i<text.length();i++){
-            if(text.charAt(i)=='/'){
-                begin=true;
-                i=i+2;
+        try{
+            StringBuilder sb = new StringBuilder();
+            boolean begin=false;
+            for(int i=0;i<text.length();i++){
+                if(text.charAt(i)=='/'){
+                    begin=true;
+                    i=i+2;
+                }
+                if(begin){
+                    sb.append(text.charAt(i));
+                }
             }
-            if(begin){
-                sb.append(text.charAt(i));
-            }
+            return sb.toString();
+        }catch(java.lang.StringIndexOutOfBoundsException e){
+            return"";
         }
-        return sb.toString();
     }
 }

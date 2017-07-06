@@ -5,6 +5,7 @@
  */
 package model;
 
+import javax.swing.event.TableModelEvent;
 import javax.swing.table.AbstractTableModel;
 
 /**
@@ -56,17 +57,48 @@ public class GridModel extends AbstractTableModel {
     public String[] getEntete() {
         return entete;
     }
-
+    public void removeRow(int row) {
+        // remove a row from your internal data structure
+        fireTableRowsDeleted(row, row);
+    }
     /**
      * @return 
      */
-    /* public void tableChanged(TableModelEvent e) {
-     int ligneModifier=e.getLastRow();
-     int colonneModifier=e.getColumn();
-     Object[] o=this.getObjetLigne(ligneModifier);
-     this.insererObjet(o);  // inserer
-     this.updateObjet(o);  // update
-     }*/
+    public void tableChanged(TableModelEvent e) {
+        int firstRow = e.getFirstRow();
+        int lastRow = e.getLastRow();
+        int index = e.getColumn();
+
+        switch (e.getType()) {
+        case TableModelEvent.INSERT:
+          for (int i = firstRow; i <= lastRow; i++) {
+            System.out.println(i);
+          }
+          break;
+        case TableModelEvent.UPDATE:
+          if (firstRow == TableModelEvent.HEADER_ROW) {
+            if (index == TableModelEvent.ALL_COLUMNS) {
+              System.out.println("A column was added");
+            } else {
+              System.out.println(index + "in header changed");
+            }
+          } else {
+            for (int i = firstRow; i <= lastRow; i++) {
+              if (index == TableModelEvent.ALL_COLUMNS) {
+                System.out.println("All columns have changed");
+              } else {
+                System.out.println(index);
+              }
+            }
+          }
+          break;
+        case TableModelEvent.DELETE:
+          for (int i = firstRow; i <= lastRow; i++) {
+            System.out.println(i);
+          }
+          break;
+        }
+    }
     @Override // MAKA NBRE DE LIGNE
     public int getRowCount() {
         return getDonnees().length;

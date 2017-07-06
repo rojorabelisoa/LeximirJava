@@ -9,6 +9,7 @@ import helper.GridHelper;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Desktop;
+import java.awt.event.KeyEvent;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -26,13 +27,13 @@ import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.RowFilter;
 import javax.swing.RowSorter;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import leximir.delas.menu.*;
 import model.StaticValue;
@@ -44,6 +45,8 @@ import util.Utils;
  */
 public final class EditorDelas extends javax.swing.JFrame {
     private DefaultTableModel tableModel ;
+    private DefaultTableModel defaulttableModel ;
+    private boolean unsaved=false;
     /**
      * Creates new form EditorLadl
      */
@@ -54,15 +57,17 @@ public final class EditorDelas extends javax.swing.JFrame {
             this.setTitle("Editor for Dela Dictionaries of simple words");
             tableModel = GridHelper.getOpenEditorforDelas();
             JTable table = new JTable(getTableModel());
-            jLabel12.setText(jLabel12.getText()+tableModel.getRowCount());
-            RowSorter<TableModel> sort = new TableRowSorter<>(table.getModel());
+            
+            RowSorter<DefaultTableModel> sort = new TableRowSorter<>(tableModel);
             for(String dic:StaticValue.dictionnary){
                 jComboBoxDic.addItem(dic);
             }
             this.getjTable1().setRowSorter(sort);
             this.getjTable1().setModel(table.getModel());
-            this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             this.getjTable1().setDefaultRenderer(Object.class, paintGrid());
+            jLabel13.setText(String.valueOf(jTable1.getRowCount()));
+            this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            
             /*TableRowFilterSupport
                   .forTable(table)
                   .searchable(true)
@@ -99,6 +104,7 @@ public final class EditorDelas extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane2 = new javax.swing.JScrollPane();
         jPanel1 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
@@ -110,21 +116,16 @@ public final class EditorDelas extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jTextFieldSinSem = new javax.swing.JTextField();
         jButtonGraph = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
         jButtonAll = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         jTextFieldLemmaInv = new javax.swing.JTextField();
-        jCheckBox1 = new javax.swing.JCheckBox();
         jLabel6 = new javax.swing.JLabel();
         jButtonMove = new javax.swing.JButton();
         jComboBoxDic = new javax.swing.JComboBox();
+        jCheckBoxExtract = new javax.swing.JCheckBox();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        jLabel8 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jTextFieldSearch = new javax.swing.JTextField();
@@ -134,6 +135,15 @@ public final class EditorDelas extends javax.swing.JFrame {
         jTextField3 = new javax.swing.JTextField();
         jButton4 = new javax.swing.JButton();
         jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jTextField4 = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jButtonClear = new javax.swing.JButton();
+        jButtonHelp = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenuNew = new javax.swing.JMenu();
         jMenuItemInsertBefore = new javax.swing.JMenuItem();
@@ -187,14 +197,12 @@ public final class EditorDelas extends javax.swing.JFrame {
             }
         });
 
-        jButtonGraph.setText("1");
+        jButtonGraph.setText("Show Graph");
         jButtonGraph.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonGraphActionPerformed(evt);
             }
         });
-
-        jButton2.setText("2");
 
         jButtonAll.setText("All");
         jButtonAll.addActionListener(new java.awt.event.ActionListener() {
@@ -211,13 +219,6 @@ public final class EditorDelas extends javax.swing.JFrame {
             }
         });
 
-        jCheckBox1.setText("Extract Match");
-        jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox1ActionPerformed(evt);
-            }
-        });
-
         jLabel6.setText("Move entry to :");
 
         jButtonMove.setText("Move");
@@ -228,6 +229,8 @@ public final class EditorDelas extends javax.swing.JFrame {
         });
 
         jComboBoxDic.setModel(new javax.swing.DefaultComboBoxModel(new String[] {  }));
+
+        jCheckBoxExtract.setText("Extract match");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -249,24 +252,22 @@ public final class EditorDelas extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTextFieldFst, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonGraph, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(14, 14, 14)
+                        .addComponent(jButtonGraph)))
+                .addGap(30, 30, 30)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jTextFieldSinSem, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButtonAll)))
-                .addGap(49, 49, 49)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel5)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jTextFieldLemmaInv, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jCheckBox1))
-                    .addComponent(jLabel5))
-                .addGap(22, 22, 22)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jCheckBoxExtract)))
+                .addGap(59, 59, 59)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jComboBoxDic, 0, 171, Short.MAX_VALUE)
@@ -295,12 +296,11 @@ public final class EditorDelas extends javax.swing.JFrame {
                     .addComponent(jTextFieldFst, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextFieldSinSem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButtonGraph)
-                    .addComponent(jButton2)
                     .addComponent(jButtonAll)
                     .addComponent(jTextFieldLemmaInv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jCheckBox1)
                     .addComponent(jButtonMove)
-                    .addComponent(jComboBoxDic, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jComboBoxDic, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jCheckBoxExtract)))
         );
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -314,49 +314,21 @@ public final class EditorDelas extends javax.swing.JFrame {
         jTable1.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(jTable1);
 
-        jLabel8.setText("POS");
-
-        jLabel9.setText("Lemma");
-
-        jLabel10.setText("FST Code");
-
-        jLabel11.setText("all columns");
-
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(23, 23, 23)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(jScrollPane1)
                 .addContainerGap())
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(93, 93, 93)
-                .addComponent(jLabel11)
-                .addGap(458, 458, 458)
-                .addComponent(jLabel8)
-                .addGap(74, 74, 74)
-                .addComponent(jLabel9)
-                .addGap(43, 43, 43)
-                .addComponent(jLabel10)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(0, 6, Short.MAX_VALUE)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel8)
-                            .addComponent(jLabel9)
-                            .addComponent(jLabel10)))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jLabel11)
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         jLabel7.setText("Search : ");
@@ -407,30 +379,80 @@ public final class EditorDelas extends javax.swing.JFrame {
 
         jLabel12.setText("Rec.No : ");
 
+        jLabel13.setText("jLabel13");
+
+        jLabel8.setText("POS");
+
+        jLabel14.setText("SinSem");
+
+        jLabel11.setText("all columns");
+
+        jLabel10.setText("FST Code");
+
+        jLabel9.setText("Lemma");
+
+        jButtonClear.setText("Clear");
+        jButtonClear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonClearActionPerformed(evt);
+            }
+        });
+
+        jButtonHelp.setText("Help");
+        jButtonHelp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonHelpActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(24, 24, 24)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel12)
-                        .addGap(73, 73, 73)
+                        .addGap(2, 2, 2)
+                        .addComponent(jLabel13))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(97, 97, 97)
+                        .addComponent(jLabel11)))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(26, 26, 26)
                         .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton4)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(26, 26, 26)
+                        .addComponent(jTextField4))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel8)
+                        .addGap(74, 74, 74)
+                        .addComponent(jLabel9)
+                        .addGap(43, 43, 43)
+                        .addComponent(jLabel10)
+                        .addGap(32, 32, 32)
+                        .addComponent(jLabel14)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton4)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jButtonClear)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonHelp)))
+                .addGap(18, 18, 18))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -438,22 +460,34 @@ public final class EditorDelas extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel8)
+                            .addComponent(jLabel9)
+                            .addComponent(jLabel10)
+                            .addComponent(jLabel14)
+                            .addComponent(jButtonClear)
+                            .addComponent(jButtonHelp)
+                            .addComponent(jLabel11))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton4)
-                            .addComponent(jLabel12))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(62, 62, 62))))
+                            .addComponent(jLabel12)
+                            .addComponent(jLabel13)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(46, 46, 46)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(66, Short.MAX_VALUE))
         );
+
+        jScrollPane2.setViewportView(jPanel1);
 
         jMenuNew.setText("New");
         jMenuNew.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -583,38 +617,34 @@ public final class EditorDelas extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1234, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 474, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 501, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBox1ActionPerformed
-
     private void jButtonSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSearchActionPerformed
-        try {
-            String text = jTextFieldSearch.getText();
-            TableRowSorter<TableModel> rowSorter;
-            rowSorter = new TableRowSorter<>(GridHelper.getOpenEditorLadl().getModel());
-            this.getjTable1().setRowSorter(rowSorter);
-            this.getjTable1().removeAll();
-            if (text.length() == 0) {
-                rowSorter.setRowFilter(null);
-            } else {
-                rowSorter.setRowFilter(RowFilter.regexFilter(text));
-            }
-            this.getjTable1().repaint();            
-        } catch (IOException ex) {
-            JOptionPane.showMessageDialog(null, ex);
+        String text = jTextFieldSearch.getText();
+        TableRowSorter<DefaultTableModel> rowSorter;
+        rowSorter = new TableRowSorter<>(tableModel);
+        this.getjTable1().setRowSorter(rowSorter);
+        this.getjTable1().removeAll();
+        if (text.length() == 0) {
+            rowSorter.setRowFilter(null);
+        } else {
+            rowSorter.setRowFilter(RowFilter.regexFilter(text));
         }
+        jTable1.setModel(rowSorter.getModel());
+        jLabel13.setText(String.valueOf(this.getjTable1().getRowCount()));
         
     }//GEN-LAST:event_jButtonSearchActionPerformed
 
@@ -673,13 +703,20 @@ public final class EditorDelas extends javax.swing.JFrame {
             int t = this.getjTable1().getSelectedRow();
             this.getTableModel().removeRow(t);
             JOptionPane.showMessageDialog(null, "rows deleted !");
+            jLabel13.setText(String.valueOf(this.getjTable1().getRowCount()));
+            this.setUnsaved(true);
         }
+        
         
     }//GEN-LAST:event_jMenuDeleteMouseClicked
 
     private void jMenuItemInsertAfterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemInsertAfterActionPerformed
         if(this.getjTable1().getSelectedRow()!=-1){
-            MenuDelas ad=new MenuDelas(this,this.getjTable1().getSelectedRow(),"insertAfter",this.getjTable1().getModel().getValueAt(this.getjTable1().getSelectedRow(), 8),null);
+            Object [] obj =new Object[10];
+            for(int i=0;i<10;i++){
+                obj[i]=this.getjTable1().getValueAt(this.getjTable1().getSelectedRow(), i);
+            }
+            MenuDelas ad=new MenuDelas(this,this.getjTable1().getSelectedRow(),"insertAfter",this.getjTable1().getValueAt(this.getjTable1().getSelectedRow(), 8),obj);
             ad.setVisible(true);
         }
         else{
@@ -689,8 +726,11 @@ public final class EditorDelas extends javax.swing.JFrame {
 
     private void jMenuItemInsertBeforeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemInsertBeforeActionPerformed
         if(this.getjTable1().getSelectedRow()!=-1){
-            
-            MenuDelas ad=new MenuDelas(this,this.getjTable1().getSelectedRow(),"insertBefore",this.getjTable1().getModel().getValueAt(this.getjTable1().getSelectedRow(), 8),null);
+            Object [] obj =new Object[10];
+            for(int i=0;i<10;i++){
+                obj[i]=this.getjTable1().getValueAt(this.getjTable1().getSelectedRow(), i);
+            }
+            MenuDelas ad=new MenuDelas(this,this.getjTable1().getSelectedRow(),"insertBefore",this.getjTable1().getValueAt(this.getjTable1().getSelectedRow(), 8),obj);
             ad.setVisible(true);
         }
         else{
@@ -702,9 +742,9 @@ public final class EditorDelas extends javax.swing.JFrame {
         if(this.getjTable1().getSelectedRow()!=-1){
             Object [] obj =new Object[10];
             for(int i=0;i<10;i++){
-                obj[i]=this.getjTable1().getModel().getValueAt(this.getjTable1().getSelectedRow(), i);
+                obj[i]=this.getjTable1().getValueAt(this.getjTable1().getSelectedRow(), i);
             }
-           MenuDelas ad=new MenuDelas(this,this.getjTable1().getSelectedRow(),"view",this.getjTable1().getModel().getValueAt(this.getjTable1().getSelectedRow(), 8),obj);
+           MenuDelas ad=new MenuDelas(this,this.getjTable1().getSelectedRow(),"view",this.getjTable1().getValueAt(this.getjTable1().getSelectedRow(), 8),obj);
             ad.setVisible(true);
         }
         else{
@@ -716,9 +756,9 @@ public final class EditorDelas extends javax.swing.JFrame {
         if(this.getjTable1().getSelectedRow()!=-1){
             Object [] obj =new Object[10];
             for(int i=0;i<10;i++){
-                obj[i]=this.getjTable1().getModel().getValueAt(this.getjTable1().getSelectedRow(), i);
+                obj[i]=this.getjTable1().getValueAt(this.getjTable1().getSelectedRow(), i);
             }
-           MenuDelas ad=new MenuDelas(this,this.getjTable1().getSelectedRow(),"edit",this.getjTable1().getModel().getValueAt(this.getjTable1().getSelectedRow(), 8),obj);
+            MenuDelas ad=new MenuDelas(this,this.getjTable1().getSelectedRow(),"edit",this.getjTable1().getValueAt(this.getjTable1().getSelectedRow(), 8),obj);
             ad.setVisible(true);
         }
         else{
@@ -730,9 +770,9 @@ public final class EditorDelas extends javax.swing.JFrame {
         if(this.getjTable1().getSelectedRow()!=-1){
             Object [] obj =new Object[10];
             for(int i=0;i<10;i++){
-                obj[i]=this.getjTable1().getModel().getValueAt(this.getjTable1().getSelectedRow(), i);
+                obj[i]=this.getjTable1().getValueAt(this.getjTable1().getSelectedRow(), i);
             }
-            MenuDelas ad=new MenuDelas(this,this.getjTable1().getSelectedRow(),"copyBefore",this.getjTable1().getModel().getValueAt(this.getjTable1().getSelectedRow(), 8),obj);
+            MenuDelas ad=new MenuDelas(this,this.getjTable1().getSelectedRow(),"copyBefore",this.getjTable1().getValueAt(this.getjTable1().getSelectedRow(), 8),obj);
             ad.setVisible(true);
         }
         else{
@@ -744,9 +784,9 @@ public final class EditorDelas extends javax.swing.JFrame {
        if(this.getjTable1().getSelectedRow()!=-1){
             Object [] obj =new Object[10];
             for(int i=0;i<10;i++){
-                obj[i]=this.getjTable1().getModel().getValueAt(this.getjTable1().getSelectedRow(), i);
+                obj[i]=this.getjTable1().getValueAt(this.getjTable1().getSelectedRow(), i);
             }
-            MenuDelas ad=new MenuDelas(this,this.getjTable1().getSelectedRow(),"copyAfter",this.getjTable1().getModel().getValueAt(this.getjTable1().getSelectedRow(), 8),obj);
+            MenuDelas ad=new MenuDelas(this,this.getjTable1().getSelectedRow(),"copyAfter",this.getjTable1().getValueAt(this.getjTable1().getSelectedRow(), 8),obj);
             ad.setVisible(true);
         }
         else{
@@ -759,15 +799,15 @@ public final class EditorDelas extends javax.swing.JFrame {
         if(dialogResult == JOptionPane.YES_OPTION){
             BufferedWriter bfw;
             Map<String,List<String>> fileData=new HashMap<>();
-            for(int row = 0; row < jTable1.getRowCount(); row ++){
+            for(int row = 0; row < tableModel.getRowCount(); row ++){
                 
-                String file = (String) jTable1.getValueAt(row, 8);
-                String lemma = (String) jTable1.getValueAt(row, 1);
-                String fstCode = jTable1.getValueAt(row, 2).toString().concat(jTable1.getValueAt(row, 3).toString());
+                String file = (String) tableModel.getValueAt(row, 8);
+                String lemma = (String) tableModel.getValueAt(row, 1);
+                String fstCode = tableModel.getValueAt(row, 2).toString().concat(tableModel.getValueAt(row, 3).toString());
                 String str = lemma+","+fstCode;
-                String comment =(String) jTable1.getValueAt(row, 4);
+                String comment =(String) tableModel.getValueAt(row, 4);
                 if(comment!=null && comment.trim().length()>0){
-                    str = str+"//"+jTable1.getValueAt(row, 4);
+                    str = str+"//"+tableModel.getValueAt(row, 4);
                 }
                 str=str+"\n";
                 if(fileData.containsKey(file)){
@@ -791,20 +831,29 @@ public final class EditorDelas extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "error :"+ex.getMessage());
                 }
             }
-             JOptionPane.showMessageDialog(null, "everything is Ok");
+             
+             this.setUnsaved(false);
+             JOptionPane.showMessageDialog(null, "Success");
         }
     }//GEN-LAST:event_jMenuSaveMouseClicked
 
     private void jMenuExitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuExitMouseClicked
-       this.setVisible(false);
+       if(this.getUnsaved()){
+           int dialogResult = JOptionPane.showConfirmDialog (null, "you " +
+"have some unsaved data, do you want to exit","exit Delas Dictioneries in Unicode",JOptionPane.YES_NO_OPTION);
+            if(dialogResult == JOptionPane.YES_OPTION){
+                this.setVisible(false);
+            }
+       }else{
+           this.setVisible(false);
+       }
     }//GEN-LAST:event_jMenuExitMouseClicked
 
     private void jMenuInflectMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuInflectMouseClicked
         if(this.getjTable1().getSelectedRow()!=-1){
-            
             try {
-                String lemma = (String) this.getjTable1().getModel().getValueAt(this.getjTable1().getSelectedRow(), 1);
-                String fst = (String) this.getjTable1().getModel().getValueAt(this.getjTable1().getSelectedRow(), 2);
+                String lemma = (String) this.getjTable1().getValueAt(this.getjTable1().getSelectedRow(), 1);
+                String fst = (String) this.getjTable1().getValueAt(this.getjTable1().getSelectedRow(), 2);
                 Utils.InflectDelas(lemma, fst);
                 JOptionPane.showMessageDialog(null, "done !!");
             } catch (FileNotFoundException ex) {
@@ -950,107 +999,125 @@ public final class EditorDelas extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonAllActionPerformed
 
     private void jTextFieldPosKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldPosKeyPressed
-        try {
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             JTextField textField = (JTextField) evt.getSource();
             String text = textField.getText();
-            TableRowSorter<TableModel> rowSorter;
-            rowSorter = new TableRowSorter<>(GridHelper.getOpenEditorLadl().getModel());
+            TableRowSorter<DefaultTableModel> rowSorter;
+            rowSorter = new TableRowSorter<>(tableModel);
             this.getjTable1().setRowSorter(rowSorter);
             this.getjTable1().removeAll();
             if (text.trim().length() == 0) {
                 rowSorter.setRowFilter(null);
             } else {
+                if(jCheckBoxExtract.isSelected()){
+                    text="^"+text+"$";
+                }
+                else{
+                    if(!text.contains(".")||text.contains("$"))text="^"+text;
+                }    
                 RowFilter rowFilter = RowFilter.regexFilter(text, 0);// recherche avec la colonne indice 0
                 rowSorter.setRowFilter(rowFilter);
             }
-            this.getjTable1().repaint();
-        } catch (IOException ex) {
-            JOptionPane.showMessageDialog(null, "Error : "+ex.getMessage());
+            jTable1.setModel(rowSorter.getModel());
+            jLabel13.setText(String.valueOf(this.getjTable1().getRowCount()));
         }
     }//GEN-LAST:event_jTextFieldPosKeyPressed
 
     private void jTextFieldLemmaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldLemmaKeyPressed
-        TableRowSorter<TableModel> rowSorter = null;
+        TableRowSorter<DefaultTableModel> rowSorter = null;
         try {
-            JTextField textField = (JTextField) evt.getSource();
-            String text = textField.getText();
-            
-            rowSorter = new TableRowSorter<>(GridHelper.getOpenEditorLadl().getModel());
-            this.getjTable1().setRowSorter(rowSorter);
-            this.getjTable1().removeAll();
-            if (text.trim().length() == 0) {
-                rowSorter.setRowFilter(null);
-            } else {
-                String regex = String.format("^%s$", text);
-                RowFilter rowFilter = RowFilter.regexFilter(text, 1);// recherche avec la colonne indice 0
-                rowSorter.setRowFilter(rowFilter);
+            if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+                JTextField textField = (JTextField) evt.getSource();
+                String text = textField.getText();
+
+                rowSorter = new TableRowSorter<>(tableModel);
+                
+                this.getjTable1().setRowSorter(rowSorter);
+                
+                if (text.trim().length() == 0) {
+                    rowSorter.setRowFilter(null);
+                } else {
+                    if(jCheckBoxExtract.isSelected()){
+                        text="^"+text+"$";
+                    }
+                    else{
+                        if(!text.contains(".")||text.contains("$"))text="^"+text;
+                    }    
+                    RowFilter rowFilter = RowFilter.regexFilter(text, 1);// recherche avec la colonne indice 0
+                    rowSorter.setRowFilter(rowFilter);
+                }
+                jTable1.setModel(rowSorter.getModel());
+                jLabel13.setText(String.valueOf(this.getjTable1().getRowCount()));
             }
-            this.getjTable1().repaint();
         }catch(java.util.regex.PatternSyntaxException e){
             rowSorter.setRowFilter(null);
         } 
-        catch (IOException ex) {
-            JOptionPane.showMessageDialog(null, "Error : "+ex.getMessage());
-        }
     }//GEN-LAST:event_jTextFieldLemmaKeyPressed
 
     private void jTextFieldFstKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldFstKeyPressed
-        try {
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             JTextField textField = (JTextField) evt.getSource();
             String text = textField.getText();
-            TableRowSorter<TableModel> rowSorter;
-            rowSorter = new TableRowSorter<>(GridHelper.getOpenEditorLadl().getModel());
+            TableRowSorter<DefaultTableModel> rowSorter;
+            rowSorter = new TableRowSorter<>(tableModel);
             this.getjTable1().setRowSorter(rowSorter);
             this.getjTable1().removeAll();
             if (text.trim().length() == 0) {
                 rowSorter.setRowFilter(null);
             } else {
+                if(jCheckBoxExtract.isSelected()){
+                    text="^"+text+"$";
+                }
                 RowFilter rowFilter = RowFilter.regexFilter(text, 2);// recherche avec la colonne indice 0
                 rowSorter.setRowFilter(rowFilter);
             }
-            this.getjTable1().repaint();
-        } catch (IOException ex) {
-            JOptionPane.showMessageDialog(null, "Error : "+ex.getMessage());
+            jTable1.setModel(rowSorter.getModel());
+            jLabel13.setText(String.valueOf(this.getjTable1().getRowCount()));
         }
     }//GEN-LAST:event_jTextFieldFstKeyPressed
 
     private void jTextFieldSinSemKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldSinSemKeyPressed
-        try {
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             JTextField textField = (JTextField) evt.getSource();
             String text = textField.getText();
-            TableRowSorter<TableModel> rowSorter;
-            rowSorter = new TableRowSorter<>(GridHelper.getOpenEditorLadl().getModel());
+            TableRowSorter<DefaultTableModel> rowSorter;
+            rowSorter = new TableRowSorter<>(tableModel);
             this.getjTable1().setRowSorter(rowSorter);
             this.getjTable1().removeAll();
             if (text.trim().length() == 0) {
                 rowSorter.setRowFilter(null);
             } else {
+                if(jCheckBoxExtract.isSelected()){
+                    text="^"+text+"$";
+                }
+                else{
+                    if(!text.contains(".")||text.contains("$"))text="."+text;
+                }    
                 RowFilter rowFilter = RowFilter.regexFilter(text, 3);// recherche avec la colonne indice 0
                 rowSorter.setRowFilter(rowFilter);
             }
-            this.getjTable1().repaint();
-        } catch (IOException ex) {
-            JOptionPane.showMessageDialog(null, "Error : "+ex.getMessage());
+            jTable1.setModel(rowSorter.getModel());
+            jLabel13.setText(String.valueOf(this.getjTable1().getRowCount()));
         }
     }//GEN-LAST:event_jTextFieldSinSemKeyPressed
 
     private void jTextFieldLemmaInvKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldLemmaInvKeyPressed
-        try {
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             JTextField textField = (JTextField) evt.getSource();
             String text = textField.getText();
-            TableRowSorter<TableModel> rowSorter;
-            rowSorter = new TableRowSorter<>(GridHelper.getOpenEditorLadl().getModel());
+            TableRowSorter<DefaultTableModel> rowSorter;
+            rowSorter = new TableRowSorter<>(tableModel);
             this.getjTable1().setRowSorter(rowSorter);
             this.getjTable1().removeAll();
             if (text.trim().length() == 0) {
                 rowSorter.setRowFilter(null);
             } else {
-                RowFilter rowFilter = RowFilter.regexFilter(text, 5);// recherche avec la colonne indice 0
+                if(!text.contains(".")||text.contains("$"))text=text+"$";
+                RowFilter rowFilter = RowFilter.regexFilter(text, 1);// recherche avec la colonne indice 0
                 rowSorter.setRowFilter(rowFilter);
             }
-            this.getjTable1().repaint();
-        } catch (IOException ex) {
-            JOptionPane.showMessageDialog(null, "Error : "+ex.getMessage());
+            jTable1.setModel(rowSorter.getModel());
+            jLabel13.setText(String.valueOf(this.getjTable1().getRowCount()));
         }
     }//GEN-LAST:event_jTextFieldLemmaInvKeyPressed
 
@@ -1059,30 +1126,32 @@ public final class EditorDelas extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        try {
-            String pos = jTextField1.getText();
-            String lemma = jTextField2.getText();
-            String fst = jTextField3.getText();
-            TableRowSorter<TableModel> rowSorter;
-            rowSorter = new TableRowSorter<>(GridHelper.getOpenEditorLadl().getModel());
-            this.getjTable1().setRowSorter(rowSorter);
-            this.getjTable1().removeAll();
-            List<RowFilter<Object,Object>> filters = new ArrayList<>();
-            if (pos.length() != 0) {
-                filters.add(RowFilter.regexFilter(pos, 0));
-            }
-            if (lemma.length() != 0) {
-                filters.add(RowFilter.regexFilter(lemma, 1));
-            } 
-            if (fst.length() != 0) {
-                filters.add(RowFilter.regexFilter(fst, 2));
-            } 
-            RowFilter rf = RowFilter.andFilter(filters);
-            rowSorter.setRowFilter(rf);
-            this.getjTable1().repaint();
-        } catch (IOException ex) {
-            JOptionPane.showMessageDialog(null, ex);
+        String pos = jTextField1.getText();
+        String lemma = jTextField2.getText();
+        String fst = jTextField3.getText();
+        String sinsem = jTextField4.getText();
+        TableRowSorter<DefaultTableModel> rowSorter;
+        rowSorter = new TableRowSorter<>(tableModel);
+        this.getjTable1().setRowSorter(rowSorter);
+        this.getjTable1().removeAll();
+        List<RowFilter<Object,Object>> filters = new ArrayList<>();
+        if (pos.length() != 0) {
+            filters.add(RowFilter.regexFilter(pos, 0));
         }
+        if (lemma.length() != 0) {
+            
+            filters.add(RowFilter.regexFilter(lemma, 1));
+        }
+        if (fst.length() != 0) {
+            filters.add(RowFilter.regexFilter(fst, 2));
+        }
+        if (sinsem.length() != 0) {
+            filters.add(RowFilter.regexFilter(sinsem, 3));
+        }
+        RowFilter rf = RowFilter.andFilter(filters);
+        rowSorter.setRowFilter(rf);
+        jTable1.setModel(rowSorter.getModel());
+        jLabel13.setText(String.valueOf(this.getjTable1().getRowCount()));
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jMenuDuplicateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuDuplicateMouseClicked
@@ -1093,7 +1162,7 @@ public final class EditorDelas extends javax.swing.JFrame {
     private void jButtonGraphActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGraphActionPerformed
         if(this.getjTable1().getSelectedRow()!=-1){
             
-            String filename = StaticValue.inflectionPath+this.getjTable1().getModel().getValueAt(this.getjTable1().getSelectedRow(), 2)+".grf";
+            String filename = StaticValue.inflectionPath+this.getjTable1().getValueAt(this.getjTable1().getSelectedRow(), 2)+".grf";
             
             final File[] graphs =new File[1];
             graphs[0] = new File(filename);
@@ -1127,6 +1196,25 @@ public final class EditorDelas extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(null, "there are "+ this.getjTable1().getRowCount()+" to move to "+dic);
        
     }//GEN-LAST:event_jButtonMoveActionPerformed
+
+    private void jButtonClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonClearActionPerformed
+        jTextField1.setText("");
+        jTextField2.setText("");
+        jTextField3.setText("");
+        jTextField4.setText("");
+        TableRowSorter<DefaultTableModel> rowSorter;
+        rowSorter = new TableRowSorter<>(tableModel);
+        rowSorter.setRowFilter(null);
+        this.getjTable1().setRowSorter(rowSorter);
+        this.getjTable1().removeAll();
+        this.getjTable1().repaint();
+        jLabel13.setText(String.valueOf(this.getjTable1().getRowCount()));
+    }//GEN-LAST:event_jButtonClearActionPerformed
+
+    private void jButtonHelpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonHelpActionPerformed
+        Help help = new Help();
+        help.setVisible(true);
+    }//GEN-LAST:event_jButtonHelpActionPerformed
 
     
 
@@ -1167,18 +1255,21 @@ public final class EditorDelas extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButtonAll;
+    private javax.swing.JButton jButtonClear;
     private javax.swing.JButton jButtonGraph;
+    private javax.swing.JButton jButtonHelp;
     private javax.swing.JButton jButtonMove;
     private javax.swing.JButton jButtonSearch;
-    private javax.swing.JCheckBox jCheckBox1;
+    private javax.swing.JCheckBox jCheckBoxExtract;
     private javax.swing.JComboBox jComboBoxDic;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1210,10 +1301,12 @@ public final class EditorDelas extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextFieldFst;
     private javax.swing.JTextField jTextFieldLemma;
     private javax.swing.JTextField jTextFieldLemmaInv;
@@ -1221,7 +1314,9 @@ public final class EditorDelas extends javax.swing.JFrame {
     private javax.swing.JTextField jTextFieldSearch;
     private javax.swing.JTextField jTextFieldSinSem;
     // End of variables declaration//GEN-END:variables
-
+    public javax.swing.JLabel getJLablel13(){
+        return this.jLabel13;
+    }
     /**
      * @return the jTable1
      */
@@ -1234,5 +1329,17 @@ public final class EditorDelas extends javax.swing.JFrame {
      */
     public DefaultTableModel getTableModel() {
         return tableModel;
+    }
+    /**
+     * @return the gm
+     */
+    public DefaultTableModel getDefaultTableModel() {
+        return defaulttableModel;
+    }
+    public boolean getUnsaved(){
+        return unsaved;
+    }
+    public void setUnsaved(boolean value){
+        this.unsaved=value;
     }
 }

@@ -21,6 +21,7 @@ public class MenuDelas extends javax.swing.JFrame {
     private EditorDelas elFrame ;
     private int valueSelected;
     private boolean edit = false;
+    int idedit=0;
     /**
      * Creates new form AddDelas
      */
@@ -37,14 +38,15 @@ public class MenuDelas extends javax.swing.JFrame {
         };
         jComboBoxDic.setSelectedItem(dictionnary);
         this.elFrame=el;
+        
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         switch (menuSelected) {
             case "insertBefore":
-                this.valueSelected = selectedRow;
+                this.idedit = (int) obj[7];
                 jLabelTitle.setText("Insertion value");
                 break;
             case "insertAfter":
-                this.valueSelected = selectedRow + 1;
+                this.idedit = ((int) obj[7])+1;
                 jLabelTitle.setText("Insertion value");
                 break;
             case "copyBefore":
@@ -53,6 +55,7 @@ public class MenuDelas extends javax.swing.JFrame {
                 this.jTextFieldSinSem.setText((String) obj[3]);
                 this.jTextFieldComment.setText((String) obj[4]);
                 this.valueSelected = selectedRow;
+                this.idedit = (int) obj[7];
                 jLabelTitle.setText("Insertion value");
                 break;
             case "copyAfter":
@@ -61,6 +64,7 @@ public class MenuDelas extends javax.swing.JFrame {
                 this.jTextFieldSinSem.setText((String) obj[3]);
                 this.jTextFieldComment.setText((String) obj[4]);
                 this.valueSelected = selectedRow + 1;
+                this.idedit = ((int) obj[7])+1;
                 jLabelTitle.setText("Insertion value");
                 break;
             case "view":
@@ -69,6 +73,7 @@ public class MenuDelas extends javax.swing.JFrame {
                 this.jTextFieldSinSem.setText((String) obj[3]);
                 this.jTextFieldComment.setText((String) obj[4]);
                 jButtonAdd.setVisible(false);
+                
                 jLabelTitle.setText("View value");
                 break;
             case "edit":
@@ -78,6 +83,7 @@ public class MenuDelas extends javax.swing.JFrame {
                 this.jTextFieldSinSem.setText((String) obj[3]);
                 this.jTextFieldComment.setText((String) obj[4]);
                 this.valueSelected = selectedRow;
+                this.idedit = (int) obj[7];
                 jLabelTitle.setText("Edit value");
                 break;
         }
@@ -260,13 +266,27 @@ public class MenuDelas extends javax.swing.JFrame {
         try{
             String lemma = jTextFieldLemma.getText();
             String FST = jTextFieldFST.getText();
-            String sinSem = jTextFieldSinSem.getText().substring(0,1).equals("+")?jTextFieldSinSem.getText():"+"+jTextFieldSinSem.getText();
+            String sinSem = jTextFieldSinSem.getText().equals("")?"":jTextFieldSinSem.getText().substring(0,1).equals("+")?jTextFieldSinSem.getText():"+"+jTextFieldSinSem.getText();
             String dic = (String) jComboBoxDic.getSelectedItem();
             String comment=jTextFieldComment.getText();
 
-            Object[] row = Utils.delasToObject(lemma,FST,sinSem,comment,dic);
-            if(edit)elFrame.getTableModel().removeRow(valueSelected);
-            elFrame.getTableModel().insertRow(valueSelected,row);
+            Object[] row = Utils.delasToObject(lemma,FST,sinSem,comment,dic,idedit);
+            if(edit){
+                for(int i=0;i<row.length;i++){
+                    if(i!=7){
+                        elFrame.getTableModel().setValueAt(row[i],idedit,i);
+                    }
+                }
+            }else{
+                
+                elFrame.getTableModel().insertRow(idedit,row);
+                elFrame.getjTable1().setModel(elFrame.getTableModel());
+                for(int i=idedit;i<elFrame.getTableModel().getRowCount();i++){
+                    elFrame.getTableModel().setValueAt(i,i,7);
+                }
+                elFrame.getJLablel13().setText(String.valueOf(elFrame.getjTable1().getRowCount()));
+            }
+            elFrame.setUnsaved(true);
             this.setVisible(false);
         }
         catch(ArrayIndexOutOfBoundsException e){

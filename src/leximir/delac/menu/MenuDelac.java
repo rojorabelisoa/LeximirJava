@@ -53,6 +53,7 @@ public class MenuDelac extends javax.swing.JFrame {
     private int valueSelected;
     private DefaultTableModel tableModel;
     private boolean edit=false;
+    int idedit=0;
 
     /**
      * Creates new form MenuAddBeforeDelac
@@ -77,15 +78,18 @@ public class MenuDelac extends javax.swing.JFrame {
         switch (menuSelected) {
             case "insertBefore":
                 this.valueSelected = selectedRow;
+                this.idedit = (int) obj[7];
                 break;
             case "insertAfter":
                 this.valueSelected = selectedRow + 1;
+                this.idedit = ((int) obj[7])+1;
                 break;
             case "copyBefore":
                 jTextFieldLema.setText((String) this.obj[2]);
                 jTextFieldLemaAll.setText((String) this.obj[1]);
                 jTextFieldComment.setText((String) this.obj[5]);
                 this.valueSelected = selectedRow;
+                this.idedit = (int) obj[7];
                 completeJtableDelaf((String) this.obj[1]);
                 break;
             case "copyAfter":
@@ -93,6 +97,7 @@ public class MenuDelac extends javax.swing.JFrame {
                 jTextFieldLemaAll.setText((String) this.obj[1]);
                 jTextFieldComment.setText((String) this.obj[5]);
                 this.valueSelected = selectedRow + 1;
+                this.idedit = ((int) obj[7])+1;
                 completeJtableDelaf((String) this.obj[1]);
                 break;
             case "view":
@@ -108,6 +113,7 @@ public class MenuDelac extends javax.swing.JFrame {
                 jTextFieldLemaAll.setText((String) this.obj[1]);
                 jTextFieldComment.setText((String) this.obj[5]);
                 this.valueSelected = selectedRow;
+                this.idedit = (int) obj[7];
                 completeJtableDelaf((String) this.obj[1]);
                 break;
         }
@@ -145,7 +151,11 @@ public class MenuDelac extends javax.swing.JFrame {
                 model.setValueAt(lema, i, 2);
                 model.setValueAt(fst, i, 3);
                 model.setValueAt(gramCat, i, 4);
-                model.setValueAt(separator, i-1, 5);
+                try{
+                    model.setValueAt(separator, i-1, 5);
+                }
+                catch(java.lang.ArrayIndexOutOfBoundsException e){
+                }
                 
             }
             else{
@@ -595,7 +605,7 @@ public class MenuDelac extends javax.swing.JFrame {
                         }
                     }
                 }
-                if (!jTableFLX.getModel().getValueAt(row, 5).equals("")) {
+                if (jTableFLX.getModel().getValueAt(row, 5)!=null) {
                     valueLema = valueLema + jTableFLX.getModel().getValueAt(row, 5);
                     valueLemaAll = valueLemaAll + jTableFLX.getModel().getValueAt(row, 5);
                 } else {
@@ -626,8 +636,22 @@ public class MenuDelac extends javax.swing.JFrame {
             String comment = jTextFieldComment.getText();
 
             Object[] row = Utils.delacToObject(lemmaAll, FST, synSem, comment, dic);
-            if(edit)editorDelac.getTableModel().removeRow(valueSelected);
-            editorDelac.getTableModel().insertRow(valueSelected, row);
+            if(edit){
+                for(int i=0;i<row.length;i++){
+                    if(i!=7){
+                        editorDelac.getTableModel().setValueAt(row[i],idedit,i);
+                    }
+                }
+            }
+            else{
+                editorDelac.getTableModel().insertRow(idedit, row);
+                editorDelac.getjTable1().setModel(editorDelac.getTableModel());
+                for(int i=idedit;i<editorDelac.getTableModel().getRowCount();i++){
+                    editorDelac.getTableModel().setValueAt(i,i,7);
+                }
+                editorDelac.getJLablel13().setText(String.valueOf(editorDelac.getjTable1().getRowCount()));
+            }
+            editorDelac.setUnsaved(true);
             this.setVisible(false);
         } catch (ArrayIndexOutOfBoundsException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());

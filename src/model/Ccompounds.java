@@ -129,6 +129,7 @@ public class Ccompounds {
                                                 allOk.add(true);
                                                 HashMap<String, String> condition = new HashMap<>();
                                                 if (eElementWord.getAttribute("Flex").equals("false") || eElementWord.getAttribute("Flex") == null || eElementWord.getAttribute("Flex").equals("")) {
+                                                    // oan flex false
                                                     returns = returns + words[k];
                                                 } else {
                                                     if (eElementWord.getAttribute("Flex") != null) {
@@ -420,5 +421,68 @@ public class Ccompounds {
         }
         flexion = lema.equals("") || flex.equals("") || GramCatret.equals("") ? "" : "(" + lema + "." + flex + ":" + GramCatret + ")";
         return flexion;
+    }
+    private String getFlexForFalse(String words, String poss, HashMap<String, String> condition) {
+        String flexion = "";
+        List<String> gramCats = new ArrayList<>();
+        String lema = "";
+        String flex = "";
+        for (int k = 0; k < jTableRule.getRowCount(); k++) {
+            if (jTableRule.getValueAt(k, 1) != null) {
+                if (!((String) jTableRule.getValueAt(k, 5)).equals(words)) {
+                    flexion = "";
+                } else {
+                    if (words.equals((String) jTableRule.getValueAt(k, 5)) && (poss.equals((String) jTableRule.getValueAt(k, 4)) || poss.equals("MOT"))) {//get lemma in Table
+                        lema = (String) jTableRule.getValueAt(k, 1);
+                        flex = (String) jTableRule.getValueAt(k, 2);
+                        String gramcat = (String) jTableRule.getValueAt(k, 3);
+                        gramCats.add(gramcat);
+
+                    }
+                }
+            }
+        }
+        String GramCatret = "";
+        for (String s : gramCats) {
+            if (condition.containsKey("Anim")) {
+                if (!s.contains(condition.get("Anim"))) {
+                    continue;
+                }
+            }
+            if (condition.containsKey("Num")) {
+                if (!s.contains(condition.get("Num"))) {
+                    continue;
+                }
+            }
+            if (condition.containsKey("Gen")) {
+                if (!s.contains(condition.get("Gen"))) {
+                    continue;
+                }
+            }
+            if (condition.containsKey("Det")) {
+                if (!s.contains(condition.get("Det"))) {
+                    continue;
+                }
+            }
+            if (condition.containsKey("Degree")) {
+                if (!s.contains(condition.get("Degree"))) {
+                    continue;
+                }
+            }
+            if (condition.containsKey("Case")) {
+                if (!s.contains(condition.get("Case"))) {
+                    continue;
+                }
+            }
+            GramCatret = s;
+        }
+        for (int k = 0; k < jTableRule.getRowCount(); k++) {
+            if (jTableRule.getValueAt(k, 1) != null) {
+                if (((String) jTableRule.getValueAt(k, 5)).equals(words)&&((String) jTableRule.getValueAt(k, 3)).equals(GramCatret)) {
+                    return (String) jTableRule.getValueAt(k, 1);
+                } 
+            }
+        }
+        return words;
     }
 }

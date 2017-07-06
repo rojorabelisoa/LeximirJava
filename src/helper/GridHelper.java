@@ -32,6 +32,13 @@ public class GridHelper {
         Object[][] data = DelasHelper.getAllDelasFromDicToObject();
         return new DefaultTableModel(data,entete);
     }
+    //instance default grid
+    public static GridModel getOpenEditorforDelasGridModel() throws IOException{
+        
+        String[] entete = {"POS","Lemma","FSTCode","SynSem","Comment","Lemmalnv","WN_SynSet","LemmaID","DictFile","Id"};
+        Object[][] data = DelasHelper.getAllDelasFromDicToObject();
+        return new GridModel(entete,data);
+    }
     // tableau pour afficher après recherche
     public static JTable getOpenEditorLadlforDelac() throws IOException{
         

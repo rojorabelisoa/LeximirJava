@@ -53,7 +53,8 @@ public class DelacHelper {
             String path = StaticValue.allDelac+"//"+dela;
             ArrayList<String> readFile = Utils.readFile(path);
             for(String s:readFile){
-                count++;
+                if(s.trim().length()>0)
+                    count++;
             }
             StaticValue.dictionnary.add(dela);
         }
@@ -61,24 +62,34 @@ public class DelacHelper {
         Object[][] ob = new Object[count][lf.length];
         int k=0;
         int dicId=0;
+        int lemmaId=0;
         for(String dela:list){
             String pOs,lemmaAll,lemma,fSTCode,sinSem,comment,wn_SinSet;
-            int lemmaId=10;
+            
             String dicFile=dela;
             String path = StaticValue.allDelac+"//"+dela;
             ArrayList<String> readFile = Utils.readFile(path);
             for(String s:readFile){
-                wn_SinSet="";
-                lemmaAll=getLemaAllDelac(s);
-                lemma=getLemaInLemaAllDelac(lemmaAll);
-                fSTCode = getFstCodeInDelac(s);
-                sinSem="+"+getSynSemInDelac(s);
-                pOs = getPosInDelac(s);
-                comment = getCommentInDelas(s);
-                Delac tmp = new Delac(pOs, lemmaAll, lemma, fSTCode, sinSem, comment, wn_SinSet, lemmaId, dicFile, dicId);
-                delacToObject(ob, k, tmp);
-                k++;
-                lemmaId=lemmaId+10;
+                StringBuilder sb = new StringBuilder();
+                for (int i = 1; i < s.length(); i++) {
+                    String str = String.valueOf(s.charAt(i));
+                    if(str.matches("^[a-zA-Z ]+$||[$&+,:;=?@#//|]||[0-9]+")){
+                        sb.append(s.charAt(i));
+                    }
+                }
+                if (!sb.toString().isEmpty()) {
+                    wn_SinSet="";
+                    lemmaAll=getLemaAllDelac(s);
+                    lemma=getLemaInLemaAllDelac(lemmaAll);
+                    fSTCode = getFstCodeInDelac(s);
+                    sinSem=getSynSemInDelac(s);
+                    pOs = getPosInDelac(s);
+                    comment = getCommentInDelas(s);
+                    Delac tmp = new Delac(pOs, lemmaAll, lemma, fSTCode, sinSem, comment, wn_SinSet, lemmaId, dicFile, dicId);
+                    delacToObject(ob, k, tmp);
+                    k++;
+                    lemmaId=lemmaId+1;
+                }
             }
             dicId++;
         }
@@ -149,23 +160,29 @@ public class DelacHelper {
         return sb.toString();
     }
     public static String getSynSemInDelac(String text){
-        StringBuilder sb = new StringBuilder();
-        boolean begin=false;
-        for(int i=0;i<text.length();i++){
-            
-            if(begin){
-                if(text.charAt(i)=='/'){
-                    break;
+        try{
+            StringBuilder sb = new StringBuilder();
+            boolean begin=false;
+            for(int i=0;i<text.length();i++){
+
+                if(begin){
+                    if(text.charAt(i)=='/'){
+                        break;
+                    }
+                    sb.append(text.charAt(i));
                 }
-                sb.append(text.charAt(i));
-            }
-            else{
-                if(text.charAt(i)=='+'){
-                    begin=true;
+                else{
+                    if(text.charAt(i)=='+'){
+                        begin=true;
+                        sb.append(text.charAt(i));
+                    }
                 }
             }
+
+            return sb.toString();
+        }catch(java.lang.StringIndexOutOfBoundsException e){
+            return"";
         }
-        return sb.toString();
     }
     public static String getPosInDelac(String text){
         StringBuilder sb = new StringBuilder();
@@ -189,18 +206,22 @@ public class DelacHelper {
         return sb.toString();
     }
     public static String getCommentInDelas(String text){
-        StringBuilder sb = new StringBuilder();
-        boolean begin=false;
-        for(int i=0;i<text.length();i++){
-            if(text.charAt(i)=='/'){
-                begin=true;
-                i=i+2;
+        try{
+            StringBuilder sb = new StringBuilder();
+            boolean begin=false;
+            for(int i=0;i<text.length();i++){
+                if(text.charAt(i)=='/'){
+                    begin=true;
+                    i=i+2;
+                }
+                if(begin){
+                    sb.append(text.charAt(i));
+                }
             }
-            if(begin){
-                sb.append(text.charAt(i));
-            }
+            return sb.toString();
+        }catch(java.lang.StringIndexOutOfBoundsException e){
+            return"";
         }
-        return sb.toString();
     }
     public static Object[][] completeJTableFLX(String lema) {
         String[] words = lema.split("-|\\ ");
