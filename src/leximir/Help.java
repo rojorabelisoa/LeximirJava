@@ -56,7 +56,7 @@ public class Help extends javax.swing.JFrame {
 
         jLabel4.setText("For extract match : use ^+text+$. eg: search \"hello\" = ^hello$");
 
-        jLabel5.setText("For multiple criteria in one field : use text || text2");
+        jLabel5.setText("For multiple criteria in one field : use text | text2");
 
         jLabel6.setText("e.g : text begin with ab OR and with cd =>^ab||cd$");
 

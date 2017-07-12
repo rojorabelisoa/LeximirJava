@@ -61,7 +61,6 @@ public class DelacHelper {
         
         Object[][] ob = new Object[count][lf.length];
         int k=0;
-        int dicId=0;
         int lemmaId=0;
         for(String dela:list){
             String pOs,lemmaAll,lemma,fSTCode,sinSem,comment,wn_SinSet;
@@ -85,13 +84,12 @@ public class DelacHelper {
                     sinSem=getSynSemInDelac(s);
                     pOs = getPosInDelac(s);
                     comment = getCommentInDelas(s);
-                    Delac tmp = new Delac(pOs, lemmaAll, lemma, fSTCode, sinSem, comment, wn_SinSet, lemmaId, dicFile, dicId);
+                    Delac tmp = new Delac(pOs, lemmaAll, lemma, fSTCode, sinSem, comment, wn_SinSet, lemmaId, dicFile);
                     delacToObject(ob, k, tmp);
                     k++;
                     lemmaId=lemmaId+1;
                 }
             }
-            dicId++;
         }
         return ob;
     }
@@ -107,7 +105,6 @@ public class DelacHelper {
         ob[k][6]=tmp.getWn_sinSet();
         ob[k][7]=tmp.getLemmaId();
         ob[k][8]=tmp.getDicFile();
-        ob[k][9]=tmp.getDicId();
     }
     
     public static String getLemaInLemaAllDelac(String text) {
@@ -279,6 +276,7 @@ public class DelacHelper {
             if ((indexLema + 1) == indexPosBegin) {
                 lema = result1.substring(0, indexLema);
             } else {
+                
                 lema = result1.substring(indexLema + 1, indexPosBegin);
             }
             String Pos = indexPosEnd > -1 ? result1.substring(indexPosBegin + 1, indexPosEnd) : result1.substring(indexPosBegin);

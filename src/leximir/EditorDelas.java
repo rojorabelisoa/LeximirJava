@@ -155,11 +155,7 @@ public final class EditorDelas extends javax.swing.JFrame {
         jMenuDelete = new javax.swing.JMenu();
         jMenuInflect = new javax.swing.JMenu();
         jMenuStatistics = new javax.swing.JMenu();
-        jMenuWorldNet = new javax.swing.JMenu();
         jMenuSave = new javax.swing.JMenu();
-        jMenuConv = new javax.swing.JMenu();
-        jMenuCount = new javax.swing.JMenu();
-        jMenuHepl = new javax.swing.JMenu();
         jMenuDuplicate = new javax.swing.JMenu();
         jMenuExit = new javax.swing.JMenu();
 
@@ -219,7 +215,7 @@ public final class EditorDelas extends javax.swing.JFrame {
             }
         });
 
-        jLabel6.setText("Move entry to :");
+        jLabel6.setText("Move all entries in table to :");
 
         jButtonMove.setText("Move");
         jButtonMove.addActionListener(new java.awt.event.ActionListener() {
@@ -383,7 +379,7 @@ public final class EditorDelas extends javax.swing.JFrame {
 
         jLabel8.setText("POS");
 
-        jLabel14.setText("SinSem");
+        jLabel14.setText("SynSem");
 
         jLabel11.setText("all columns");
 
@@ -514,7 +510,7 @@ public final class EditorDelas extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenuNew);
 
-        jMenuBefore.setText("Copy Before");
+        jMenuBefore.setText("Copy before");
         jMenuBefore.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jMenuBeforeMouseClicked(evt);
@@ -522,7 +518,7 @@ public final class EditorDelas extends javax.swing.JFrame {
         });
         jMenuBar1.add(jMenuBefore);
 
-        jMenuAfter.setText("Copy After");
+        jMenuAfter.setText("Copy after");
         jMenuAfter.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jMenuAfterMouseClicked(evt);
@@ -575,9 +571,6 @@ public final class EditorDelas extends javax.swing.JFrame {
         });
         jMenuBar1.add(jMenuStatistics);
 
-        jMenuWorldNet.setText("WorldNet");
-        jMenuBar1.add(jMenuWorldNet);
-
         jMenuSave.setText("Save");
         jMenuSave.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -585,15 +578,6 @@ public final class EditorDelas extends javax.swing.JFrame {
             }
         });
         jMenuBar1.add(jMenuSave);
-
-        jMenuConv.setText("Conv");
-        jMenuBar1.add(jMenuConv);
-
-        jMenuCount.setText("Count WN");
-        jMenuBar1.add(jMenuCount);
-
-        jMenuHepl.setText("Help");
-        jMenuBar1.add(jMenuHepl);
 
         jMenuDuplicate.setText("Check duplicate");
         jMenuDuplicate.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -712,8 +696,8 @@ public final class EditorDelas extends javax.swing.JFrame {
 
     private void jMenuItemInsertAfterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemInsertAfterActionPerformed
         if(this.getjTable1().getSelectedRow()!=-1){
-            Object [] obj =new Object[10];
-            for(int i=0;i<10;i++){
+            Object [] obj =new Object[9];
+            for(int i=0;i<9;i++){
                 obj[i]=this.getjTable1().getValueAt(this.getjTable1().getSelectedRow(), i);
             }
             MenuDelas ad=new MenuDelas(this,this.getjTable1().getSelectedRow(),"insertAfter",this.getjTable1().getValueAt(this.getjTable1().getSelectedRow(), 8),obj);
@@ -726,8 +710,8 @@ public final class EditorDelas extends javax.swing.JFrame {
 
     private void jMenuItemInsertBeforeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemInsertBeforeActionPerformed
         if(this.getjTable1().getSelectedRow()!=-1){
-            Object [] obj =new Object[10];
-            for(int i=0;i<10;i++){
+            Object [] obj =new Object[9];
+            for(int i=0;i<9;i++){
                 obj[i]=this.getjTable1().getValueAt(this.getjTable1().getSelectedRow(), i);
             }
             MenuDelas ad=new MenuDelas(this,this.getjTable1().getSelectedRow(),"insertBefore",this.getjTable1().getValueAt(this.getjTable1().getSelectedRow(), 8),obj);
@@ -740,8 +724,8 @@ public final class EditorDelas extends javax.swing.JFrame {
 
     private void jMenuViewMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuViewMouseClicked
         if(this.getjTable1().getSelectedRow()!=-1){
-            Object [] obj =new Object[10];
-            for(int i=0;i<10;i++){
+            Object [] obj =new Object[9];
+            for(int i=0;i<9;i++){
                 obj[i]=this.getjTable1().getValueAt(this.getjTable1().getSelectedRow(), i);
             }
            MenuDelas ad=new MenuDelas(this,this.getjTable1().getSelectedRow(),"view",this.getjTable1().getValueAt(this.getjTable1().getSelectedRow(), 8),obj);
@@ -754,8 +738,8 @@ public final class EditorDelas extends javax.swing.JFrame {
 
     private void jMenuEditMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuEditMouseClicked
         if(this.getjTable1().getSelectedRow()!=-1){
-            Object [] obj =new Object[10];
-            for(int i=0;i<10;i++){
+            Object [] obj =new Object[9];
+            for(int i=0;i<9;i++){
                 obj[i]=this.getjTable1().getValueAt(this.getjTable1().getSelectedRow(), i);
             }
             MenuDelas ad=new MenuDelas(this,this.getjTable1().getSelectedRow(),"edit",this.getjTable1().getValueAt(this.getjTable1().getSelectedRow(), 8),obj);
@@ -768,8 +752,8 @@ public final class EditorDelas extends javax.swing.JFrame {
 
     private void jMenuBeforeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuBeforeMouseClicked
         if(this.getjTable1().getSelectedRow()!=-1){
-            Object [] obj =new Object[10];
-            for(int i=0;i<10;i++){
+            Object [] obj =new Object[9];
+            for(int i=0;i<9;i++){
                 obj[i]=this.getjTable1().getValueAt(this.getjTable1().getSelectedRow(), i);
             }
             MenuDelas ad=new MenuDelas(this,this.getjTable1().getSelectedRow(),"copyBefore",this.getjTable1().getValueAt(this.getjTable1().getSelectedRow(), 8),obj);
@@ -782,8 +766,8 @@ public final class EditorDelas extends javax.swing.JFrame {
 
     private void jMenuAfterMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuAfterMouseClicked
        if(this.getjTable1().getSelectedRow()!=-1){
-            Object [] obj =new Object[10];
-            for(int i=0;i<10;i++){
+            Object [] obj =new Object[9];
+            for(int i=0;i<9;i++){
                 obj[i]=this.getjTable1().getValueAt(this.getjTable1().getSelectedRow(), i);
             }
             MenuDelas ad=new MenuDelas(this,this.getjTable1().getSelectedRow(),"copyAfter",this.getjTable1().getValueAt(this.getjTable1().getSelectedRow(), 8),obj);
@@ -889,9 +873,16 @@ public final class EditorDelas extends javax.swing.JFrame {
                 }
                 /** This section is for SimSem1 excel data **/
                 String sinsemForPos = (String) this.getjTable1().getValueAt(i, 3);
+                
                 String[] domain = sinsemForPos.split("=")[0].split(Pattern.quote("+"));
                 
-                String realSynSem = domain[domain.length-1];
+                String realSynSem="";
+                try{
+                    realSynSem = domain[domain.length-1];
+                }
+                catch(java.lang.ArrayIndexOutOfBoundsException e){
+                    
+                }
                 if (!dataForSinSem1.containsKey(pos)) {
                     dataForSinSem1.put(pos, new HashMap<String,String>());
                     dataForSinSem1.get(pos).put(realSynSem, "1");
@@ -915,7 +906,9 @@ public final class EditorDelas extends javax.swing.JFrame {
                         domainCategory = sinsemForPos.split("=")[1];
                     }
                     catch(java.lang.ArrayIndexOutOfBoundsException ex){
-                        domainCategory = sinsemForPos.substring(1);
+                        if(!sinsemForPos.equals("")){
+                           domainCategory = sinsemForPos.substring(1); 
+                        }
                     }
                 }
                 if (!dataForSinSem2.containsKey(pos)) {
@@ -1013,7 +1006,7 @@ public final class EditorDelas extends javax.swing.JFrame {
                     text="^"+text+"$";
                 }
                 else{
-                    if(!text.contains(".")||text.contains("$"))text="^"+text;
+                    if(!text.contains(".")&&!text.contains("$"))text="^"+text;
                 }    
                 RowFilter rowFilter = RowFilter.regexFilter(text, 0);// recherche avec la colonne indice 0
                 rowSorter.setRowFilter(rowFilter);
@@ -1041,7 +1034,7 @@ public final class EditorDelas extends javax.swing.JFrame {
                         text="^"+text+"$";
                     }
                     else{
-                        if(!text.contains(".")||text.contains("$"))text="^"+text;
+                        if(!text.contains(".")&&!text.contains("$"))text="^"+text;
                     }    
                     RowFilter rowFilter = RowFilter.regexFilter(text, 1);// recherche avec la colonne indice 0
                     rowSorter.setRowFilter(rowFilter);
@@ -1091,7 +1084,7 @@ public final class EditorDelas extends javax.swing.JFrame {
                     text="^"+text+"$";
                 }
                 else{
-                    if(!text.contains(".")||text.contains("$"))text="."+text;
+                    if(!text.contains(".")&&!text.contains("$"))text="."+text;
                 }    
                 RowFilter rowFilter = RowFilter.regexFilter(text, 3);// recherche avec la colonne indice 0
                 rowSorter.setRowFilter(rowFilter);
@@ -1112,7 +1105,7 @@ public final class EditorDelas extends javax.swing.JFrame {
             if (text.trim().length() == 0) {
                 rowSorter.setRowFilter(null);
             } else {
-                if(!text.contains(".")||text.contains("$"))text=text+"$";
+                if(!text.contains(".")&&!text.contains("$"))text=text+"$";
                 RowFilter rowFilter = RowFilter.regexFilter(text, 1);// recherche avec la colonne indice 0
                 rowSorter.setRowFilter(rowFilter);
             }
@@ -1191,7 +1184,7 @@ public final class EditorDelas extends javax.swing.JFrame {
     private void jButtonMoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonMoveActionPerformed
         String dic = (String) jComboBoxDic.getSelectedItem();
         for(int i =0 ; i<this.getjTable1().getRowCount();i++){
-            tableModel.setValueAt(dic, i, 8);
+            jTable1.setValueAt(dic, i, 8);
         }
         JOptionPane.showMessageDialog(null, "there are "+ this.getjTable1().getRowCount()+" to move to "+dic);
        
@@ -1281,13 +1274,10 @@ public final class EditorDelas extends javax.swing.JFrame {
     private javax.swing.JMenu jMenuAfter;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenu jMenuBefore;
-    private javax.swing.JMenu jMenuConv;
-    private javax.swing.JMenu jMenuCount;
     private javax.swing.JMenu jMenuDelete;
     private javax.swing.JMenu jMenuDuplicate;
     private javax.swing.JMenu jMenuEdit;
     private javax.swing.JMenu jMenuExit;
-    private javax.swing.JMenu jMenuHepl;
     private javax.swing.JMenu jMenuInflect;
     private javax.swing.JMenuItem jMenuItemInsertAfter;
     private javax.swing.JMenuItem jMenuItemInsertBefore;
@@ -1295,7 +1285,6 @@ public final class EditorDelas extends javax.swing.JFrame {
     private javax.swing.JMenu jMenuSave;
     private javax.swing.JMenu jMenuStatistics;
     private javax.swing.JMenu jMenuView;
-    private javax.swing.JMenu jMenuWorldNet;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

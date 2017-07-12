@@ -101,8 +101,8 @@ public class DelasHelper {
     */
     public static Object[][] getAllDelasFromDicToObject() throws FileNotFoundException, IOException{
         ArrayList<String> list= getDicDelasPath();
-        Delas delac = new Delas();
-        Field[] lf = delac.getClass().getDeclaredFields();
+        Delas delas = new Delas();
+        Field[] lf = delas.getClass().getDeclaredFields();
         int count =0;
         for(String dela:list){
             //String path = Utils.getValueXml("pathDelas")+"/"+dela;
@@ -116,7 +116,6 @@ public class DelasHelper {
         
         Object[][] ob = new Object[count][lf.length];
         int k=0;
-        int dicId=0;
         int lemmaId=0;
         for(String dela:list){
             String pOs,lemma,fSTCode,sinSem,comment,lemmaInv,wn_SinSet;
@@ -133,13 +132,12 @@ public class DelasHelper {
                 pOs = getPosInDelas(s);
                 comment = getCommentInDelas(s);
                 wn_SinSet = "";
-                Delas tmp = new Delas(pOs, lemma, fSTCode, sinSem, comment, lemmaInv, wn_SinSet, lemmaId, dicFile, dicId);
+                Delas tmp = new Delas(pOs, lemma, fSTCode, sinSem, comment, lemmaInv, wn_SinSet, lemmaId, dicFile);
                 delacToObject(ob, k, tmp);
                 k++;
                 lemmaId=lemmaId+1;
                 
             }
-            dicId++;
         }
         return ob;
     }
@@ -154,7 +152,6 @@ public class DelasHelper {
         ob[k][6]=tmp.getWn_sinSet();
         ob[k][7]=tmp.getLemmaId();
         ob[k][8]=tmp.getDicFile();
-        ob[k][9]=tmp.getDicId();
     }
     
     public static String getLemaInDelas(String text){

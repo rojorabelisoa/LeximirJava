@@ -542,7 +542,7 @@ private DefaultTableModel tableModel ;
             for(String words:f){
                 int indexLema = words.indexOf("+");
                 String sinsem = words.substring(indexLema);
-                String Clema = words.substring(0,indexLema-1);
+                String Clema = words.substring(0,indexLema);
                 String[] wordSplit = Clema.split("-|\\ ");
                 char separator = 0;
                 int separatorSpace = Clema.indexOf(" ");

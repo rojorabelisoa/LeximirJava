@@ -1,4 +1,20 @@
-AC_distribution =  + FLX + PosQ + Comp
+PAR_distribution =  + FLX
 
-NC_distribution =  + NProp + Loc + Conc + Hum + DOM + Org + Ek + Comp   + Dr + Comp + Comp    + Hyd + CC2 + FLX + Top + Comp  + River + Course + Food
+A_distribution =  + PP + Val + APP + DE + Lng + DrFed + Mount + Gr + Drink + FoS + Cr + Elem + Last + DeoGr + MG + First + Course + NProp + DOM + Bot + Nick + Const + EN + Cel + PGA + Dr + Alim + Top + Pos + Fict + Taste + PosQ + Mat + SupReg + Inh + Org + Ek + El + Ijk + Zgrada + Oro + Nprop + Ins + Prod + Hyd + FLX + CC2 + Zool + WoP + River + Cpompound + Food + SR + Prof + Hum + Conc + Col + GM + Text + Compound + HumColl + Date + DER + Neg + Reg + Sci + Eth + Sr
+
+ADV_distribution =  + Amm + DOM + Adj + Ek + El + Num + Ijk + Prep + Comp + Quant + Mann + DER + Neg + FLX + NVAL + Sr
+
+V_distribution =  + DOM + Pref + Ek + Iref + Imperf + It + Ijk + Perf + Cr + DER + Ref + FLX + WoP + Tr
+
+PREF_distribution =  + AN
+
+NUM_distribution =  + NVAL + Flex + Ijk
+
+CONJ_distribution =  + FLX
+
+PREP_distribution =  + p2 + FLX
+
+N_distribution =  + Val + PT + Lng + DrFed + Gr + DiSyn + Attr + Penins + Loc + Cur + DOM + Cel + Coll + Plain + Top + Erg + Mat + RU + Ijk + Being + Machine + Prod + Hyd + FLX + Char + River + WoP + MesDevice + Food + Prof + SR + Conc + Cond + Text + HumColl + Therap + Neg + Fjord + Reg + Eth + Event + DisSyn + Sr + Uten + DE + Instrum + Mount + Process + Lake + Drink + FoS + NumN + Cr + Name + Elem + Last + Aug + DeoGr + MG + First + Course + NProp + Bot + Nick + Const + EN + Dr + Alim + Fict + State + VN + NG + Mes + Icon + FG + Inh + Action + Ing + Org + Ek + Meal + Micro + Time + Oro + Zgrada + Nprop + Ins + CC2 + NVAL + Zool + Proposition + Body + Hum + GM + Title + Quantity + Compound + NPrep + Dem + DER
+
+INT_distribution =  + DER + FLX + Onom
 

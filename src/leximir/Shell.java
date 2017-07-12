@@ -37,8 +37,7 @@ public class Shell extends javax.swing.JFrame {
         jRadioInflectCompress.setSelected(true);
         buttonGroup1.add(jRadioCompress);
         buttonGroup1.add(jRadioInflectCompress);
-        buttonGroup1.add(jRadioDelaf);
-        
+        jTextFieldInflection.setText(StaticValue.inflectionPath);
         final JPopupMenu popupMenu = new JPopupMenu();
         JMenuItem deleteItem = new JMenuItem("Delete");
         deleteItem.addActionListener(new ActionListener() {
@@ -79,17 +78,19 @@ public class Shell extends javax.swing.JFrame {
         jTable1 = new javax.swing.JTable();
         jButtonDo = new javax.swing.JButton();
         jButtonQuit = new javax.swing.JButton();
-        jRadioDelaf = new javax.swing.JRadioButton();
         jPanel5 = new javax.swing.JPanel();
         jTextFieldPath = new javax.swing.JTextField();
         jButtonSearch = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
+        jPanel3 = new javax.swing.JPanel();
+        jTextFieldInflection = new javax.swing.JTextField();
+        jButtonInflectionPath = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jRadioInflectCompress.setText("Inflect delas(c) and compressed");
+        jRadioInflectCompress.setText("Inflect delas(c) and compress");
         jRadioInflectCompress.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jRadioInflectCompressMouseClicked(evt);
@@ -121,7 +122,7 @@ public class Shell extends javax.swing.JFrame {
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 193, Short.MAX_VALUE)
+            .addGap(0, 199, Short.MAX_VALUE)
             .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel4Layout.createSequentialGroup()
                     .addContainerGap()
@@ -145,13 +146,6 @@ public class Shell extends javax.swing.JFrame {
             }
         });
 
-        jRadioDelaf.setText("Search Delaf from delas(c)");
-        jRadioDelaf.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioDelafActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
@@ -168,10 +162,7 @@ public class Shell extends javax.swing.JFrame {
                         .addGap(37, 37, 37)
                         .addComponent(jButtonDo, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButtonQuit))
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jRadioDelaf)))
+                        .addComponent(jButtonQuit)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
@@ -181,10 +172,8 @@ public class Shell extends javax.swing.JFrame {
                 .addComponent(jRadioInflectCompress)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jRadioCompress)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
-                .addComponent(jRadioDelaf)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonQuit, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -212,7 +201,7 @@ public class Shell extends javax.swing.JFrame {
                 .addComponent(jTextFieldPath, javax.swing.GroupLayout.PREFERRED_SIZE, 407, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonSearch)
-                .addGap(0, 25, Short.MAX_VALUE))
+                .addGap(0, 27, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -229,19 +218,57 @@ public class Shell extends javax.swing.JFrame {
         jTextArea1.setRows(5);
         jScrollPane2.setViewportView(jTextArea1);
 
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Inflection path"));
+
+        jTextFieldInflection.setEditable(false);
+        jTextFieldInflection.setBackground(new java.awt.Color(204, 204, 204));
+
+        jButtonInflectionPath.setText("Search");
+        jButtonInflectionPath.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonInflectionPathActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addComponent(jTextFieldInflection, javax.swing.GroupLayout.PREFERRED_SIZE, 404, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonInflectionPath)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextFieldInflection, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonInflectionPath)))
+        );
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jScrollPane2)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 531, Short.MAX_VALUE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(42, 42, 42))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -261,7 +288,7 @@ public class Shell extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
@@ -288,6 +315,7 @@ public class Shell extends javax.swing.JFrame {
             JFileChooser theFileChooser = new JFileChooser();
             FileNameExtensionFilter filter = new FileNameExtensionFilter("Dic FILES", "dic");
             theFileChooser.setFileFilter(filter);
+            theFileChooser.setCurrentDirectory(new File(StaticValue.allDela));
             theFileChooser.setDialogTitle("Search dela Dictionnary");
             theFileChooser.setMultiSelectionEnabled(true);
             theFileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
@@ -308,7 +336,7 @@ public class Shell extends javax.swing.JFrame {
                 jTable1.setModel(tableModel);
                 jTable1.repaint();
             }
-        }
+        }/*
         else{
             String delas = jTextFieldPath.getText();
                 if(delas.equals("")){
@@ -328,7 +356,7 @@ public class Shell extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "error :"+ex.getMessage());
                 }
             }
-        }
+        }*/
     }//GEN-LAST:event_jButtonSearchActionPerformed
 
     private void jButtonQuitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonQuitActionPerformed
@@ -368,12 +396,21 @@ public class Shell extends javax.swing.JFrame {
       jTextFieldPath.setBackground(new java.awt.Color(204, 204, 204));
     }//GEN-LAST:event_jRadioCompressMouseClicked
 
-    private void jRadioDelafActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioDelafActionPerformed
-        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder("Enter Delas(c) :"));
-        isDelas=true;
-        jTextFieldPath.setEditable(true);
-        jTextFieldPath.setBackground(new java.awt.Color(255, 255, 255));
-    }//GEN-LAST:event_jRadioDelafActionPerformed
+    private void jButtonInflectionPathActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonInflectionPathActionPerformed
+       if(!isDelas){
+            JFileChooser theFileChooser = new JFileChooser();
+            theFileChooser.setCurrentDirectory(new File(StaticValue.inflectionPath));
+            theFileChooser.setDialogTitle("Search dela Dictionnary");
+            theFileChooser.setMultiSelectionEnabled(true);
+            theFileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+            theFileChooser.setAcceptAllFileFilterUsed(false);
+            if(theFileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION){
+                jTable1.removeAll();
+                File[] f = theFileChooser.getSelectedFiles();
+                jTextFieldInflection.setText(f[0].getAbsolutePath());
+            }
+        }
+    }//GEN-LAST:event_jButtonInflectionPathActionPerformed
 
     /**
      * @param args the command line arguments
@@ -413,21 +450,23 @@ public class Shell extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton jButtonDo;
+    private javax.swing.JButton jButtonInflectionPath;
     private javax.swing.JButton jButtonQuit;
     private javax.swing.JButton jButtonSearch;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JRadioButton jRadioCompress;
-    private javax.swing.JRadioButton jRadioDelaf;
     private javax.swing.JRadioButton jRadioInflectCompress;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextField jTextFieldInflection;
     private javax.swing.JTextField jTextFieldPath;
     // End of variables declaration//GEN-END:variables
     private DefaultTableModel tableModel = new DefaultTableModel();
@@ -440,7 +479,7 @@ public class Shell extends javax.swing.JFrame {
             /* Generate delaf */
             String strDelaf = strDelas.replace("delas", "delaf");
             String[] command = new String[]{StaticValue.unitexLoggerPath, "MultiFlex",
-                strDelas,"-o",strDelaf,"-a",StaticValue.alphabetPath,"-d",StaticValue.inflectionPath};
+                strDelas,"-o",strDelaf,"-a",StaticValue.alphabetPath,"-d",jTextFieldPath.getText()};
             Utils.runCommandTerminal(command);
             /* compress delaf */
             String[] command1 = new String[]{StaticValue.unitexLoggerPath, "Compress",strDelaf};

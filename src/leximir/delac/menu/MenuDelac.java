@@ -73,6 +73,7 @@ public class MenuDelac extends javax.swing.JFrame {
                 return c;
             }
         };
+        jMenuPrediction.setVisible(false);
         editorDelac = aThis;
         this.obj = obj;
         switch (menuSelected) {
@@ -122,7 +123,6 @@ public class MenuDelac extends javax.swing.JFrame {
         jTextFieldCFlx.setText((String) this.obj[3]);
         jTextFieldDictionnary.setText((String) this.obj[8]);
         jTextFieldsynSem.setText((String) this.obj[4]);
-        jTextFieldDicId.setText(String.valueOf((int) this.obj[9]));
         jTextFieldLemaId.setText(String.valueOf((int) this.obj[7]) + 1);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.jTableFLX.setDefaultRenderer(Object.class, color);
@@ -186,7 +186,6 @@ public class MenuDelac extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jTextFieldLemaAll = new javax.swing.JTextField();
         jTextFieldLema = new javax.swing.JTextField();
@@ -196,7 +195,6 @@ public class MenuDelac extends javax.swing.JFrame {
         jTextFieldCFlx = new javax.swing.JTextField();
         jTextFieldsynSem = new javax.swing.JTextField();
         jTextFieldDictionnary = new javax.swing.JTextField();
-        jTextFieldDicId = new javax.swing.JTextField();
         jTextFieldLemaId = new javax.swing.JTextField();
         jPanelPrediction = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -223,18 +221,13 @@ public class MenuDelac extends javax.swing.JFrame {
         jMenuClose = new javax.swing.JMenu();
         jMenuInflect = new javax.swing.JMenu();
         jMenuPrediction = new javax.swing.JMenu();
-        jMenu5 = new javax.swing.JMenu();
-        jMenu6 = new javax.swing.JMenu();
         jMenu7 = new javax.swing.JMenu();
-        jMenu8 = new javax.swing.JMenu();
-        jMenu9 = new javax.swing.JMenu();
-        jMenu10 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel2.setText("Lema (All)");
+        jLabel2.setText("Lemma (All)");
 
-        jLabel3.setText("Lema");
+        jLabel3.setText("Lemma");
 
         jLabel4.setText("Comment");
 
@@ -246,11 +239,9 @@ public class MenuDelac extends javax.swing.JFrame {
 
         jLabel8.setText("SynSem");
 
-        jLabel9.setText("Dictionnary");
+        jLabel9.setText("Dictionary");
 
-        jLabel10.setText("DicId");
-
-        jLabel11.setText("LemaId");
+        jLabel11.setText("Lemma id");
 
         jTextFieldLemaAll.setEditable(false);
         jTextFieldLemaAll.setBackground(new java.awt.Color(204, 204, 204));
@@ -263,9 +254,6 @@ public class MenuDelac extends javax.swing.JFrame {
 
         jTextFieldDictionnary.setEditable(false);
         jTextFieldDictionnary.setBackground(new java.awt.Color(204, 204, 204));
-
-        jTextFieldDicId.setEditable(false);
-        jTextFieldDicId.setBackground(new java.awt.Color(204, 204, 204));
 
         javax.swing.GroupLayout jPanelCompoundLayout = new javax.swing.GroupLayout(jPanelCompound);
         jPanelCompound.setLayout(jPanelCompoundLayout);
@@ -290,7 +278,7 @@ public class MenuDelac extends javax.swing.JFrame {
                             .addComponent(jLabel6)
                             .addComponent(jLabel7)
                             .addComponent(jLabel8))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
                         .addGroup(jPanelCompoundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jTextFieldPos, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTextFieldCFlx, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -299,12 +287,10 @@ public class MenuDelac extends javax.swing.JFrame {
                 .addGap(37, 37, 37)
                 .addGroup(jPanelCompoundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel9)
-                    .addComponent(jLabel10)
                     .addComponent(jLabel11))
                 .addGap(18, 18, 18)
                 .addGroup(jPanelCompoundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jTextFieldDictionnary, javax.swing.GroupLayout.DEFAULT_SIZE, 181, Short.MAX_VALUE)
-                    .addComponent(jTextFieldDicId)
                     .addComponent(jTextFieldLemaId))
                 .addGap(40, 40, 40))
         );
@@ -328,10 +314,8 @@ public class MenuDelac extends javax.swing.JFrame {
                 .addGroup(jPanelCompoundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(jLabel7)
-                    .addComponent(jLabel10)
                     .addComponent(jTextFieldComment, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextFieldCFlx, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextFieldDicId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextFieldCFlx, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanelCompoundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
@@ -551,23 +535,8 @@ public class MenuDelac extends javax.swing.JFrame {
         });
         jMenuBar1.add(jMenuPrediction);
 
-        jMenu5.setText("Dlf");
-        jMenuBar1.add(jMenu5);
-
-        jMenu6.setText("Debug file");
-        jMenuBar1.add(jMenu6);
-
         jMenu7.setText("Selected Rule");
         jMenuBar1.add(jMenu7);
-
-        jMenu8.setText("FSD");
-        jMenuBar1.add(jMenu8);
-
-        jMenu9.setText("Check in Dictionnary");
-        jMenuBar1.add(jMenu9);
-
-        jMenu10.setText("WorldNet");
-        jMenuBar1.add(jMenu10);
 
         setJMenuBar(jMenuBar1);
 
@@ -1015,7 +984,6 @@ public class MenuDelac extends javax.swing.JFrame {
     private javax.swing.JButton jButtonAddSimpleForm;
     private javax.swing.JButton jButtonRefresh;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
@@ -1026,12 +994,7 @@ public class MenuDelac extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JMenu jMenu10;
-    private javax.swing.JMenu jMenu5;
-    private javax.swing.JMenu jMenu6;
     private javax.swing.JMenu jMenu7;
-    private javax.swing.JMenu jMenu8;
-    private javax.swing.JMenu jMenu9;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenu jMenuClose;
     private javax.swing.JMenu jMenuInflect;
@@ -1058,7 +1021,6 @@ public class MenuDelac extends javax.swing.JFrame {
     private javax.swing.JTextField jTextFieldCFlx;
     private javax.swing.JTextField jTextFieldClemaAll;
     private javax.swing.JTextField jTextFieldComment;
-    private javax.swing.JTextField jTextFieldDicId;
     private javax.swing.JTextField jTextFieldDictionnary;
     private javax.swing.JTextField jTextFieldLema;
     private javax.swing.JTextField jTextFieldLemaAll;

@@ -22,22 +22,6 @@ public class CompoundsUtils {
         Utils.generateDelaf(tempPath, value);
         String path = StaticValue.text_sntAbsPath;
         ArrayList<String> readFile = Utils.readFile(path);
-        int count = 0;
-        for (String s : readFile) {
-            StringBuilder sb = new StringBuilder();
-            for (int i = 1; i < s.length(); i++) {
-                if (count == 0) {
-                    i = i++;
-                    count++;
-                    continue;
-                }
-                sb.append(s.charAt(i));
-                i++;
-            }
-            if (!sb.toString().isEmpty()) {
-                result.add(sb.toString());
-            }
-        }
-        return result;
+        return readFile;
     }
 }

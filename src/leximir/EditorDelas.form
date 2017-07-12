@@ -32,7 +32,7 @@
         </Menu>
         <Menu class="javax.swing.JMenu" name="jMenuBefore">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Copy Before"/>
+            <Property name="text" type="java.lang.String" value="Copy before"/>
           </Properties>
           <Events>
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jMenuBeforeMouseClicked"/>
@@ -40,7 +40,7 @@
         </Menu>
         <Menu class="javax.swing.JMenu" name="jMenuAfter">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Copy After"/>
+            <Property name="text" type="java.lang.String" value="Copy after"/>
           </Properties>
           <Events>
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jMenuAfterMouseClicked"/>
@@ -87,11 +87,6 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuStatisticsActionPerformed"/>
           </Events>
         </Menu>
-        <Menu class="javax.swing.JMenu" name="jMenuWorldNet">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="WorldNet"/>
-          </Properties>
-        </Menu>
         <Menu class="javax.swing.JMenu" name="jMenuSave">
           <Properties>
             <Property name="text" type="java.lang.String" value="Save"/>
@@ -99,21 +94,6 @@
           <Events>
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jMenuSaveMouseClicked"/>
           </Events>
-        </Menu>
-        <Menu class="javax.swing.JMenu" name="jMenuConv">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Conv"/>
-          </Properties>
-        </Menu>
-        <Menu class="javax.swing.JMenu" name="jMenuCount">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Count WN"/>
-          </Properties>
-        </Menu>
-        <Menu class="javax.swing.JMenu" name="jMenuHepl">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Help"/>
-          </Properties>
         </Menu>
         <Menu class="javax.swing.JMenu" name="jMenuDuplicate">
           <Properties>
@@ -437,7 +417,7 @@
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel6">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Move entry to :"/>
+                    <Property name="text" type="java.lang.String" value="Move all entries in table to :"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JButton" name="jButtonMove">
@@ -590,7 +570,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel14">
               <Properties>
-                <Property name="text" type="java.lang.String" value="SinSem"/>
+                <Property name="text" type="java.lang.String" value="SynSem"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel11">

@@ -17,6 +17,7 @@ public class StaticValue {
     public static final String alphabetPath = "//Users//rojo//Unitex-GramLab-3.1//French//Alphabet.txt";
     public static final String inflectionPath = "//Users//rojo//Documents//LeXimir4UnitexRes//grf//";
     public static final String allDelas = "/Users/rojo/Documents/LeXimir4UnitexRes/Delas";
+    public static final String allDela = "/Users/rojo/Documents/LeXimir4UnitexRes/Delas";
     public static final String allDelafAbsPath = "//Users//rojo//Documents//LeXimir4UnitexRes//Delaf//";
     public static final String allDelac = "/Users/rojo/Documents/LeXimir4UnitexRes/Delac";
     public static final String statisticsTmpPath = "statisticsTmp.xls";

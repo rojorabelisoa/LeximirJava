@@ -19,7 +19,7 @@ public class GridHelper {
     //Helper for search
     public static JTable getOpenEditorLadl() throws IOException{
         
-        String[] entete = {"POS","Lemma","FSTCode","SinSem","Comment","Lemmalnv","WN_Sinset","LemmaID","DictFile","Id"};
+        String[] entete = {"POS","Lemma","FSTCode","SynSem","Comment","Lemmalnv","WN_Sinset","LemmaID","DictFile"};
         Object[][] data = DelasHelper.getAllDelasFromDicToObject();
         GridModel tm=new GridModel(entete,data);
         JTable tableau = new JTable(tm.getDonnees(), tm.getEntete());
@@ -28,21 +28,21 @@ public class GridHelper {
     //instance default grid
     public static DefaultTableModel getOpenEditorforDelas() throws IOException{
         
-        String[] entete = {"POS","Lemma","FSTCode","SynSem","Comment","Lemmalnv","WN_SynSet","LemmaID","DictFile","Id"};
+        String[] entete = {"POS","Lemma","FSTCode","SynSem","Comment","Lemmalnv","WN_SynSet","LemmaID","DictFile"};
         Object[][] data = DelasHelper.getAllDelasFromDicToObject();
         return new DefaultTableModel(data,entete);
     }
     //instance default grid
     public static GridModel getOpenEditorforDelasGridModel() throws IOException{
         
-        String[] entete = {"POS","Lemma","FSTCode","SynSem","Comment","Lemmalnv","WN_SynSet","LemmaID","DictFile","Id"};
+        String[] entete = {"POS","Lemma","FSTCode","SynSem","Comment","Lemmalnv","WN_SynSet","LemmaID","DictFile"};
         Object[][] data = DelasHelper.getAllDelasFromDicToObject();
         return new GridModel(entete,data);
     }
     // tableau pour afficher après recherche
     public static JTable getOpenEditorLadlforDelac() throws IOException{
         
-        String[] entete = {"POS","Comp.Lema all","Comp.Lema","FSTCode","SynSem","Comment","WN_SynSet","LemmaID","DictFile","DicId"};
+        String[] entete = {"POS","Comp.Lemma all","Comp.Lemma","FSTCode","SynSem","Comment","WN_SynSet","LemmaID","DictFile"};
         Object[][] data = DelacHelper.getAllDelacFromDicToObject();
         GridModel tm=new GridModel(entete,data);
         JTable tableau = new JTable(tm.getDonnees(), tm.getEntete());
@@ -51,21 +51,21 @@ public class GridHelper {
     //tableau par defaut
     public static DefaultTableModel getOpenEditorforDelac() throws IOException{
         
-        String[] entete = {"POS","Comp.Lema all","Comp.Lema","FSTCode","SynSem","Comment","WN_SynSet","LemmaID","DictFile","DicId"};
+        String[] entete = {"POS","Comp.Lemma all","Comp.Lemma","FSTCode","SynSem","Comment","WN_SynSet","LemmaID","DictFile"};
         Object[][] data = DelacHelper.getAllDelacFromDicToObject();
         return new DefaultTableModel(data,entete);
     }
     //tableau par defaut
     public static DefaultTableModel getDelafInDelacForDelac() throws IOException{
         
-        String[] entete = {"Ulaz","POS","lema","GramCats","FSTGraph"};
+        String[] entete = {"Ulaz","POS","lemma","GramCats","FSTGraph"};
         Object[][] data = DelafHelper.getAllDelafFromDelacToObject();
         return new DefaultTableModel(data,entete);
     }
     // tableau pour afficher les données du tableau jTableFLX
     public static DefaultTableModel getDataforjTableFlx(String lema) throws IOException{
         
-        String[] entete = {"RB", "Form", "Lema", "FST Code", "GramCat", "Separator"};
+        String[] entete = {"RB", "Form", "Lemma", "FST Code", "GramCat", "Separator"};
         Object[][] data = DelacHelper.completeJTableFLX(lema);
         return new DefaultTableModel(data,entete);
     }
@@ -73,21 +73,21 @@ public class GridHelper {
     public static DefaultTableModel getDataforjTableDlf(List<String> dlf) throws IOException{
         
         Object[][] data = DelacHelper.completeJTableDlf(dlf);
-        String[] entete = {"ulaz", "lema", "Pos", "GramCat"};
+        String[] entete = {"ulaz", "lemma", "Pos", "GramCat"};
         return new DefaultTableModel(data,entete);
     }
     // tableau pour afficher les données du tableau jTableDlf
     public static DefaultTableModel getDataforjTablePredict(List<String> predict) throws IOException{
         
         Object[][] data = DelacHelper.completeJTablePredict(predict);
-        String[] entete = {"words", "FLX", "Rule","Spec/Gen","ID RULE","SinSem"};
+        String[] entete = {"words", "FLX", "Rule","Spec/Gen","ID RULE","SynSem"};
         return new DefaultTableModel(data,entete);
     }
     // tableau pour afficher les données du tableau Strategie
     public static DefaultTableModel getDataforStrategy(List<String> words,String strategy) throws IOException{
         
         Object[][] data = StrategieHelper.completeJTableStrategie(words,strategy);
-        String[] entete = {"select", "Clema", "CFLX", "Word NO", "Predict Id", "Rule Id", "RulePart Id", "SinSem"};
+        String[] entete = {"select", "Clemma", "CFLX", "Word NO", "Predict Id", "Rule Id", "RulePart Id", "SynSem"};
         return new DefaultTableModel(data,entete);
     }
 }

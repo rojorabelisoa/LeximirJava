@@ -348,7 +348,7 @@ public class Utils {
                 "-d", StaticValue.inflectionPath
             };
             
-            for(String s:command)System.out.print(s+" ");
+            //for(String s:command)System.out.print(s+" ");
             ProcessBuilder pb = new ProcessBuilder(command);
             pb.redirectOutput(ProcessBuilder.Redirect.INHERIT);
             pb.redirectError(ProcessBuilder.Redirect.INHERIT);
