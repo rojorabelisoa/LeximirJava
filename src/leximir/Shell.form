@@ -104,7 +104,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jRadioCompress" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="jTabbedPane1" pref="245" max="32767" attributes="0"/>
+                      <Component id="jTabbedPane1" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jButtonQuit" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
@@ -220,7 +220,7 @@
           <Properties>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                <TitledBorder title="Select dela dictionnary (dic file)"/>
+                <TitledBorder title="Select dela dictionnaries (dic files)"/>
               </Border>
             </Property>
           </Properties>

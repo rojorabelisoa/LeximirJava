@@ -123,7 +123,8 @@ public class MenuDelac extends javax.swing.JFrame {
         jTextFieldCFlx.setText((String) this.obj[3]);
         jTextFieldDictionnary.setText((String) this.obj[8]);
         jTextFieldsynSem.setText((String) this.obj[4]);
-        jTextFieldLemaId.setText(String.valueOf((int) this.obj[7]) + 1);
+        int lemaid = Integer.parseInt(this.obj[7].toString()) + 1;
+        jTextFieldLemaId.setText(String.valueOf(lemaid));
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.jTableFLX.setDefaultRenderer(Object.class, color);
         this.jTableDelaf.setDefaultRenderer(Object.class, color);
@@ -138,7 +139,14 @@ public class MenuDelac extends javax.swing.JFrame {
         } else if (separatorIndex > -1) {
             separator = LemmaAll.charAt(separatorIndex);
         }
-        DefaultTableModel model = (DefaultTableModel)jTableFLX.getModel();
+        DefaultTableModel model = new DefaultTableModel();
+        model = (DefaultTableModel)jTableFLX.getModel();
+        model.addColumn("RB");
+        model.addColumn("Form");
+        model.addColumn("Lemma");
+        model.addColumn("FST Code");
+        model.addColumn("GramCat");
+        model.addColumn("Separator");
         for(int i = 0;i<words.length;i++){
             String word = words[i];
             if(word.contains("(")){
@@ -147,19 +155,26 @@ public class MenuDelac extends javax.swing.JFrame {
                 String lema = word.substring(word.indexOf("(")+1, indexPosBegin);
                 String fst = word.substring(indexPosBegin+1, indexGramCat);
                 String gramCat=word.substring(indexGramCat+1, word.length()-1);
-                model.setValueAt(lema, i, 1);
-                model.setValueAt(lema, i, 2);
-                model.setValueAt(fst, i, 3);
-                model.setValueAt(gramCat, i, 4);
                 try{
-                    model.setValueAt(separator, i-1, 5);
+                    Object[] obj = new Object[6];
+                    if(i+1==words.length){
+                        obj = new Object[]{i,lema,lema,fst,gramCat,""};
+                    }else{
+                        obj = new Object[]{i,lema,lema,fst,gramCat,separator};
+                    }
+                    model.addRow(obj);
                 }
                 catch(java.lang.ArrayIndexOutOfBoundsException e){
                 }
                 
             }
             else{
-                model.setValueAt(word, i, 1);
+                try{
+                    Object[] obj = new Object[]{i,word,"","","",""};
+                    model.addRow(obj);
+                }
+                catch(java.lang.ArrayIndexOutOfBoundsException e){
+                }
             }
         }
         jTableFLX.setModel(model);
@@ -417,11 +432,10 @@ public class MenuDelac extends javax.swing.JFrame {
 
         jTableFLX.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"1", "", "", "","",""},
-                {"2", "", "", "","",""},
+
             },
             new String [] {
-                "RB", "Form", "Lema", "FST Code","GramCat","Separator"
+
             }
         ));
         jTableFLX.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -633,8 +647,8 @@ public class MenuDelac extends javax.swing.JFrame {
                 try {
                     rowIdSelectedDelaf= this.jTableFLX.getSelectedRow();
                     String value = (String) this.jTableFLX.getModel().getValueAt(this.jTableFLX.getSelectedRow(), 1);
-                    String tempPath = StaticValue.delafTmpPathDelac;
-                    Utils.generateDelaf(tempPath, value);
+                    
+                    Utils.generateDelaf(value);
                     tableModel = GridHelper.getDelafInDelacForDelac();
                     JTable table = new JTable(tableModel);
                     this.jTableDelaf.setModel(table.getModel());

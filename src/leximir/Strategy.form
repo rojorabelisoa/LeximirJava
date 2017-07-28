@@ -19,17 +19,17 @@
         </Menu>
         <Menu class="javax.swing.JMenu" name="jMenuExport">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Export Result"/>
+            <Property name="text" type="java.lang.String" value="Export result"/>
           </Properties>
         </Menu>
         <Menu class="javax.swing.JMenu" name="jMenu1">
           <Properties>
-            <Property name="text" type="java.lang.String" value="dictionnary production"/>
+            <Property name="text" type="java.lang.String" value="Dictionnary production"/>
           </Properties>
         </Menu>
         <Menu class="javax.swing.JMenu" name="jMenuExit">
           <Properties>
-            <Property name="text" type="java.lang.String" value="exit"/>
+            <Property name="text" type="java.lang.String" value="Exit"/>
           </Properties>
           <Events>
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jMenuExitMouseClicked"/>
@@ -139,7 +139,7 @@
               <Properties>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                    <TitledBorder title="File with coumpounds list "/>
+                    <TitledBorder title="File with coumpound list "/>
                   </Border>
                 </Property>
               </Properties>
@@ -188,7 +188,7 @@
                 </Component>
                 <Component class="javax.swing.JButton" name="jButtonOpenFile">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="open"/>
+                    <Property name="text" type="java.lang.String" value="Open"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonOpenFileActionPerformed"/>
@@ -248,7 +248,7 @@
                 </Component>
                 <Component class="javax.swing.JButton" name="jButtonStrategyOpen">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="open"/>
+                    <Property name="text" type="java.lang.String" value="Open"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonStrategyOpenActionPerformed"/>
@@ -313,7 +313,7 @@
                 </Component>
                 <Component class="javax.swing.JCheckBox" name="jCheckBox4">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="open txt file with result"/>
+                    <Property name="text" type="java.lang.String" value="Open txt file with result"/>
                   </Properties>
                 </Component>
               </SubComponents>
@@ -364,19 +364,19 @@
               <SubComponents>
                 <Component class="javax.swing.JLabel" name="jLabel1">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="CorpusId:"/>
+                    <Property name="text" type="java.lang.String" value="Corpus id:"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="jTextField3">
                 </Component>
                 <Component class="javax.swing.JButton" name="jButton5">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="open"/>
+                    <Property name="text" type="java.lang.String" value="Open"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JButton" name="jButton6">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="save prediction"/>
+                    <Property name="text" type="java.lang.String" value="Save prediction"/>
                   </Properties>
                 </Component>
                 <Container class="javax.swing.JScrollPane" name="jScrollPane1">
@@ -405,7 +405,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="jTabbedPane1" min="-2" pref="1081" max="-2" attributes="0"/>
-                      <EmptySpace min="0" pref="6" max="32767" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -423,8 +423,8 @@
                 <Container class="javax.swing.JPanel" name="jPanel8">
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-                      <JTabbedPaneConstraints tabName="Result with rules detail">
-                        <Property name="tabTitle" type="java.lang.String" value="Result with rules detail"/>
+                      <JTabbedPaneConstraints tabName="Result with rules details">
+                        <Property name="tabTitle" type="java.lang.String" value="Result with rules details"/>
                       </JTabbedPaneConstraints>
                     </Constraint>
                   </Constraints>
@@ -495,14 +495,14 @@
                             <Property name="autoCreateRowSorter" type="boolean" value="true"/>
                             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                               <Table columnCount="8" rowCount="5">
-                                <Column editable="true" title="select" type="java.lang.Object"/>
-                                <Column editable="true" title="Clema" type="java.lang.Object"/>
+                                <Column editable="true" title="Select" type="java.lang.Object"/>
+                                <Column editable="true" title="Clemma" type="java.lang.Object"/>
                                 <Column editable="true" title="CFLX" type="java.lang.Object"/>
                                 <Column editable="true" title="Word NO" type="java.lang.Object"/>
                                 <Column editable="true" title="Predict Id" type="java.lang.Object"/>
                                 <Column editable="true" title="Rule Id" type="java.lang.Object"/>
                                 <Column editable="true" title="RulePart Id" type="java.lang.Object"/>
-                                <Column editable="true" title="SinSem" type="java.lang.Object"/>
+                                <Column editable="true" title="SynSem" type="java.lang.Object"/>
                               </Table>
                             </Property>
                             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">

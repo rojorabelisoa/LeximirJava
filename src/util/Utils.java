@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
@@ -70,7 +71,7 @@ public class Utils {
                 StringBuilder sb = new StringBuilder();
                 for (int i = 0; i < ligne.length(); i++) {
                     String str = String.valueOf(ligne.charAt(i));
-                    if(str.matches("^[a-zA-Z ]+$||[$&+,:.;=?@#/|)_(-]||[0-9]+")){
+                    if(str.matches("^[a-zA-Z0-9áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ._\\s-]+$||[$&+'*,:.;\\[?@#\\]/ |)_(-]")){
                         sb.append(ligne.charAt(i));
                     }
                 }
@@ -79,6 +80,7 @@ public class Utils {
                 }
             }
         }
+        
         return tmp;
     }
     /**
@@ -88,13 +90,7 @@ public class Utils {
      * @return
      */
     public static String reverseString(String text) {
-        byte[] strAsByteArray = text.getBytes();
-        byte[] result = new byte[strAsByteArray.length];
-
-        for (int i = 0; i < strAsByteArray.length; i++) {
-            result[i] = strAsByteArray[strAsByteArray.length - i - 1];
-        }
-        return new String(result);
+        return new StringBuffer(text).reverse().toString();
     }
     public static Map<String, Object[]> putPosDicGridInExcel(Map<String, HashMap<String, String>> data) {
         Map<String, Object[]> datas = new HashMap<>();
@@ -109,6 +105,11 @@ public class Utils {
         }
         return datas;
     }
+    /**
+     * This function is for All Button. Complete cell in excel file.
+     * @param data 
+     * @return 
+     */
     public static Map<String, Object[]> putPosGridInExcel(Map<String,  String> data) {
         Map<String, Object[]> datas = new HashMap<>();
         datas.put("1", new Object[]{"POS", "Number"});
@@ -321,7 +322,11 @@ public class Utils {
         }
         throw new IllegalArgumentException("Key not found in path");
     }
-
+    /**
+     * this fonction open terminal and run command
+     * @param command 
+     * @throws IOException 
+     */
     public static void runCommandTerminal(String[] command) throws IOException {
         ProcessBuilder pb = new ProcessBuilder(command);
         pb.redirectOutput(ProcessBuilder.Redirect.INHERIT);
@@ -330,7 +335,13 @@ public class Utils {
         while (p.isAlive()) {
         }
     }
-
+    /**
+     * This function inflect delas with the fst code which is give in parameter
+     * @param lemma delas entry
+     * @param fst Fst code
+     * @throws IOException
+     * @throws FileNotFoundException 
+     */
     public static void InflectDelas(String lemma, String fst) throws IOException,FileNotFoundException {
         System.out.println("infect : " + StaticValue.inflectionPath + fst + ".grf");
         if (new File(StaticValue.inflectionPath + fst + ".grf").exists()) {
@@ -363,22 +374,41 @@ public class Utils {
         }
 
     }
-     
-   public static void generateDelaf(String tempPath, String value) throws IOException, HeadlessException {
-        try (BufferedWriter bfw = new BufferedWriter(new FileWriter(tempPath))) {
+     /**
+      * This function generate delaf from an entry of delas(c) into snt_txt/dlf
+      * @param value entry of delas(c)
+      * @throws IOException
+      * @throws HeadlessException 
+      */
+   public static void generateDelaf(String value) throws IOException, HeadlessException {
+       String tempPath = StaticValue.delafTmpPathDelac; 
+       try (BufferedWriter bfw = new BufferedWriter(new FileWriter(tempPath))) {
             bfw.write(value+".");
-        } catch (IOException ex) {
-            Logger.getLogger(MenuDelac.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        } 
         String snt = tempPath.replace(".txt", ".snt");
         try (BufferedWriter bfw = new BufferedWriter(new FileWriter(snt))) {
             bfw.write(value+".");
-        } catch (IOException ex) {
-            JOptionPane.showMessageDialog(null,ex.getMessage());
         }
         String[] cmd1 = {StaticValue.unitexLoggerPath, "Normalize", StaticValue.delafTmpAbsPathDelac+"text.txt" };
         String[] cmd2 = {StaticValue.unitexLoggerPath,"Tokenize",StaticValue.delafTmpAbsPathDelac+"text.snt" ,"-a",StaticValue.alphabetPath};
-        String[] cmd3 ={StaticValue.unitexLoggerPath, "Dico","-t",StaticValue.delafTmpAbsPathDelac+"text.snt","-a",StaticValue.alphabetPath,StaticValue.allDelafAbsPath+"delaf.bin"};
+        List<String> allDela=new ArrayList<>();
+        File folder = new File(StaticValue.allDelafAbsPath);
+        File[] listOfFiles = folder.listFiles();
+        for (File listOfFile : listOfFiles) {
+            if (listOfFile.isFile()) {
+                if (listOfFile.getName().endsWith(".bin")) {
+                    allDela.add(StaticValue.allDelafAbsPath+listOfFile.getName());
+                }
+            } 
+        }
+        String[] cmdTmp ={StaticValue.unitexLoggerPath, "Dico","-t",StaticValue.delafTmpAbsPathDelac+"text.snt","-a",StaticValue.alphabetPath};
+        String[] cmd3 = new String[cmdTmp.length+allDela.size()];
+        System.arraycopy(cmdTmp, 0, cmd3, 0, cmdTmp.length);
+        int indiceCmd=cmdTmp.length;
+        for (String alldela : allDela) {
+            cmd3[indiceCmd] = alldela;
+            indiceCmd++;
+        }
         Utils.runCommandTerminal(cmd1);
         Utils.runCommandTerminal(cmd2);
         Utils.runCommandTerminal(cmd3);

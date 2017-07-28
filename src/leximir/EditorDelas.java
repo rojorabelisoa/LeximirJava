@@ -25,6 +25,7 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
@@ -54,7 +55,7 @@ public final class EditorDelas extends javax.swing.JFrame {
         try {
             initComponents();
             StaticValue.dictionnary.clear();
-            this.setTitle("Editor for Dela Dictionaries of simple words");
+            this.setTitle("LeXimir Editor for Dela dictionaries of simple words");
             tableModel = GridHelper.getOpenEditorforDelas();
             JTable table = new JTable(getTableModel());
             
@@ -123,6 +124,8 @@ public final class EditorDelas extends javax.swing.JFrame {
         jButtonMove = new javax.swing.JButton();
         jComboBoxDic = new javax.swing.JComboBox();
         jCheckBoxExtract = new javax.swing.JCheckBox();
+        jLabel15 = new javax.swing.JLabel();
+        jTextFieldComment = new javax.swing.JTextField();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -144,6 +147,8 @@ public final class EditorDelas extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         jButtonClear = new javax.swing.JButton();
         jButtonHelp = new javax.swing.JButton();
+        Comment = new javax.swing.JLabel();
+        jTextField5 = new javax.swing.JTextField();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenuNew = new javax.swing.JMenu();
         jMenuItemInsertBefore = new javax.swing.JMenuItem();
@@ -154,9 +159,10 @@ public final class EditorDelas extends javax.swing.JFrame {
         jMenuView = new javax.swing.JMenu();
         jMenuDelete = new javax.swing.JMenu();
         jMenuInflect = new javax.swing.JMenu();
+        jMenuDuplicate = new javax.swing.JMenu();
         jMenuStatistics = new javax.swing.JMenu();
         jMenuSave = new javax.swing.JMenu();
-        jMenuDuplicate = new javax.swing.JMenu();
+        jMenuSaveAs = new javax.swing.JMenu();
         jMenuExit = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -171,6 +177,11 @@ public final class EditorDelas extends javax.swing.JFrame {
 
         jLabel1.setText("Lemma");
 
+        jTextFieldLemma.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldLemmaActionPerformed(evt);
+            }
+        });
         jTextFieldLemma.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jTextFieldLemmaKeyPressed(evt);
@@ -193,7 +204,7 @@ public final class EditorDelas extends javax.swing.JFrame {
             }
         });
 
-        jButtonGraph.setText("Show Graph");
+        jButtonGraph.setText("Show graph");
         jButtonGraph.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonGraphActionPerformed(evt);
@@ -226,14 +237,27 @@ public final class EditorDelas extends javax.swing.JFrame {
 
         jComboBoxDic.setModel(new javax.swing.DefaultComboBoxModel(new String[] {  }));
 
-        jCheckBoxExtract.setText("Extract match");
+        jCheckBoxExtract.setText("Exact match");
+
+        jLabel15.setText("Comment");
+
+        jTextFieldComment.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldCommentActionPerformed(evt);
+            }
+        });
+        jTextFieldComment.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextFieldCommentKeyPressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(54, 54, 54)
+                .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel2)
@@ -256,14 +280,20 @@ public final class EditorDelas extends javax.swing.JFrame {
                         .addComponent(jTextFieldSinSem, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButtonAll)))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel15)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jTextFieldLemmaInv, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextFieldComment, javax.swing.GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jCheckBoxExtract)))
-                .addGap(59, 59, 59)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jComboBoxDic, 0, 171, Short.MAX_VALUE)
@@ -273,7 +303,7 @@ public final class EditorDelas extends javax.swing.JFrame {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(9, 9, 9)
                         .addComponent(jLabel6)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addContainerGap(88, Short.MAX_VALUE))))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -284,7 +314,8 @@ public final class EditorDelas extends javax.swing.JFrame {
                     .addComponent(jLabel3)
                     .addComponent(jLabel4)
                     .addComponent(jLabel5)
-                    .addComponent(jLabel6))
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel15))
                 .addGap(12, 12, 12)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextFieldPos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -296,7 +327,8 @@ public final class EditorDelas extends javax.swing.JFrame {
                     .addComponent(jTextFieldLemmaInv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButtonMove)
                     .addComponent(jComboBoxDic, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jCheckBoxExtract)))
+                    .addComponent(jCheckBoxExtract)
+                    .addComponent(jTextFieldComment, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -344,10 +376,10 @@ public final class EditorDelas extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextFieldSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextFieldSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonSearch)
-                .addContainerGap(42, Short.MAX_VALUE))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -366,7 +398,7 @@ public final class EditorDelas extends javax.swing.JFrame {
             }
         });
 
-        jButton4.setText("Search Multicriteria");
+        jButton4.setText("Search multicriteria");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);
@@ -401,6 +433,8 @@ public final class EditorDelas extends javax.swing.JFrame {
             }
         });
 
+        Comment.setText("Comment");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -428,20 +462,23 @@ public final class EditorDelas extends javax.swing.JFrame {
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(26, 26, 26)
                         .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(26, 26, 26)
-                        .addComponent(jTextField4))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jTextField3))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel8)
                         .addGap(74, 74, 74)
                         .addComponent(jLabel9)
                         .addGap(43, 43, 43)
-                        .addComponent(jLabel10)
-                        .addGap(32, 32, 32)
-                        .addComponent(jLabel14)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addComponent(jLabel10)))
                 .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel14))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(Comment)
+                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(31, 31, 31)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton4)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -459,7 +496,7 @@ public final class EditorDelas extends javax.swing.JFrame {
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
+                        .addGap(21, 21, 21)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel8)
                             .addComponent(jLabel9)
@@ -467,7 +504,8 @@ public final class EditorDelas extends javax.swing.JFrame {
                             .addComponent(jLabel14)
                             .addComponent(jButtonClear)
                             .addComponent(jButtonHelp)
-                            .addComponent(jLabel11))
+                            .addComponent(jLabel11)
+                            .addComponent(Comment))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -476,7 +514,8 @@ public final class EditorDelas extends javax.swing.JFrame {
                             .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton4)
                             .addComponent(jLabel12)
-                            .addComponent(jLabel13)))
+                            .addComponent(jLabel13)
+                            .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(46, 46, 46)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -558,6 +597,14 @@ public final class EditorDelas extends javax.swing.JFrame {
         });
         jMenuBar1.add(jMenuInflect);
 
+        jMenuDuplicate.setText("Check duplicate");
+        jMenuDuplicate.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenuDuplicateMouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(jMenuDuplicate);
+
         jMenuStatistics.setText("Statistics");
         jMenuStatistics.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -579,13 +626,13 @@ public final class EditorDelas extends javax.swing.JFrame {
         });
         jMenuBar1.add(jMenuSave);
 
-        jMenuDuplicate.setText("Check duplicate");
-        jMenuDuplicate.addMouseListener(new java.awt.event.MouseAdapter() {
+        jMenuSaveAs.setText("Save as...");
+        jMenuSaveAs.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jMenuDuplicateMouseClicked(evt);
+                jMenuSaveAsMouseClicked(evt);
             }
         });
-        jMenuBar1.add(jMenuDuplicate);
+        jMenuBar1.add(jMenuSaveAs);
 
         jMenuExit.setText("Exit");
         jMenuExit.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -1123,6 +1170,7 @@ public final class EditorDelas extends javax.swing.JFrame {
         String lemma = jTextField2.getText();
         String fst = jTextField3.getText();
         String sinsem = jTextField4.getText();
+        String comment = jTextField5.getText();
         TableRowSorter<DefaultTableModel> rowSorter;
         rowSorter = new TableRowSorter<>(tableModel);
         this.getjTable1().setRowSorter(rowSorter);
@@ -1140,6 +1188,9 @@ public final class EditorDelas extends javax.swing.JFrame {
         }
         if (sinsem.length() != 0) {
             filters.add(RowFilter.regexFilter(sinsem, 3));
+        }
+        if (comment.length() != 0) {
+            filters.add(RowFilter.regexFilter(comment, 4));
         }
         RowFilter rf = RowFilter.andFilter(filters);
         rowSorter.setRowFilter(rf);
@@ -1195,6 +1246,7 @@ public final class EditorDelas extends javax.swing.JFrame {
         jTextField2.setText("");
         jTextField3.setText("");
         jTextField4.setText("");
+        jTextField5.setText("");
         TableRowSorter<DefaultTableModel> rowSorter;
         rowSorter = new TableRowSorter<>(tableModel);
         rowSorter.setRowFilter(null);
@@ -1208,6 +1260,80 @@ public final class EditorDelas extends javax.swing.JFrame {
         Help help = new Help();
         help.setVisible(true);
     }//GEN-LAST:event_jButtonHelpActionPerformed
+
+    private void jMenuSaveAsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuSaveAsMouseClicked
+        File file = null;
+        String path = "";
+        JFileChooser chooser = new JFileChooser();
+        chooser.setCurrentDirectory(new File(StaticValue.allDela));
+        int returnVal = chooser.showOpenDialog(null);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            file = chooser.getSelectedFile();
+            path = file.getPath();
+            try {
+                BufferedWriter bfw;
+                String filename = path;
+                System.out.println(filename);
+                bfw = new BufferedWriter(new FileWriter(filename));
+                for(int row = 0; row < this.getjTable1().getRowCount(); row ++){
+                    String lemma = (String) this.getjTable1().getValueAt(row, 1);
+                    String fstCode = this.getjTable1().getValueAt(row, 2).toString().concat(this.getjTable1().getValueAt(row, 3).toString());
+                    String str = lemma+","+fstCode;
+                    String comment =(String) this.getjTable1().getValueAt(row, 4);
+                    if(comment!=null && comment.trim().length()>0){
+                        str = str+"//"+this.getjTable1().getValueAt(row, 4);
+                    }
+                    str=str+"\n";
+                    bfw.write(str);
+                    
+                }
+                bfw.close();
+                JOptionPane.showMessageDialog(null, "Success");
+            } catch (IOException ex) {
+                Logger.getLogger(EditorDelas.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        }
+    }//GEN-LAST:event_jMenuSaveAsMouseClicked
+
+    private void jTextFieldCommentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldCommentActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldCommentActionPerformed
+
+    private void jTextFieldLemmaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldLemmaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldLemmaActionPerformed
+
+    private void jTextFieldCommentKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldCommentKeyPressed
+        TableRowSorter<DefaultTableModel> rowSorter = null;
+        try {
+            if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+                JTextField textField = (JTextField) evt.getSource();
+                String text = textField.getText();
+
+                rowSorter = new TableRowSorter<>(tableModel);
+                
+                this.getjTable1().setRowSorter(rowSorter);
+                
+                if (text.trim().length() == 0) {
+                    rowSorter.setRowFilter(null);
+                } else {
+                    if(jCheckBoxExtract.isSelected()){
+                        text="^"+text+"$";
+                    }
+                    else{
+                        if(!text.contains(".")&&!text.contains("$"))text="^"+text;
+                    }    
+                    RowFilter rowFilter = RowFilter.regexFilter(text, 4);// recherche avec la colonne indice 4
+                    rowSorter.setRowFilter(rowFilter);
+                }
+                jTable1.setModel(rowSorter.getModel());
+                jLabel13.setText(String.valueOf(this.getjTable1().getRowCount()));
+            }
+        }catch(java.util.regex.PatternSyntaxException e){
+            rowSorter.setRowFilter(null);
+        }
+    }//GEN-LAST:event_jTextFieldCommentKeyPressed
 
     
 
@@ -1248,6 +1374,7 @@ public final class EditorDelas extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel Comment;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButtonAll;
     private javax.swing.JButton jButtonClear;
@@ -1263,6 +1390,7 @@ public final class EditorDelas extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1283,6 +1411,7 @@ public final class EditorDelas extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItemInsertBefore;
     private javax.swing.JMenu jMenuNew;
     private javax.swing.JMenu jMenuSave;
+    private javax.swing.JMenu jMenuSaveAs;
     private javax.swing.JMenu jMenuStatistics;
     private javax.swing.JMenu jMenuView;
     private javax.swing.JPanel jPanel1;
@@ -1296,6 +1425,8 @@ public final class EditorDelas extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
+    private javax.swing.JTextField jTextField5;
+    private javax.swing.JTextField jTextFieldComment;
     private javax.swing.JTextField jTextFieldFst;
     private javax.swing.JTextField jTextFieldLemma;
     private javax.swing.JTextField jTextFieldLemmaInv;

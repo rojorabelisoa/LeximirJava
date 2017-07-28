@@ -99,6 +99,7 @@ public class Ccompounds {
                                             if (eElementWord.getAttribute("Flex") != null) {
                                                 tempCondition.put("Flex", eElementWord.getAttribute("Flex"));
                                             }
+                                            
                                             if (eElementWord.getAttribute("POS") != null) {
                                                 tempCondition.put("POS", eElementWord.getAttribute("POS"));
                                             }
@@ -107,6 +108,9 @@ public class Ccompounds {
                                             }
                                             if (eElementWord.getAttribute("Case") != null) {
                                                 tempCondition.put("Case", eElementWord.getAttribute("Case"));
+                                            }
+                                            if (eElementWord.getAttribute("Nb") != null) {
+                                                tempCondition.put("Nb", eElementWord.getAttribute("Nb"));
                                             }
                                             if (eElementWord.getAttribute("Num") != null) {
                                                 tempCondition.put("Num", eElementWord.getAttribute("Num"));
@@ -143,6 +147,9 @@ public class Ccompounds {
                                                     }
                                                     if (eElementWord.getAttribute("Num") != null) {
                                                         condition.put("Num", eElementWord.getAttribute("Num"));
+                                                    }
+                                                    if (eElementWord.getAttribute("Nb") != null) {
+                                                        condition.put("Nb", eElementWord.getAttribute("Nb"));
                                                     }
                                                     if (eElementWord.getAttribute("Gen") != null) {
                                                         condition.put("Gen", eElementWord.getAttribute("Gen"));

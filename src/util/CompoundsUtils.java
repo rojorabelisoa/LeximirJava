@@ -16,10 +16,15 @@ import model.StaticValue;
  * @author rojo
  */
 public class CompoundsUtils {
+    /**
+     * this function get an entry of delac and inflect to delaf and tranform to List<String> of delaf
+     * @param value entry of delac
+     * @return List delaf of this delac
+     * @throws IOException
+     * @throws HeadlessException 
+     */
     public static List<String> getDlfInFile(String value) throws IOException, HeadlessException {
-        List<String> result = new ArrayList<>();
-        String tempPath = StaticValue.delafTmpPathDelac;
-        Utils.generateDelaf(tempPath, value);
+        Utils.generateDelaf(value);
         String path = StaticValue.text_sntAbsPath;
         ArrayList<String> readFile = Utils.readFile(path);
         return readFile;

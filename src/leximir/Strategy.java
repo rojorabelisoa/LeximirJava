@@ -113,9 +113,9 @@ private DefaultTableModel tableModel ;
         jMenu1 = new javax.swing.JMenu();
         jMenuExit = new javax.swing.JMenu();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("File with coumpounds list "));
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("File with coumpound list "));
 
         jTextFieldSearchfile.setEditable(false);
 
@@ -126,7 +126,7 @@ private DefaultTableModel tableModel ;
             }
         });
 
-        jButtonOpenFile.setText("open");
+        jButtonOpenFile.setText("Open");
         jButtonOpenFile.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonOpenFileActionPerformed(evt);
@@ -168,7 +168,7 @@ private DefaultTableModel tableModel ;
             }
         });
 
-        jButtonStrategyOpen.setText("open");
+        jButtonStrategyOpen.setText("Open");
         jButtonStrategyOpen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonStrategyOpenActionPerformed(evt);
@@ -206,7 +206,7 @@ private DefaultTableModel tableModel ;
 
         jCheckBox3.setText("Only first prediction for each compound");
 
-        jCheckBox4.setText("open txt file with result");
+        jCheckBox4.setText("Open txt file with result");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -236,11 +236,11 @@ private DefaultTableModel tableModel ;
 
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder("Automatic tem extraction"));
 
-        jLabel1.setText("CorpusId:");
+        jLabel1.setText("Corpus id:");
 
-        jButton5.setText("open");
+        jButton5.setText("Open");
 
-        jButton6.setText("save prediction");
+        jButton6.setText("Save prediction");
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
@@ -309,7 +309,7 @@ private DefaultTableModel tableModel ;
                 {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "select", "Clema", "CFLX", "Word NO", "Predict Id", "Rule Id", "RulePart Id", "SinSem"
+                "Select", "Clemma", "CFLX", "Word NO", "Predict Id", "Rule Id", "RulePart Id", "SynSem"
             }
         ));
         jTablePredict.setShowGrid(false);
@@ -370,7 +370,7 @@ private DefaultTableModel tableModel ;
                 .addContainerGap())
         );
 
-        jTabbedPane1.addTab("Result with rules detail", jPanel8);
+        jTabbedPane1.addTab("Result with rules details", jPanel8);
 
         jTableDlf.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -422,7 +422,7 @@ private DefaultTableModel tableModel ;
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1081, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 6, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -460,13 +460,13 @@ private DefaultTableModel tableModel ;
         jMenuDisambiguation.setText("Disambiguation");
         jMenuBar1.add(jMenuDisambiguation);
 
-        jMenuExport.setText("Export Result");
+        jMenuExport.setText("Export result");
         jMenuBar1.add(jMenuExport);
 
-        jMenu1.setText("dictionnary production");
+        jMenu1.setText("Dictionnary production");
         jMenuBar1.add(jMenu1);
 
-        jMenuExit.setText("exit");
+        jMenuExit.setText("Exit");
         jMenuExit.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jMenuExitMouseClicked(evt);
@@ -539,10 +539,11 @@ private DefaultTableModel tableModel ;
             ArrayList<String> f = Utils.readFile(jTextFieldSearchfile.getText());
             List<String> result = new ArrayList<>();
             List<String> predict = new ArrayList<>();
-            for(String words:f){
+            for(String words:f){                
                 int indexLema = words.indexOf("+");
-                String sinsem = words.substring(indexLema);
-                String Clema = words.substring(0,indexLema);
+                //String sinsem = words.substring(indexLema);
+                String Clema = indexLema!=-1?words.substring(0,indexLema):words;
+                System.out.println(Clema+"------------------------");
                 String[] wordSplit = Clema.split("-|\\ ");
                 char separator = 0;
                 int separatorSpace = Clema.indexOf(" ");
@@ -575,7 +576,6 @@ private DefaultTableModel tableModel ;
                                 String word = (String) jTableDlf.getModel().getValueAt(i, 0);
                                 word = word.split(",")[0];
                                 allDelasImportant[indexImportantDelas][0] = 1;// Rule
-
                                 allDelasImportant[indexImportantDelas][1] = allDela[1];// Lema
                                 allDelasImportant[indexImportantDelas][2] = allDela[2];// FLX CODE
                                 allDelasImportant[indexImportantDelas][3] = jTableDlf.getModel().getValueAt(i, 3);// GramCat
@@ -612,10 +612,10 @@ private DefaultTableModel tableModel ;
                     PosWords[j] = "".equals(w) ? w : w.substring(0, w.length() - 1);
                 }
                 // posWords = list of all pos existing in jtable dlf
-                Ccompounds coumpounds = new Ccompounds(jTableRule, jTextFieldStrategy.getText(), wordSplit,separator, PosWords,sinsem);
+                Ccompounds coumpounds = new Ccompounds(jTableRule, jTextFieldStrategy.getText(), wordSplit,separator, PosWords,"");
                 //return "words", "FLX", "Rule","Spec/Gen","SinSem" for each word
                 predict.addAll(coumpounds.getLemaFromXmlRule());
-
+                System.err.println("predict : "+predict.size());
                 jTablePredict.setModel(GridHelper.getDataforjTablePredict(predict));
                 jTablePredict.repaint();
             }

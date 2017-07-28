@@ -25,6 +25,7 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -55,7 +56,7 @@ public final class EditorDelac extends javax.swing.JFrame {
         try {
             initComponents();
             StaticValue.dictionnary.clear();
-            this.setTitle("Editor for Dela Dictionaries of compound words");
+            this.setTitle("LeXimir Editor for Dela dictionaries of compound words");
             tableModel = GridHelper.getOpenEditorforDelac();
             for(String dic:StaticValue.dictionnary){
                 jComboBoxDic.addItem(dic);
@@ -111,6 +112,8 @@ public final class EditorDelac extends javax.swing.JFrame {
         jButtonMove = new javax.swing.JButton();
         jComboBoxDic = new javax.swing.JComboBox();
         jCheckBoxExtract = new javax.swing.JCheckBox();
+        jLabel14 = new javax.swing.JLabel();
+        jTextFieldComment = new javax.swing.JTextField();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -132,6 +135,8 @@ public final class EditorDelac extends javax.swing.JFrame {
         jTextField4 = new javax.swing.JTextField();
         jButton4 = new javax.swing.JButton();
         jLabel11 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        jTextField5 = new javax.swing.JTextField();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenuNew = new javax.swing.JMenu();
         jMenuItemInsertBefore = new javax.swing.JMenuItem();
@@ -142,9 +147,10 @@ public final class EditorDelac extends javax.swing.JFrame {
         jMenuView = new javax.swing.JMenu();
         jMenuDelete = new javax.swing.JMenu();
         jMenuInflect = new javax.swing.JMenu();
+        jMenuDuplicate = new javax.swing.JMenu();
         jMenuStatistics = new javax.swing.JMenu();
         jMenuSave = new javax.swing.JMenu();
-        jMenuDuplicate = new javax.swing.JMenu();
+        jMenuSaveAs = new javax.swing.JMenu();
         jMenuExit = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -181,7 +187,7 @@ public final class EditorDelac extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText("Open Graph");
+        jButton2.setText("Open graph");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -206,14 +212,21 @@ public final class EditorDelac extends javax.swing.JFrame {
 
         jComboBoxDic.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
 
-        jCheckBoxExtract.setText("Extract match");
+        jCheckBoxExtract.setText("Exact match");
+
+        jLabel14.setText("Comment");
+
+        jTextFieldComment.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextFieldCommentKeyPressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(54, 54, 54)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel2)
@@ -232,14 +245,21 @@ public final class EditorDelac extends javax.swing.JFrame {
                         .addComponent(jButton2)))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jTextFieldSinSem, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonAll)
-                        .addGap(18, 18, 18)
+                        .addComponent(jButtonAll, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel14)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jTextFieldComment, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jCheckBoxExtract)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel6)
                     .addGroup(jPanel3Layout.createSequentialGroup()
@@ -256,7 +276,8 @@ public final class EditorDelac extends javax.swing.JFrame {
                     .addComponent(jLabel1)
                     .addComponent(jLabel3)
                     .addComponent(jLabel4)
-                    .addComponent(jLabel6))
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel14))
                 .addGap(12, 12, 12)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextFieldPos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -267,7 +288,8 @@ public final class EditorDelac extends javax.swing.JFrame {
                     .addComponent(jButtonAll)
                     .addComponent(jButtonMove)
                     .addComponent(jComboBoxDic, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jCheckBoxExtract)))
+                    .addComponent(jCheckBoxExtract)
+                    .addComponent(jTextFieldComment, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -323,13 +345,13 @@ public final class EditorDelac extends javax.swing.JFrame {
 
     jLabel8.setText("POS");
 
-    jLabel9.setText("CLema");
+    jLabel9.setText("CLemma");
 
     jLabel10.setText("FST Code");
 
     jLabel5.setText("SynSem");
 
-    jButton1.setText("clear");
+    jButton1.setText("Clear");
     jButton1.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             jButton1ActionPerformed(evt);
@@ -343,7 +365,7 @@ public final class EditorDelac extends javax.swing.JFrame {
         }
     });
 
-    jButton4.setText("Search Multicriteria");
+    jButton4.setText("Search multicriteria");
     jButton4.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             jButton4ActionPerformed(evt);
@@ -351,6 +373,8 @@ public final class EditorDelac extends javax.swing.JFrame {
     });
 
     jLabel11.setText("all columns");
+
+    jLabel15.setText("Comment");
 
     javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
     jPanel2.setLayout(jPanel2Layout);
@@ -362,14 +386,14 @@ public final class EditorDelac extends javax.swing.JFrame {
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel2Layout.createSequentialGroup()
-                    .addComponent(jTextFieldSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(jButtonSearch)
-                    .addGap(33, 33, 33)
-                    .addComponent(jLabel12)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(jLabel13))
+                    .addComponent(jButtonSearch))
                 .addComponent(jLabel11))
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addComponent(jLabel12)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addComponent(jLabel13)
             .addGap(18, 18, 18)
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel2Layout.createSequentialGroup()
@@ -390,7 +414,11 @@ public final class EditorDelac extends javax.swing.JFrame {
                     .addComponent(jLabel5)
                     .addGap(0, 14, Short.MAX_VALUE))
                 .addComponent(jTextField4))
-            .addGap(18, 18, 18)
+            .addGap(27, 27, 27)
+            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jLabel15)
+                .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGap(26, 26, 26)
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel2Layout.createSequentialGroup()
                     .addComponent(jButton1)
@@ -402,30 +430,37 @@ public final class EditorDelac extends javax.swing.JFrame {
     jPanel2Layout.setVerticalGroup(
         jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(jPanel2Layout.createSequentialGroup()
-            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(jLabel8)
-                .addComponent(jLabel9)
-                .addComponent(jLabel10)
-                .addComponent(jButton1)
-                .addComponent(jLabel5)
-                .addComponent(jButtonHelp)
-                .addComponent(jLabel11))
-            .addGap(8, 8, 8)
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton4))
+                    .addComponent(jButton1)
+                    .addComponent(jButtonHelp)
+                    .addComponent(jLabel11))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel12)
-                    .addComponent(jLabel13))
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(jTextFieldSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonSearch)))
+                    .addComponent(jLabel8)
+                    .addComponent(jLabel9)
+                    .addComponent(jLabel10)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel15)))
+            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createSequentialGroup()
+                    .addGap(8, 8, 8)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel12)
+                            .addComponent(jLabel13))
+                        .addComponent(jButton4)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel7)
+                            .addComponent(jTextFieldSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButtonSearch))))
+                .addGroup(jPanel2Layout.createSequentialGroup()
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
             .addContainerGap(17, Short.MAX_VALUE))
     );
 
@@ -531,6 +566,14 @@ public final class EditorDelac extends javax.swing.JFrame {
     });
     jMenuBar1.add(jMenuInflect);
 
+    jMenuDuplicate.setText("Check duplicate");
+    jMenuDuplicate.addMouseListener(new java.awt.event.MouseAdapter() {
+        public void mouseClicked(java.awt.event.MouseEvent evt) {
+            jMenuDuplicateMouseClicked(evt);
+        }
+    });
+    jMenuBar1.add(jMenuDuplicate);
+
     jMenuStatistics.setText("Statistics");
     jMenuStatistics.addMouseListener(new java.awt.event.MouseAdapter() {
         public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -552,13 +595,13 @@ public final class EditorDelac extends javax.swing.JFrame {
     });
     jMenuBar1.add(jMenuSave);
 
-    jMenuDuplicate.setText("Check duplicate");
-    jMenuDuplicate.addMouseListener(new java.awt.event.MouseAdapter() {
+    jMenuSaveAs.setText("Save as...");
+    jMenuSaveAs.addMouseListener(new java.awt.event.MouseAdapter() {
         public void mouseClicked(java.awt.event.MouseEvent evt) {
-            jMenuDuplicateMouseClicked(evt);
+            jMenuSaveAsMouseClicked(evt);
         }
     });
-    jMenuBar1.add(jMenuDuplicate);
+    jMenuBar1.add(jMenuSaveAs);
 
     jMenuExit.setText("Exit");
     jMenuExit.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -576,11 +619,11 @@ public final class EditorDelac extends javax.swing.JFrame {
         layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(layout.createSequentialGroup()
             .addContainerGap()
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1163, Short.MAX_VALUE))
+            .addComponent(jScrollPane2))
     );
     layout.setVerticalGroup(
         layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 473, Short.MAX_VALUE)
+        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 474, Short.MAX_VALUE)
     );
 
     pack();
@@ -1091,6 +1134,8 @@ public final class EditorDelac extends javax.swing.JFrame {
         String pos = jTextField1.getText();
         String lemma = jTextField2.getText();
         String fst = jTextField3.getText();
+        String synsem = jTextField4.getText();
+        String comment= jTextField5.getText();
         TableRowSorter<DefaultTableModel> rowSorter;
         rowSorter = new TableRowSorter<>(tableModel);
         this.getjTable1().setRowSorter(rowSorter);
@@ -1100,10 +1145,16 @@ public final class EditorDelac extends javax.swing.JFrame {
             filters.add(RowFilter.regexFilter(pos, 0));
         }
         if (lemma.length() != 0) {
-            filters.add(RowFilter.regexFilter(lemma, 1));
+            filters.add(RowFilter.regexFilter(lemma, 2));
         }
         if (fst.length() != 0) {
-            filters.add(RowFilter.regexFilter(fst, 4));
+            filters.add(RowFilter.regexFilter(fst, 3));
+        }
+        if (synsem.length() != 0) {
+            filters.add(RowFilter.regexFilter(synsem, 4));
+        }
+        if (comment.length() != 0) {
+            filters.add(RowFilter.regexFilter(comment, 5));
         }
         RowFilter rf = RowFilter.andFilter(filters);
         rowSorter.setRowFilter(rf);
@@ -1159,6 +1210,7 @@ public final class EditorDelac extends javax.swing.JFrame {
         jTextField2.setText("");
         jTextField3.setText("");
         jTextField4.setText("");
+        jTextField5.setText("");
         TableRowSorter<DefaultTableModel> rowSorter;
         rowSorter = new TableRowSorter<>(tableModel);
         rowSorter.setRowFilter(null);
@@ -1172,6 +1224,71 @@ public final class EditorDelac extends javax.swing.JFrame {
       Help help = new Help();
         help.setVisible(true);
     }//GEN-LAST:event_jButtonHelpActionPerformed
+
+    private void jTextFieldCommentKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldCommentKeyPressed
+       TableRowSorter<DefaultTableModel> rowSorter = null;
+        try {
+            if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+                JTextField textField = (JTextField) evt.getSource();
+                String text = textField.getText();
+
+                rowSorter = new TableRowSorter<>(tableModel);
+                
+                this.getjTable1().setRowSorter(rowSorter);
+                
+                if (text.trim().length() == 0) {
+                    rowSorter.setRowFilter(null);
+                } else {
+                    if(jCheckBoxExtract.isSelected()){
+                        text="^"+text+"$";
+                    }
+                    else{
+                        if(!text.contains(".")&&!text.contains("$"))text="^"+text;
+                    }    
+                    RowFilter rowFilter = RowFilter.regexFilter(text, 5);// recherche avec la colonne indice 4
+                    rowSorter.setRowFilter(rowFilter);
+                }
+                jTable1.setModel(rowSorter.getModel());
+                jLabel13.setText(String.valueOf(this.getjTable1().getRowCount()));
+            }
+        }catch(java.util.regex.PatternSyntaxException e){
+            rowSorter.setRowFilter(null);
+        }
+    }//GEN-LAST:event_jTextFieldCommentKeyPressed
+
+    private void jMenuSaveAsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuSaveAsMouseClicked
+        File file = null;
+        String path = "";
+        JFileChooser chooser = new JFileChooser();
+        chooser.setCurrentDirectory(new File(StaticValue.allDela));
+        int returnVal = chooser.showOpenDialog(null);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            file = chooser.getSelectedFile();
+            path = file.getPath();
+            try {
+                BufferedWriter bfw;
+                String filename = path;
+                bfw = new BufferedWriter(new FileWriter(filename));
+                for(int row = 0; row < this.getjTable1().getRowCount(); row ++){
+                    String lemma = (String) this.getjTable1().getValueAt(row, 1);
+                    String fstCode = this.getjTable1().getValueAt(row, 3).toString().concat(this.getjTable1().getValueAt(row, 4).toString());
+                    String str = lemma+","+fstCode;
+                    String comment =(String) this.getjTable1().getValueAt(row, 5);
+                    if(comment!=null && comment.trim().length()>0){
+                        str = str+"//"+this.getjTable1().getValueAt(row, 5);
+                    }
+                    str=str+"\n";
+                    bfw.write(str);
+                    
+                }
+                bfw.close();
+                JOptionPane.showMessageDialog(null, "Success");
+            } catch (IOException ex) {
+                Logger.getLogger(EditorDelas.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        }
+    }//GEN-LAST:event_jMenuSaveAsMouseClicked
    
     
 
@@ -1228,6 +1345,8 @@ public final class EditorDelac extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1248,6 +1367,7 @@ public final class EditorDelac extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItemInsertBefore;
     private javax.swing.JMenu jMenuNew;
     private javax.swing.JMenu jMenuSave;
+    private javax.swing.JMenu jMenuSaveAs;
     private javax.swing.JMenu jMenuStatistics;
     private javax.swing.JMenu jMenuView;
     private javax.swing.JPanel jPanel1;
@@ -1261,6 +1381,8 @@ public final class EditorDelac extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
+    private javax.swing.JTextField jTextField5;
+    private javax.swing.JTextField jTextFieldComment;
     private javax.swing.JTextField jTextFieldFst;
     private javax.swing.JTextField jTextFieldLemma;
     private javax.swing.JTextField jTextFieldPos;
